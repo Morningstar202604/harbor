@@ -85,6 +85,8 @@ export const api = {
   onboardingState: () => http.get('/onboarding/state'),
   onboardingInit: (data) => http.post('/onboarding/init', data),
   onboardingCheck: (name) => http.post('/onboarding/check', { name }),
+  onboardingAddPlatforms: (name, platforms) =>
+    http.post('/onboarding/platforms', { name, platforms }),
   onboardingRerender: (name) => http.post('/onboarding/rerender', { name }),
   accounts: () => http.get('/accounts'),
   checkAccount: (platform, account = 'default') =>

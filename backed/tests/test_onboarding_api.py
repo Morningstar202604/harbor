@@ -61,6 +61,38 @@ def test_init_allows_platform_without_sop_template(client, monkeypatch, tmp_path
     assert (root / "demo" / "profile.yaml").is_file()
 
 
+def test_add_platforms_endpoint_keeps_accounts_and_adds_login_card(client, monkeypatch, tmp_path):
+    root = _use_tmp_profiles(monkeypatch, tmp_path)
+    client.post("/api/v1/hub/onboarding/init", json={
+        "name": "demo", "platforms": ["cnblogs"],
+    })
+    profile_path = root / "demo" / "profile.yaml"
+    profile_path.write_text(
+        profile_path.read_text(encoding="utf-8").replace("your-cnblogs-id", "real-account"),
+        encoding="utf-8",
+    )
+    # 改账号后先把已有 SOP 重渲染到一致，再验证加平台不会破坏它。
+    sync = client.post("/api/v1/hub/onboarding/rerender", json={"name": "demo"})
+    assert sync.status_code == 200, sync.text
+
+    r = client.post("/api/v1/hub/onboarding/platforms", json={
+        "name": "demo", "platforms": ["bilibili", "csdn"],
+    })
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body["platforms"] == ["cnblogs", "bilibili", "csdn"]
+    assert body["added"] == ["bilibili", "csdn"]
+    assert body["check"]["ok"] is True
+    assert {Path(p).stem for p in body["playbooks"]} == {"cnblogs", "csdn"}
+    assert "real-account" in profile_path.read_text(encoding="utf-8")
+    assert (root / "demo" / "playbooks" / "csdn.md").is_file()
+
+    bad = client.post("/api/v1/hub/onboarding/platforms", json={
+        "name": "demo", "platforms": ["not-a-real-platform"],
+    })
+    assert bad.status_code == 422
+
+
 def test_rerender_endpoint_keeps_profile_accounts(client, monkeypatch, tmp_path):
     root = _use_tmp_profiles(monkeypatch, tmp_path)
     client.post("/api/v1/hub/onboarding/init", json={

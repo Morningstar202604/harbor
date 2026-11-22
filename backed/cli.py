@@ -102,6 +102,22 @@ def init_cmd(name, platforms, force):
     click.echo("  说明：登录必须跑在 Harbor 所在的那台机器上，见 docs/guides/login.md")
 
 
+@cli.command("add-platforms", help="给已有档案追加平台，不重写账号与主线")
+@click.option("--name", required=True, help="档案名")
+@click.option("--platforms", required=True, help="逗号分隔的平台 id")
+def add_platforms_cmd(name, platforms):
+    from service.onboarding import OnboardingError, add_platforms
+    wanted = [p.strip() for p in platforms.split(",") if p.strip()]
+    try:
+        result = add_platforms(name, wanted)
+    except OnboardingError as exc:
+        raise click.ClickException(str(exc)) from exc
+    click.echo("✓ 已接入：" + (", ".join(result["platforms"]) or "无"))
+    click.echo("  本次新增：" + (", ".join(result["added"]) or "无"))
+    sop = result.get("sop_platforms", [])
+    click.echo("  个人 SOP：" + (", ".join(sop) or "无（这些平台没有 SOP 模板，仍可登录发布）"))
+
+
 @cli.command(help="浏览器登录博客园并自动抠出 MetaWeblog 令牌写进 config.json")
 @click.option("--username", required=True, help="博客园登录用户名/邮箱")
 @click.option("--password-stdin", is_flag=True, help="从 stdin 读取登录密码")

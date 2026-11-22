@@ -20,6 +20,12 @@ vi.mock('@/api', () => ({
       progress: 'profiles/demo/progress',
     }),
     onboardingCheck: vi.fn().mockResolvedValue({ ok: true, problems: [] }),
+    onboardingAddPlatforms: vi.fn().mockResolvedValue({
+      name: 'me', profile: 'profiles/me/profile.yaml',
+      platforms: ['cnblogs', 'bilibili'],
+      playbooks: ['profiles/me/playbooks/cnblogs.md'],
+      added: ['bilibili'], check: { ok: true, problems: [] },
+    }),
     onboardingRerender: vi.fn().mockResolvedValue({
       name: 'me', profile: 'profiles/me/profile.yaml', platforms: ['cnblogs'],
       playbooks: ['profiles/me/playbooks/cnblogs.md'], progress: 'profiles/me/progress',
@@ -147,6 +153,31 @@ describe('SetupView 首次使用向导', () => {
     expect(w.vm.step).toBe(1)
     expect(w.vm.result.profile).toBe('profiles/me/profile.yaml')
     expect(api.onboardingCheck).toHaveBeenCalledWith('me')
+  })
+
+  it('已有档案可在登录步追加平台，生成新登录卡', async () => {
+    api.onboardingState.mockResolvedValue({
+      profiles: [{ name: 'me', profile: 'profiles/me/profile.yaml',
+                   platforms: ['cnblogs'], playbooks: 1 }],
+      templates: [],
+      platforms: [
+        { id: 'cnblogs', name: '博客园', has_template: true, template: { schedule: '每天 1 次' } },
+        { id: 'bilibili', name: 'B站专栏', has_template: false, template: null },
+      ],
+      mcp: { json: '{}' },
+    })
+    const w = mountView()
+    await flushPromises()
+    await flushPromises()
+    expect(w.vm.step).toBe(1)
+    expect(w.vm.remainingPlatforms.map(p => p.id)).toEqual(['bilibili'])
+
+    w.vm.addSelected = ['bilibili']
+    await w.vm.addPlatforms()
+    await flushPromises()
+    expect(api.onboardingAddPlatforms).toHaveBeenCalledWith('me', ['bilibili'])
+    expect(w.vm.result.platforms).toEqual(['cnblogs', 'bilibili'])
+    expect(w.vm.addSelected).toEqual([])
   })
 
   it('已有档案重开时能看见 SOP 漂移，并可只重渲染修复', async () => {

@@ -70,6 +70,7 @@ Open <http://127.0.0.1:5173>. The Vite dev server proxies `/api` to port 8000.
 
 ```bash
 uv run --project backed python -m backed.cli init --name demo --platforms juejin,csdn
+uv run --project backed python -m backed.cli add-platforms --name demo --platforms bilibili,toutiao
 uv run --project backed python -m backed.cli status                 # library + account overview
 uv run --project backed python -m backed.cli list                   # newest articles
 uv run --project backed python -m backed.cli create --title "..." --content "..."

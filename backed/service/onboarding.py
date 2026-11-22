@@ -190,6 +190,84 @@ def init_profile(
     }
 
 
+def add_platforms(
+    name: str,
+    platforms: list[str],
+    *,
+    profiles_root: str | Path | None = None,
+) -> dict:
+    """给已有档案追加平台，不改账号、主线和进度目录。
+
+    只改 ``profile.yaml`` 的 ``platforms`` 单行/块，不重写整个 YAML，避免把注释和
+    用户手填的账号冲掉。新增平台里如果有 SOP 模板，只补渲染缺失的副本；已有副本
+    留给 ``check_profile`` 判断漂移，不覆盖用户可能手改过的内容。
+    """
+    if not _NAME.match(name):
+        raise OnboardingError("档案名只能用小写字母、数字、- 或 _，最长 32 个字符")
+    root = Path(profiles_root) if profiles_root else default_profiles_root()
+    target = root / name
+    profile_path = target / "profile.yaml"
+    if not profile_path.is_file():
+        raise OnboardingError(f"档案不存在：profiles/{name}/profile.yaml")
+
+    profile = load_profile(profile_path)
+    playbook_dir = target / "playbooks"
+    files = sorted(playbook_dir.glob("*.md")) if playbook_dir.is_dir() else []
+    current = _declared_platforms(profile, files)
+
+    wanted = list(dict.fromkeys(
+        [str(p).strip() for p in platforms if str(p).strip()]
+    ))
+    if not wanted:
+        raise OnboardingError("至少选一个平台")
+    unknown = sorted(set(wanted) - _known_platforms())
+    if unknown:
+        raise OnboardingError(f"不支持的平台：{', '.join(unknown)}")
+
+    merged = list(dict.fromkeys([*current, *wanted]))
+    added = [p for p in merged if p not in current]
+    text = profile_path.read_text(encoding="utf-8")
+    line = "platforms: [" + ", ".join(merged) + "]"
+    block = re.compile(
+        r"^platforms:[ \t]*(?:\[[^\n]*\]|[ \t]*\n(?:[ \t]+-[^\n]*\n)*)",
+        re.M,
+    )
+    if block.search(text):
+        text = block.sub(line + "\n", text, count=1)
+    else:
+        # 没有 platforms 字段（旧档案）：插在 name 后面。
+        text = re.sub(r"^(name: .*)$", rf"\1\n{line}", text, count=1, flags=re.M)
+    # 单行替换时原行尾的换行还在，别在 platforms 和 timezone 之间留两个空行。
+    text = re.sub(r"(?m)(^platforms: \[[^\n]*\])\n{3,}", r"\1\n\n", text, count=1)
+    profile_path.write_text(text, encoding="utf-8")
+
+    refreshed = load_profile(profile_path)
+    playbook_dir.mkdir(parents=True, exist_ok=True)
+    sop_platforms = _sop_platforms(merged)
+    rendered: list[str] = []
+    for platform in added:
+        src = TEMPLATE_DIR / f"{platform}.md"
+        if not src.is_file():
+            continue
+        dst = playbook_dir / f"{platform}.md"
+        if dst.exists():
+            continue
+        dst.write_text(render_template(src.read_text(encoding="utf-8"), refreshed,
+                                       platform=platform), encoding="utf-8")
+        rendered.append(str(dst))
+
+    return {
+        "name": name,
+        "profile": str(profile_path),
+        "platforms": merged,
+        "sop_platforms": sop_platforms,
+        "playbooks": [str(playbook_dir / f"{p}.md") for p in sop_platforms],
+        "added": added,
+        "rendered": rendered,
+        "progress": str(target / "progress"),
+    }
+
+
 def render_platform(
     name: str,
     platform: str,

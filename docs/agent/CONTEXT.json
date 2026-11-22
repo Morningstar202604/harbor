@@ -304,6 +304,10 @@
   ],
   "cli": [
     {
+      "command": "add-platforms",
+      "doc": "给已有档案追加平台，不重写账号与主线"
+    },
+    {
       "command": "ai-outline",
       "doc": "AI 提炼文章大纲"
     },
@@ -1543,7 +1547,7 @@
         "module": "app.exceptions"
       }
     ],
-    "total_loc": 24006
+    "total_loc": 24126
   },
   "mcp_tools": [
     {
@@ -2005,6 +2009,7 @@
       "classes": [
         "InitIn",
         "CheckIn",
+        "AddPlatformsIn",
         "RerenderIn"
       ],
       "doc": "首次使用向导：建个人档案、渲染 SOP、给出 MCP 接入配置。",
@@ -2012,10 +2017,11 @@
         "_mcp_payload",
         "onboarding_state",
         "onboarding_init",
+        "onboarding_add_platforms",
         "onboarding_check",
         "onboarding_rerender"
       ],
-      "loc": 125,
+      "loc": 151,
       "module": "api.routers.onboarding",
       "path": "backed/api/routers/onboarding.py"
     },
@@ -2199,6 +2205,7 @@
         "diagnose",
         "solve_captcha",
         "init_cmd",
+        "add_platforms_cmd",
         "bootstrap_cnblogs",
         "import_md",
         "create",
@@ -2232,7 +2239,7 @@
         "status",
         "serve"
       ],
-      "loc": 472,
+      "loc": 488,
       "module": "cli",
       "path": "backed/cli.py"
     },
@@ -2427,6 +2434,7 @@
         "template_platforms",
         "render_template",
         "init_profile",
+        "add_platforms",
         "render_platform",
         "template_catalog",
         "platform_catalog",
@@ -2437,7 +2445,7 @@
         "check_profile",
         "rerender_profile"
       ],
-      "loc": 380,
+      "loc": 458,
       "module": "service.onboarding",
       "path": "backed/service/onboarding.py"
     },
@@ -4090,6 +4098,14 @@
       "path": "/api/v1/hub/onboarding/init"
     },
     {
+      "doc": "给已有档案追加平台，不重写账号与主线。",
+      "methods": [
+        "POST"
+      ],
+      "name": "onboarding_add_platforms",
+      "path": "/api/v1/hub/onboarding/platforms"
+    },
+    {
       "doc": "只重渲染个人 SOP，不重写 profile.yaml（账号配置不会被冲掉）。",
       "methods": [
         "POST"
@@ -4681,12 +4697,12 @@
   },
   "stats": {
     "adapters": 15,
-    "cli_commands": 38,
+    "cli_commands": 39,
     "mcp_tools": 32,
     "playbooks": 4,
-    "python_loc": 24006,
+    "python_loc": 24126,
     "python_modules": 107,
-    "rest_routes": 99
+    "rest_routes": 100
   },
   "tests": {
     "files": [
@@ -4832,13 +4848,13 @@
       },
       {
         "file": "backed/tests/test_onboarding.py",
-        "loc": 142,
-        "tests": 13
+        "loc": 183,
+        "tests": 15
       },
       {
         "file": "backed/tests/test_onboarding_api.py",
-        "loc": 94,
-        "tests": 5
+        "loc": 126,
+        "tests": 6
       },
       {
         "file": "backed/tests/test_publish_modes.py",
@@ -4957,7 +4973,7 @@
       }
     ],
     "note": "parametrize 展开后的实际用例数以此为准：uv run pytest --collect-only -q",
-    "test_functions": 566,
-    "total_loc": 8562
+    "test_functions": 569,
+    "total_loc": 8635
   }
 }

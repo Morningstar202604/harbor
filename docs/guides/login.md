@@ -14,7 +14,9 @@
 2. 在「登录平台」步骤逐个点「去登录」，浏览器在这台机器上弹出；
 3. 复制 MCP 配置到 AI 客户端。
 
-向导只是把 CLI 的动作图形化，登录仍然发生在 Harbor 主机。
+已有档案不用重建：在「登录平台」步骤点「添加平台」，或跑
+`uv run python -m cli add-platforms --name <name> --platforms bilibili,toutiao`。
+它只追加平台并补 SOP，账号和主线不会被重写。向导只是把 CLI 的动作图形化，登录仍然发生在 Harbor 主机。
 
 ## 三种部署形态
 

@@ -69,6 +69,7 @@ pnpm dev            # http://127.0.0.1:5173
 
 ```bash
 uv run --project backed python -m backed.cli init --name demo --platforms juejin,csdn
+uv run --project backed python -m backed.cli add-platforms --name demo --platforms bilibili,toutiao
 uv run --project backed python -m backed.cli status                 # 库与账号总览
 uv run --project backed python -m backed.cli list                   # 最新文章
 uv run --project backed python -m backed.cli create --title "..." --content "..."

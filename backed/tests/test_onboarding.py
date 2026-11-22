@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from service.onboarding import (
-    OnboardingError, check_profile, init_profile, load_profile,
+    OnboardingError, add_platforms, check_profile, init_profile, load_profile,
     platform_catalog, profile_summaries, render_template, rerender_profile,
 )
 
@@ -55,6 +55,47 @@ def test_init_profile_refuses_overwrite_without_force(tmp_path):
     # 覆盖重建只保留这次勾选的平台，旧副本不能残留。
     assert not (tmp_path / "demo" / "playbooks" / "juejin.md").exists()
     assert load_profile(tmp_path / "demo" / "profile.yaml")["platforms"] == ["cnblogs"]
+
+
+def test_add_platforms_keeps_accounts_and_renders_new_sop(tmp_path):
+    """给旧档案加平台只改 platforms 行，账号与已有 SOP 不能被冲掉。"""
+    init_profile("demo", ["cnblogs"], profiles_root=tmp_path)
+    profile_path = tmp_path / "demo" / "profile.yaml"
+    before = profile_path.read_text(encoding="utf-8")
+    assert "platforms: [cnblogs]" in before
+    assert "your-cnblogs-id" in before
+
+    result = add_platforms("demo", ["bilibili", "csdn"], profiles_root=tmp_path)
+    after = profile_path.read_text(encoding="utf-8")
+    assert result["platforms"] == ["cnblogs", "bilibili", "csdn"]
+    assert result["added"] == ["bilibili", "csdn"]
+    assert result["sop_platforms"] == ["cnblogs", "csdn"]
+    assert "platforms: [cnblogs, bilibili, csdn]" in after
+    assert "your-cnblogs-id" in after
+    assert (tmp_path / "demo" / "playbooks" / "csdn.md").is_file()
+    assert not (tmp_path / "demo" / "playbooks" / "bilibili.md").exists()
+    assert check_profile("demo", profiles_root=tmp_path)["ok"] is True
+
+    # 重复添加不产生重复项，也不重写已有 SOP。
+    again = add_platforms("demo", ["csdn"], profiles_root=tmp_path)
+    assert again["added"] == []
+    assert again["platforms"] == ["cnblogs", "bilibili", "csdn"]
+
+
+def test_add_platforms_handles_block_style_and_unknown(tmp_path):
+    init_profile("demo", ["cnblogs"], profiles_root=tmp_path)
+    profile_path = tmp_path / "demo" / "profile.yaml"
+    profile_path.write_text(
+        profile_path.read_text(encoding="utf-8").replace(
+            "platforms: [cnblogs]", "platforms:\n  - cnblogs\n"),
+        encoding="utf-8",
+    )
+    result = add_platforms("demo", ["juejin"], profiles_root=tmp_path)
+    assert result["platforms"] == ["cnblogs", "juejin"]
+    assert "platforms: [cnblogs, juejin]" in profile_path.read_text(encoding="utf-8")
+
+    with pytest.raises(OnboardingError, match="不支持的平台"):
+        add_platforms("demo", ["not-a-real-platform"], profiles_root=tmp_path)
 
 
 def test_check_flags_missing_and_stale_copies(tmp_path):

@@ -11,6 +11,7 @@ from pydantic import BaseModel
 from service.onboarding import (
     OnboardingError,
     REPO_ROOT,
+    add_platforms,
     check_profile,
     init_profile,
     platform_catalog,
@@ -31,6 +32,11 @@ class InitIn(BaseModel):
 
 class CheckIn(BaseModel):
     name: str
+
+
+class AddPlatformsIn(BaseModel):
+    name: str
+    platforms: list[str]
 
 
 class RerenderIn(BaseModel):
@@ -93,6 +99,26 @@ def onboarding_init(body: InitIn):
         "platforms": platforms,
         "playbooks": [f"profiles/{body.name}/playbooks/{p}.md" for p in sop_platforms],
         "progress": f"profiles/{body.name}/progress",
+    }
+
+
+@router.post("/onboarding/platforms")
+def onboarding_add_platforms(body: AddPlatformsIn):
+    """给已有档案追加平台，不重写账号与主线。"""
+    try:
+        result = add_platforms(body.name, body.platforms)
+        check = check_profile(body.name)
+    except OnboardingError as exc:
+        raise HTTPException(422, str(exc)) from exc
+    return {
+        "name": result["name"],
+        "profile": f"profiles/{body.name}/profile.yaml",
+        "platforms": result["platforms"],
+        "playbooks": [f"profiles/{body.name}/playbooks/{Path(p).stem}.md"
+                      for p in result["playbooks"]],
+        "added": result["added"],
+        "progress": f"profiles/{body.name}/progress",
+        "check": check,
     }
 
 

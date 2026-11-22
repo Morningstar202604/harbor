@@ -79,7 +79,8 @@
               <b>档案已生成</b>
               <div class="mono small">{{ result?.profile }}</div>
               <div class="dim small">
-                {{ playbookCount }} 份个人 SOP · 进度目录 <span class="mono">{{ result?.progress }}</span>
+                {{ playbookCount }} 份个人 SOP · 已接入 {{ loginRows.length }} 个平台 ·
+                进度目录 <span class="mono">{{ result?.progress }}</span>
               </div>
               <div v-if="check && !check.ok" class="check-bad small">
                 <span>自检未通过：{{ check.problems.join('；') }}</span>
@@ -116,6 +117,37 @@
               </template>
               <el-button v-else size="small" @click="openAccounts">去设置填凭据</el-button>
             </div>
+          </div>
+
+          <div v-if="remainingPlatforms.length" class="add-platform">
+            <div class="add-head">
+              <div>
+                <b>接入更多平台</b>
+                <span class="dim small add-hint">还剩 {{ remainingPlatforms.length }} 个可加</span>
+              </div>
+              <el-button text type="primary" @click="toggleAdd">
+                {{ addOpen ? '收起' : '添加平台' }}
+              </el-button>
+            </div>
+            <template v-if="addOpen">
+              <el-checkbox-group v-model="addSelected" class="tpl-grid">
+                <el-checkbox v-for="p in remainingPlatforms" :key="p.id" :value="p.id" border
+                             class="tpl-item">
+                  <span class="tpl-name">{{ p.name }}</span>
+                  <span class="tpl-meta dim">
+                    {{ p.has_template ? (p.template?.schedule || '有 SOP 模板') : '仅登录 / 发布' }}
+                  </span>
+                </el-checkbox>
+              </el-checkbox-group>
+              <div class="tpl-tools">
+                <el-button text size="small" @click="selectRemaining">全选剩余</el-button>
+                <span class="dim small">已选 {{ addSelected.length }} 个</span>
+                <el-button type="primary" size="small" :loading="adding"
+                           :disabled="!addSelected.length" @click="addPlatforms">
+                  添加并生成登录卡
+                </el-button>
+              </div>
+            </template>
           </div>
 
           <div class="actions">
@@ -184,6 +216,9 @@ const result = ref(null)
 const activeProfile = ref(null)
 const check = ref(null)
 const rerendering = ref(false)
+const adding = ref(false)
+const addOpen = ref(false)
+const addSelected = ref([])
 const loadError = ref('')
 
 const platformOptions = computed(() => {
@@ -212,6 +247,8 @@ const loginRows = computed(() => (result.value?.platforms || []).map(id => {
     state,
   }
 }))
+const remainingPlatforms = computed(() => platformOptions.value.filter(
+  p => !(result.value?.platforms || []).includes(p.id)))
 
 onMounted(load)
 
@@ -276,6 +313,35 @@ function selectTemplates() {
   selected.value = platformOptions.value
     .filter(p => p.has_template || p.template)
     .map(p => p.id)
+}
+
+function toggleAdd() {
+  addOpen.value = !addOpen.value
+  if (addOpen.value) addSelected.value = []
+}
+
+function selectRemaining() {
+  addSelected.value = remainingPlatforms.value.map(p => p.id)
+}
+
+async function addPlatforms() {
+  const target = activeProfile.value?.name || result.value?.name
+  if (!target) return
+  if (!addSelected.value.length) { ElMessage.warning('至少选一个平台'); return }
+  adding.value = true
+  try {
+    const next = await api.onboardingAddPlatforms(target, addSelected.value)
+    result.value = { ...result.value, ...next, playbooks: next.playbooks || [] }
+    state.value = await api.onboardingState()
+    const fresh = state.value.profiles.find(p => p.name === target)
+    if (fresh) activeProfile.value = fresh
+    check.value = next.check || await api.onboardingCheck(target).catch(() => null)
+    addSelected.value = []
+    addOpen.value = false
+    ElMessage.success(`已添加 ${next.added?.length || 0} 个平台，登录卡已刷新`)
+  } catch { /* 拦截器已提示 */ } finally {
+    adding.value = false
+  }
 }
 
 function openAccounts() {
@@ -351,7 +417,8 @@ function finish() {
 
 defineExpose({ step, name, selected, force, create, login, copyConfig, rerender,
                state, result, check, rerendering, platformOptions, selectAll,
-               selectTemplates })
+               selectTemplates, remainingPlatforms, addOpen, addSelected, adding,
+               toggleAdd, selectRemaining, addPlatforms })
 </script>
 
 <style scoped lang="scss">
@@ -390,6 +457,13 @@ defineExpose({ step, name, selected, force, create, login, copyConfig, rerender,
     display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
   }
 }
+.add-platform {
+  border: 1px dashed var(--line); border-radius: 12px; padding: 14px 16px;
+  background: var(--surface); display: flex; flex-direction: column; gap: 12px;
+}
+.add-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.add-head b { color: var(--tx-1); }
+.add-hint { margin-left: 10px; }
 .login-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; }
 .login-card {
   border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; background: var(--surface);
