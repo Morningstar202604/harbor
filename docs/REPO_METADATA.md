@@ -42,7 +42,7 @@ gh api -X PATCH repos/badhope/harbor \
   -f 'topics[]=sqlite' -f 'topics[]=tauri' -f 'topics[]=automation'
 ```
 
-Repeat for `x33834/harbor` and `Morningstar202604/harbor`.
+Repeat for each additional GitHub mirror (e.g. `your-org/harbor`).
 
 ### Gitee
 

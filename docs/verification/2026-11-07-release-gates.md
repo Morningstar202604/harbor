@@ -94,7 +94,7 @@ This is the failure that had previously been written off as "Tauri packaging unv
 
 ## 4. CI — the mirrors had been red for two days
 
-`badhope/harbor`, `X33834/harbor` and `Morningstar202604/harbor` all showed `CI: failure`
+The canonical repo and both GitHub mirrors all showed `CI: failure`
 on every recent run (`8bec923`, `cd748da`, `d26e519`, `4f1c3e8`, `59763ac`).
 
 Root cause, reproduced locally with `npx pnpm@9 install --frozen-lockfile`:

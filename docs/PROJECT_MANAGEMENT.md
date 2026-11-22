@@ -113,8 +113,8 @@ own history.
 | 1 | GitCode | `badhope/harbor` | **Primary** — canonical `main`, tags, releases | — |
 | 2 | Gitee | `badhope/harbor` | Mirror (China) | `remove-ci-workflow-on-mirror` |
 | 3 | GitHub | `badhope/harbor` | Mirror (international, primary GitHub) | dependabot bumps |
-| 4 | GitHub | `x33834/harbor` | Mirror (personal) | `remove CI workflow on mirror` |
-| 5 | GitHub | `Morningstar202604/harbor` | Mirror (personal) | `remove CI workflow on mirror` |
+| 4 | GitHub | `your-github-a/harbor` | Mirror (secondary) | `remove CI workflow on mirror` |
+| 5 | GitHub | `your-github-b/harbor` | Mirror (secondary) | `remove CI workflow on mirror` |
 
 ### Why mirrors diverge
 
