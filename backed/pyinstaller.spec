@@ -20,6 +20,8 @@ PyInstaller spec for harbor sidecar.
 import sys
 from pathlib import Path
 
+from PyInstaller.utils.hooks import collect_data_files
+
 block_cipher = None
 
 backed_dir = Path(SPECPATH).resolve()
@@ -36,6 +38,9 @@ datas = [
     (str(root_dir / "playbooks"), "playbooks"),
     (str(root_dir / "profiles" / "example.yaml"), "profiles"),
 ]
+# jsonschema 的可选 URI 校验器会 import rfc3987_syntax，且运行时读 lark 语法文件；
+# PyInstaller 只收 .py 会让打包版 MCP server 一启动就 FileNotFoundError。
+datas += collect_data_files("rfc3987_syntax")
 
 # Hidden imports：uvicorn/logging 等常被动态导入
 # 只列真实存在的：md_editor_v3 是前端 npm 包，Python 侧没有这个模块，

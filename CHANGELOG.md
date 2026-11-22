@@ -18,6 +18,9 @@
   `/api/v1/hub/onboarding/*` 三个端点：建档案 → 渲染个人 SOP → 逐个平台登录 → 复制 MCP
   配置。空库首启自动进入；已有档案直接跳到登录步，不强迫重建。向导不接管登录，仍由
   Harbor 主机弹浏览器。
+- **桌面版 MCP 走同一个 sidecar。** `harbor-backend --mcp` 直接以 stdio 模式运行 MCP
+  server；PyInstaller 打包 playbooks、example.yaml 与 `rfc3987_syntax` 语法文件，档案默认
+  落 `<data>/profiles`，装到只读目录也能完成首启。
 - **`harbor init`：一条命令把模板变成自己的档案。** 新增 `backed/service/onboarding.py` 与
   `scripts/render_playbook.py`：`init --name <name>` 生成 `profiles/<name>/profile.yaml`、渲染
   playbooks、建 `progress/`，`--check` 可校验副本与模板是否同步。`pyyaml` 直接解析档案，
