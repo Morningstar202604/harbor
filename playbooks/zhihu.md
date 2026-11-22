@@ -13,7 +13,7 @@ updated: 2026-11-22
 
 ## 0. 执行前必做
 
-1. 读 `profiles/<name>.yaml`；再读 browser-use-automation、de-ai-tone、humanizer-zh 的 SKILL.md。要更新报告时读 lark-doc；要生成封面时读 doubao-creative-design。所有浏览器操作按 browser-use-automation 执行。
+1. 读 `profiles/<name>/profile.yaml`；再读 browser-use-automation、de-ai-tone、humanizer-zh 的 SKILL.md。要更新报告时读 lark-doc；要生成封面时读 doubao-creative-design。所有浏览器操作按 browser-use-automation 执行。
 2. 打开知乎检查登录态。未登录或失效就停止，明确告知“知乎登录状态丢失”，请求接管登录，不反复重试。
 
 ## 按触发时段分支

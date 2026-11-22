@@ -15,11 +15,15 @@ profiles/
 ## 用法
 
 ```bash
+# 推荐：建档案 + 渲染全部 playbook
+cd backed && uv run python -m cli init --name <your-name> --platforms cnblogs,juejin
+
+# 也可以手工复制
 cp profiles/example.yaml profiles/<your-name>/profile.yaml
 cp playbooks/cnblogs.md profiles/<your-name>/playbooks/
 ```
 
-然后把 `profile.yaml` 填成自己的，playbook 里的 `{{profile.*}}` 由执行任务的 AI 读取 profile 后替换。
+然后把 `profile.yaml` 填成自己的。`init` 会把 `{{profile.*}}` 换成档案值；手工复制的副本由执行任务的 AI 读取 profile 后解析。
 
 ## 字段
 
@@ -34,6 +38,10 @@ cp playbooks/cnblogs.md profiles/<your-name>/playbooks/
 | `links.report` / `links.topic_bank` | 运营报告、选题库位置 |
 | `paths.workspace` / `paths.progress` | 进度文件目录（绝对路径或相对仓库根） |
 | `windows.active` | 活跃发布时段 |
+
+## 登录
+
+登录态不在 `profile.yaml` 里：cookie 存在 Harbor 的数据目录，登录必须在 Harbor 主机上用前端或 CLI 完成。模型/Agent 只查状态，不碰凭证。详见 [../docs/guides/login.md](../docs/guides/login.md)。
 
 ## 红线
 

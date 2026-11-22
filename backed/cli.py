@@ -78,6 +78,28 @@ def solve_captcha(ctx, platform, account, wait):
     _echo_json(_hub(ctx.obj["headed"]).solve_captcha(platform, account, wait))
 
 
+@cli.command("init", help="初始化个人档案：profiles/<name>/ + 渲染 playbooks")
+@click.option("--name", required=True, help="档案名（小写字母、数字、- 或 _）")
+@click.option("--platforms", default="", help="逗号分隔；默认渲染全部模板")
+@click.option("--force", is_flag=True, help="覆盖已存在的档案")
+def init_cmd(name, platforms, force):
+    from service.onboarding import (
+        OnboardingError, init_profile, template_platforms,
+    )
+    wanted = [p.strip() for p in platforms.split(",") if p.strip()] or template_platforms()
+    try:
+        result = init_profile(name, wanted, force=force)
+    except OnboardingError as exc:
+        raise click.ClickException(str(exc)) from exc
+    click.echo(f"✓ 档案：{result['profile']}")
+    click.echo("  平台：" + ", ".join(Path(p).stem for p in result["playbooks"]))
+    click.echo("下一步：")
+    click.echo(f"  1) 编辑 {result['profile']}，填账号、主线、报告位置")
+    click.echo("  2) 登录：cd backed && uv run python -m cli --headed login --platform <平台>")
+    click.echo("  3) 起服务：cd backed && uv run uvicorn app.factory:create_app --factory --port 8000")
+    click.echo("  说明：登录必须跑在 Harbor 所在的那台机器上，见 docs/guides/login.md")
+
+
 @cli.command(help="浏览器登录博客园并自动抠出 MetaWeblog 令牌写进 config.json")
 @click.option("--username", required=True, help="博客园登录用户名/邮箱")
 @click.option("--password-stdin", is_flag=True, help="从 stdin 读取登录密码")

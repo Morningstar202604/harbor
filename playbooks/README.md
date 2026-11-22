@@ -10,9 +10,10 @@ cron 里的 query 改一次要重开任务、没法 diff、没法 review。写�
 
 ## 怎么用
 
-1. 复制模板到 `profiles/<name>/playbooks/<platform>.md`（`profiles/` 已被 `.gitignore` 忽略，不会入库）。
-2. 复制 `profiles/example.yaml` 为 `profiles/<name>.yaml`，填账号、主线、风格、报告位置、进度目录。
-3. 把模板里的 `{{profile.*}}` 换成档案值，或保留占位符让 AI 读档案时自行解析。
+1. 一条命令建档案：`cd backed && uv run python -m cli init --name <name>`。它会生成
+   `profiles/<name>/profile.yaml` 并把模板渲染到 `profiles/<name>/playbooks/`（`profiles/` 已被 `.gitignore` 忽略）。
+2. 打开 `profile.yaml` 填账号、主线、风格、报告位置、进度目录；`{{profile.*}}` 由 `init` 自动替换。
+3. 也可以手工复制模板，保留占位符由执行任务的 AI 读档案时解析。
 4. 定时任务的 query 写成：
 
    ```

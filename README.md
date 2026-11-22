@@ -69,6 +69,7 @@ Open <http://127.0.0.1:5173>. The Vite dev server proxies `/api` to port 8000.
 ### Command line
 
 ```bash
+uv run --project backed python -m backed.cli init --name demo --platforms juejin,csdn
 uv run --project backed python -m backed.cli status                 # library + account overview
 uv run --project backed python -m backed.cli list                   # newest articles
 uv run --project backed python -m backed.cli create --title "..." --content "..."
@@ -112,6 +113,9 @@ self-hosted: cookies, accounts and drafts never leave your machine.
 
 One instance serves one person by design: publishing needs your login state, so multi-tenant
 hosting would be a liability, not a feature.
+
+> **Login happens on the machine running Harbor, never in your AI client's browser.**
+> See [docs/guides/login.md](docs/guides/login.md) for local, LAN and headless deployments.
 
 ## Connect a platform
 

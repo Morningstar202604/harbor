@@ -12,7 +12,7 @@ updated: 2026-11-22
 
 ## 0. 前置
 
-- 读 `profiles/<name>.yaml`：账号 `{{profile.accounts.cnblogs}}`、主线 `{{profile.mainline}}`、风格 `{{profile.style}}`、互动额度 `{{profile.engagement}}`。
+- 读 `profiles/<name>/profile.yaml`：账号 `{{profile.accounts.cnblogs}}`、主线 `{{profile.mainline}}`、风格 `{{profile.style}}`、互动额度 `{{profile.engagement}}`。
 - 打开 <https://i.cnblogs.com/> 检查登录态；失效即停并提示接管，不反复重试。
 
 ## 1. 选题（每天最多 1 篇热点文）

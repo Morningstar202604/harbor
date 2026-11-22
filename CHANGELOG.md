@@ -14,6 +14,12 @@
 - **上下文新鲜度门禁。** CI 的 backend job 与 `scripts/check_all.sh` 增加
   `gen_agent_context.py --check`：代码变了没重生成就红。
 - **`Makefile`**：`install / dev / web / demo / test / check / context / bump` 八个入口。
+- **`harbor init`：一条命令把模板变成自己的档案。** 新增 `backed/service/onboarding.py` 与
+  `scripts/render_playbook.py`：`init --name <name>` 生成 `profiles/<name>/profile.yaml`、渲染
+  playbooks、建 `progress/`，`--check` 可校验副本与模板是否同步。`pyyaml` 直接解析档案，
+  缺字段会明确报错而不是静默产出半成品。
+- **登录边界写死。** 新增 [`docs/guides/login.md`](docs/guides/login.md)：登录只发生在 Harbor
+  所在的主机（前端或 CLI），模型/Agent 不接管账号密码与 cookie；未登录置 `waiting_human`。
 
 ### Changed
 

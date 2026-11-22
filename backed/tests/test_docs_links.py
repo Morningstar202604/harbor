@@ -45,6 +45,7 @@ def _links(path):
     "docs/design/tech-debt.md",
     "playbooks/README.md",
     "profiles/README.md",
+    "docs/guides/login.md",
 ])
 def test_markdown_files_exist(rel):
     assert (REPO / rel).is_file()

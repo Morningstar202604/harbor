@@ -68,6 +68,7 @@ pnpm dev            # http://127.0.0.1:5173
 ### 命令行
 
 ```bash
+uv run --project backed python -m backed.cli init --name demo --platforms juejin,csdn
 uv run --project backed python -m backed.cli status                 # 库与账号总览
 uv run --project backed python -m backed.cli list                   # 最新文章
 uv run --project backed python -m backed.cli create --title "..." --content "..."
@@ -105,6 +106,9 @@ Harbor 是给任何人自托管用的，不绑定作者本人。一次部署服�
 - `python scripts/scan_privacy.py`（CI 也会跑）拦截账号 ID、飞书文档链接、本机绝对路径这类提交。
 
 一次部署一个人是设计取舍：发布依赖你的登录态，做成多租户 SaaS 是负债不是功能。
+
+> **登录发生在 Harbor 所在的那台机器上，不在 AI 客户端 / 模型的浏览器里。**
+> 本机、局域网、无显示器服务器的做法见 [docs/guides/login.md](docs/guides/login.md)。
 
 ## 接入平台
 

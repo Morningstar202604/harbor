@@ -15,6 +15,7 @@ Python 3.12 + FastAPI + 裸 sqlite3（WAL / FTS5）+ Patchright（Playwright 反
 # 后端
 cd backed && uv sync
 uv run uvicorn app.factory:create_app --factory --host 127.0.0.1 --port 8000 --reload
+uv run python -m cli init --name <name> --platforms cnblogs,juejin   # 个人档案，留在本机
 
 # 前端（本机 npmmirror 的 tarball 会 407，必须显式指定官方 registry）
 cd web && pnpm install --frozen-lockfile --registry=https://registry.npmjs.org && pnpm dev
@@ -74,6 +75,7 @@ DEMO=1 HARBOR_API_TOKEN=dev uv run uvicorn app.factory:create_app --factory --po
 - 事实清单进生成物：加完端点/工具/适配器，跑 `python scripts/gen_agent_context.py` 再提交
 - 运营流程进 `playbooks/`：cron 的 query 只留触发 + 指针，不把 SOP 写回定时任务
 - 个人数据不进仓库：账号、平台用户 ID、文章 ID、报告链接、本机路径一律放 `profiles/<name>/`；提交前跑 `python scripts/scan_privacy.py`
+- 登录只在 Harbor 主机完成：Agent 不接管账号密码/cookie；未登录置 `waiting_human`，由前端提示人接管（见 `docs/guides/login.md`）
 
 ## 7. 已知陷阱（踩过，别再踩）
 

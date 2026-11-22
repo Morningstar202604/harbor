@@ -16,7 +16,7 @@
 | 平台适配器 | 15 |
 | REST | 95 个操作 |
 | MCP | 32 个 tool |
-| Python 模块 | 105（23461 行） |
+| Python 模块 | 106（23651 行） |
 
 ## 1. 入口点
 
@@ -53,7 +53,7 @@
 | `core` | 4 |
 | `desktop_sidecar` | 1 |
 | `middleware` | 5 |
-| `service` | 60 |
+| `service` | 61 |
 | `start` | 1 |
 | `utils` | 7 |
 
@@ -252,7 +252,7 @@
 
 ## 8. 测试分布
 
-`test_*` 函数 548 个，测试代码 8324 行。parametrize 展开后的真实用例数：`uv run pytest --collect-only -q`。
+`test_*` 函数 554 个，测试代码 8388 行。parametrize 展开后的真实用例数：`uv run pytest --collect-only -q`。
 
 | 文件 | 用例函数 | 行数 |
 |---|---|---|
@@ -272,7 +272,7 @@
 | `backed/tests/test_db.py` | 15 | 215 |
 | `backed/tests/test_debt_round2.py` | 13 | 254 |
 | `backed/tests/test_debt_round2_paging.py` | 7 | 126 |
-| `backed/tests/test_docs_links.py` | 6 | 105 |
+| `backed/tests/test_docs_links.py` | 6 | 106 |
 | `backed/tests/test_events.py` | 14 | 161 |
 | `backed/tests/test_export.py` | 5 | 58 |
 | `backed/tests/test_gate.py` | 37 | 359 |
@@ -282,6 +282,7 @@
 | `backed/tests/test_mcp_wechatsync.py` | 21 | 292 |
 | `backed/tests/test_media_orphans.py` | 5 | 78 |
 | `backed/tests/test_module_imports.py` | 6 | 131 |
+| `backed/tests/test_onboarding.py` | 6 | 63 |
 | `backed/tests/test_publish_modes.py` | 10 | 299 |
 | `backed/tests/test_publish_readback.py` | 14 | 211 |
 | `backed/tests/test_rate_limiter.py` | 17 | 163 |
@@ -324,6 +325,7 @@
 - `edit` — 修改文章标题/正文/标签/摘要/状态
 - `export` — 导出文章为带 front-matter 的 Markdown
 - `import-md` — 导入本地 Markdown
+- `init` — 初始化个人档案：profiles/<name>/ + 渲染 playbooks
 - `list` — 列出文章（默认按更新时间倒序）
 - `login` — 扫码/过验证登录（首次必须，之后长期有效）
 - `logout` — 清除登录态（删 profile+cookie 快照，需重新扫码）
