@@ -26,7 +26,8 @@ Harbor 自带 MCP Server（[`mcp_server.py`](../../mcp_server.py)，32 个工具
 }
 ```
 
-- `command` 用绝对路径。Windows 指向 `backed\.venv\Scripts\python.exe`。
+- 源码部署：`command` 指向 `backed/.venv/bin/python`（Windows 为 `backed\.venv\Scripts\python.exe`），`args` 指向 `mcp_server.py`。
+- 桌面安装版：没有仓库文件，`command` 填 sidecar 可执行文件，`args` 填 `["--mcp"]`；首次使用向导会按当前形态生成这段配置。
 - `HUB_DATA_DIR` 只在 Harbor 服务用了自定义数据目录时填，**必须与服务端同一个目录**，
   否则客户端看到的是另一个空库、也没有登录态。默认可以省略。
 - 保存后重启客户端，工具列表应出现 32 个。先调 `list_articles` 验证连通。

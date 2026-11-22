@@ -2,6 +2,9 @@
 
 Harbor 的仓库只放代码和模板；账号、主线、报告位置、进度文件这些属于**个人数据**，放在 `profiles/<name>/`，不进版本库。
 
+位置：源码运行默认在仓库 `profiles/`；桌面版/容器设置了 `HUB_DATA_DIR` 后落在
+`<data>/profiles`；也可以用 `HARBOR_PROFILES_DIR` 显式指定。
+
 ```
 profiles/
 ├── README.md          # 本文件，入库

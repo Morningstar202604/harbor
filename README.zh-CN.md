@@ -76,6 +76,9 @@ uv run --project backed python -m backed.cli publish --id 12 --platforms juejin,
 uv run --project backed python -m backed.cli export --all --out ./markdown
 ```
 
+首次打开 Web / 桌面端会进入「开始使用」向导：建个人档案 → 逐个平台登录 → 复制 MCP
+配置。也可以跳过界面，用上面的 `init` 命令生成同一套档案与 SOP。
+
 ### 桌面形态（实验）
 
 ```bash

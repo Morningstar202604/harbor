@@ -11,9 +11,11 @@ from .webhooks import router as webhooks_router
 from .ai import router as ai_router
 from .media import router as media_router
 from .browser import router as browser_router
+from .onboarding import router as onboarding_router
 
 __all__ = [
     "system_router", "articles_router", "accounts_router",
     "publishing_router", "tags_router", "schedules_router",
     "webhooks_router", "ai_router", "media_router", "browser_router",
+    "onboarding_router",
 ]

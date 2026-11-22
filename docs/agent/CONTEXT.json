@@ -594,6 +594,14 @@
       "src": "api.routers.media"
     },
     {
+      "dst": "service.onboarding",
+      "src": "api.routers.onboarding"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "api.routers.onboarding"
+    },
+    {
       "dst": "api.deps",
       "src": "api.routers.publishing"
     },
@@ -1413,10 +1421,10 @@
     }
   ],
   "graph": {
-    "module_count": 106,
+    "module_count": 107,
     "packages": {
       "__init__": 1,
-      "api": 15,
+      "api": 16,
       "app": 6,
       "cli": 1,
       "config": 4,
@@ -1429,7 +1437,7 @@
     },
     "top_fan_in": [
       {
-        "importers": 31,
+        "importers": 32,
         "module": "service.publishing.db"
       },
       {
@@ -1527,7 +1535,7 @@
         "module": "app.exceptions"
       }
     ],
-    "total_loc": 23651
+    "total_loc": 23870
   },
   "mcp_tools": [
     {
@@ -1843,7 +1851,7 @@
       "functions": [
         "register_hub"
       ],
-      "loc": 71,
+      "loc": 73,
       "module": "api.hub",
       "path": "backed/api/hub.py"
     },
@@ -1851,7 +1859,7 @@
       "classes": [],
       "doc": "子路由器聚合：由 ``api.hub`` 统一 include 进 ``hub_router``。",
       "functions": [],
-      "loc": 20,
+      "loc": 22,
       "module": "api.routers",
       "path": "backed/api/routers/__init__.py"
     },
@@ -1984,6 +1992,22 @@
       "loc": 126,
       "module": "api.routers.media",
       "path": "backed/api/routers/media.py"
+    },
+    {
+      "classes": [
+        "InitIn",
+        "CheckIn"
+      ],
+      "doc": "首次使用向导：建个人档案、渲染 SOP、给出 MCP 接入配置。",
+      "functions": [
+        "_mcp_payload",
+        "onboarding_state",
+        "onboarding_init",
+        "onboarding_check"
+      ],
+      "loc": 97,
+      "module": "api.routers.onboarding",
+      "path": "backed/api/routers/onboarding.py"
     },
     {
       "classes": [
@@ -2385,15 +2409,20 @@
       ],
       "doc": "个人档案初始化与 playbook 模板渲染。",
       "functions": [
+        "_resource_root",
+        "default_profiles_root",
         "_fmt",
         "_lookup",
         "load_profile",
         "template_platforms",
         "render_template",
         "init_profile",
-        "render_platform"
+        "render_platform",
+        "template_catalog",
+        "profile_summaries",
+        "check_profile"
       ],
-      "loc": 168,
+      "loc": 274,
       "module": "service.onboarding",
       "path": "backed/service/onboarding.py"
     },
@@ -3395,7 +3424,7 @@
       "functions": [
         "main"
       ],
-      "loc": 90,
+      "loc": 102,
       "module": "start",
       "path": "backed/start.py"
     },
@@ -4030,6 +4059,30 @@
       "path": "/api/v1/hub/notifications"
     },
     {
+      "doc": "",
+      "methods": [
+        "POST"
+      ],
+      "name": "onboarding_check",
+      "path": "/api/v1/hub/onboarding/check"
+    },
+    {
+      "doc": "创建 ``profiles/<name>/``，并把选中模板渲染成个人 SOP。",
+      "methods": [
+        "POST"
+      ],
+      "name": "onboarding_init",
+      "path": "/api/v1/hub/onboarding/init"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "onboarding_state",
+      "path": "/api/v1/hub/onboarding/state"
+    },
+    {
       "doc": "需要人工处理的发布实例（如掘金草稿等人点\"确定并发布\"）。",
       "methods": [
         "GET"
@@ -4608,9 +4661,9 @@
     "cli_commands": 38,
     "mcp_tools": 32,
     "playbooks": 4,
-    "python_loc": 23651,
-    "python_modules": 106,
-    "rest_routes": 95
+    "python_loc": 23870,
+    "python_modules": 107,
+    "rest_routes": 98
   },
   "tests": {
     "files": [
@@ -4756,8 +4809,13 @@
       },
       {
         "file": "backed/tests/test_onboarding.py",
-        "loc": 63,
-        "tests": 6
+        "loc": 70,
+        "tests": 7
+      },
+      {
+        "file": "backed/tests/test_onboarding_api.py",
+        "loc": 60,
+        "tests": 3
       },
       {
         "file": "backed/tests/test_publish_modes.py",
@@ -4876,7 +4934,7 @@
       }
     ],
     "note": "parametrize 展开后的实际用例数以此为准：uv run pytest --collect-only -q",
-    "test_functions": 554,
-    "total_loc": 8389
+    "test_functions": 558,
+    "total_loc": 8456
   }
 }

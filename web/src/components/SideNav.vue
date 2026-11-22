@@ -37,7 +37,7 @@
 
 <script setup>
 import { computed, ref } from 'vue'
-import { Plus, EditPen, Promotion, List, Setting, Sunny, Moon } from '@element-plus/icons-vue'
+import { Plus, EditPen, Promotion, List, Setting, Guide, Sunny, Moon } from '@element-plus/icons-vue'
 import BrandLogo from './BrandLogo.vue'
 import { getTheme, toggleTheme } from '@/composables/useTheme'
 
@@ -59,6 +59,7 @@ const items = computed(() => [
   { key: 'write', icon: EditPen, label: '写作台' },
   { key: 'publish', icon: Promotion, label: '发布中心' },
   { key: 'tasks', icon: List, label: '任务中心', badge: props.waitCount },
+  { key: 'setup', icon: Guide, label: '开始使用' },
   { key: 'settings', icon: Setting, label: '设置' },
 ])
 </script>

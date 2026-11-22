@@ -9,14 +9,43 @@
 
 from __future__ import annotations
 
+import os
 import re
+import sys
 from pathlib import Path
 
 import yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-TEMPLATE_DIR = REPO_ROOT / "playbooks"
+
+
+def _resource_root() -> Path:
+    """只读资源目录：源码跑用仓库根，PyInstaller 单文件用 ``_MEIPASS``。"""
+    if getattr(sys, "frozen", False):
+        return Path(getattr(sys, "_MEIPASS", Path(sys.executable).resolve().parent))
+    return REPO_ROOT
+
+
+RESOURCE_ROOT = _resource_root()
+TEMPLATE_DIR = RESOURCE_ROOT / "playbooks"
+EXAMPLE_PROFILE = RESOURCE_ROOT / "profiles" / "example.yaml"
 PROFILES_ROOT = REPO_ROOT / "profiles"
+
+
+def default_profiles_root() -> Path:
+    """个人档案目录：显式 env > 数据目录 > 仓库 ``profiles/``。
+
+    桌面版由启动器设置 ``HUB_DATA_DIR``，档案自动落到可写数据目录
+    （``<data>/profiles``）；升级安装目录不会覆盖用户档案。
+    """
+    env = os.environ.get("HARBOR_PROFILES_DIR", "").strip()
+    if env:
+        return Path(env).expanduser()
+    data = os.environ.get("HUB_DATA_DIR", "").strip()
+    if data:
+        return Path(data) / "profiles"
+    return PROFILES_ROOT
+
 
 _NAME = re.compile(r"^[a-z0-9][a-z0-9_-]{0,31}$")
 _PLACEHOLDER = re.compile(r"{{profile\.([a-zA-Z0-9_.]+)}}")
@@ -103,7 +132,7 @@ def init_profile(
     """创建 ``profiles/<name>/``：档案 + 渲染后的 playbook 副本 + progress 目录。"""
     if not _NAME.match(name):
         raise OnboardingError("档案名只能用小写字母、数字、- 或 _，最长 32 个字符")
-    root = Path(profiles_root) if profiles_root else PROFILES_ROOT
+    root = Path(profiles_root) if profiles_root else default_profiles_root()
     target = root / name
     if target.exists() and not force:
         raise OnboardingError(f"档案已存在：{target}（要覆盖加 --force）")
@@ -113,7 +142,9 @@ def init_profile(
     if unknown:
         raise OnboardingError(f"没有这些平台的模板：{', '.join(unknown)}")
 
-    example = PROFILES_ROOT / "example.yaml"
+    example = EXAMPLE_PROFILE
+    if not example.is_file():
+        raise OnboardingError(f"找不到档案示例：{example}")
     text = example.read_text(encoding="utf-8")
     text = re.sub(r"^name: .*$", f"name: {name}", text, count=1, flags=re.M)
     text = text.replace('"profiles/your-name/progress"', f'"profiles/{name}/progress"')
@@ -154,7 +185,7 @@ def render_platform(
     profiles_root: str | Path | None = None,
 ) -> Path:
     """按档案渲染单个平台；默认写到 ``profiles/<name>/playbooks/<platform>.md``。"""
-    root = Path(profiles_root) if profiles_root else PROFILES_ROOT
+    root = Path(profiles_root) if profiles_root else default_profiles_root()
     profile_path = root / name / "profile.yaml"
     template = TEMPLATE_DIR / f"{platform}.md"
     if not template.is_file():
@@ -165,3 +196,78 @@ def render_platform(
     dst.write_text(render_template(template.read_text(encoding="utf-8"), profile,
                                    platform=platform), encoding="utf-8")
     return dst
+
+
+def template_catalog() -> list[dict]:
+    """模板清单（只读 front matter，用于前端勾选与展示）。"""
+    items: list[dict] = []
+    for path in sorted(TEMPLATE_DIR.glob("*.md")):
+        if path.name == "README.md":
+            continue
+        text = path.read_text(encoding="utf-8")
+        meta: dict = {}
+        if text.startswith("---"):
+            parts = text.split("---", 2)
+            if len(parts) >= 3:
+                try:
+                    loaded = yaml.safe_load(parts[1])
+                    meta = loaded if isinstance(loaded, dict) else {}
+                except yaml.YAMLError:
+                    meta = {}
+        title = str(meta.get("title") or path.stem).replace("（模板）", "").strip()
+        items.append({
+            "id": path.stem,
+            "title": title,
+            "platform": str(meta.get("platform") or path.stem),
+            "schedule": str(meta.get("schedule") or ""),
+        })
+    return items
+
+
+def profile_summaries(profiles_root: str | Path | None = None) -> list[dict]:
+    """已存在的个人档案（不返回绝对路径，UI 只展示相对位置）。"""
+    root = Path(profiles_root) if profiles_root else default_profiles_root()
+    if not root.is_dir():
+        return []
+    items: list[dict] = []
+    for d in sorted(root.iterdir(), key=lambda p: p.name):
+        if not d.is_dir() or not (d / "profile.yaml").is_file():
+            continue
+        playbooks = sorted((d / "playbooks").glob("*.md")) if (d / "playbooks").is_dir() else []
+        items.append({
+            "name": d.name,
+            "profile": f"profiles/{d.name}/profile.yaml",
+            "platforms": [p.stem for p in playbooks],
+            "playbooks": len(playbooks),
+        })
+    return items
+
+
+def check_profile(name: str, profiles_root: str | Path | None = None) -> dict:
+    """检查个人副本是否与模板 + 档案一致；不做写入。"""
+    root = Path(profiles_root) if profiles_root else default_profiles_root()
+    target = root / name
+    profile_path = target / "profile.yaml"
+    if not profile_path.is_file():
+        raise OnboardingError(f"档案不存在：profiles/{name}/profile.yaml")
+    profile = load_profile(profile_path)
+    playbook_dir = target / "playbooks"
+    files = sorted(playbook_dir.glob("*.md")) if playbook_dir.is_dir() else []
+    problems: list[str] = []
+    if not files:
+        problems.append("没有 playbook 副本")
+    for dst in files:
+        platform = dst.stem
+        template = TEMPLATE_DIR / f"{platform}.md"
+        if not template.is_file():
+            problems.append(f"{dst.name}：没有对应模板 playbooks/{platform}.md")
+            continue
+        fresh = render_template(template.read_text(encoding="utf-8"), profile, platform=platform)
+        if dst.read_text(encoding="utf-8") != fresh:
+            problems.append(f"{dst.name}：与档案或模板不一致，需要重新渲染")
+    return {
+        "name": name,
+        "ok": not problems,
+        "platforms": [p.stem for p in files],
+        "problems": problems,
+    }

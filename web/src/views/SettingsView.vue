@@ -73,7 +73,7 @@ import { useHubStore } from '@/stores/hub'
 import { getTheme, setTheme } from '@/composables/useTheme'
 
 const hub = useHubStore()
-const tab = ref('ai')
+const tab = ref(hub.settingsTab || 'ai')
 const tokenInput = ref(getApiToken())
 const theme = ref(getTheme())
 

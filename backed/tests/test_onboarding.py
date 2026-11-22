@@ -60,3 +60,10 @@ def test_load_profile_reads_yaml(tmp_path):
     p.write_text("name: demo\naccounts:\n  juejin: demo-id\n", encoding="utf-8")
     data = load_profile(p)
     assert data["accounts"]["juejin"] == "demo-id"
+
+def test_profiles_root_follows_data_dir(monkeypatch, tmp_path):
+    """桌面版只设 HUB_DATA_DIR 时，档案必须落可写数据目录，不能写安装目录。"""
+    from service.onboarding import default_profiles_root
+    monkeypatch.delenv("HARBOR_PROFILES_DIR", raising=False)
+    monkeypatch.setenv("HUB_DATA_DIR", str(tmp_path / "appdata"))
+    assert default_profiles_root() == tmp_path / "appdata" / "profiles"

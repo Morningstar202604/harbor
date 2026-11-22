@@ -8,6 +8,7 @@
 """
 
 import argparse
+import sys
 from pathlib import Path
 
 import uvicorn
@@ -21,6 +22,8 @@ def main():
                         help="写入实际端口到此文件供 Tauri 父进程发现")
     parser.add_argument("--data-dir", default=None,
                         help="数据目录 (默认 ./data)")
+    parser.add_argument("--mcp", action="store_true",
+                        help="以 MCP stdio server 模式启动（桌面版客户端接入用）")
     args = parser.parse_args()
 
     # 数据目录
@@ -29,6 +32,15 @@ def main():
         data_path.mkdir(parents=True, exist_ok=True)
         import os
         os.environ["HUB_DATA_DIR"] = str(data_path)
+
+    if args.mcp:
+        # 同一个 sidecar 可执行文件兼任 MCP stdio server：
+        # 桌面安装目录没有 mcp_server.py，客户端配置指向 exe + --mcp 即可。
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+        from mcp_server import main as mcp_main
+        sys.argv = [sys.argv[0]]
+        mcp_main()
+        return
 
     from config import settings
     from app import create_app

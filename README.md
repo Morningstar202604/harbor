@@ -77,6 +77,10 @@ uv run --project backed python -m backed.cli publish --id 12 --platforms juejin,
 uv run --project backed python -m backed.cli export --all --out ./markdown
 ```
 
+On first launch, the web UI / desktop app opens a three-step setup wizard: create
+your profile, log in to platforms, then copy the MCP config. The `init` command
+above produces the same profile and SOP files if you prefer the CLI.
+
 ### Desktop shell (experimental)
 
 ```bash

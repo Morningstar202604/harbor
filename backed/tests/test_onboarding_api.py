@@ -1,0 +1,59 @@
+# -*- coding: utf-8 -*-
+"""首次使用向导 REST：建档案 → 渲染 → 自检，路径与隐私边界。"""
+
+from pathlib import Path
+
+
+def _use_tmp_profiles(monkeypatch, tmp_path):
+    root = tmp_path / "profiles"
+    monkeypatch.setenv("HARBOR_PROFILES_DIR", str(root))
+    return root
+
+
+def test_state_lists_templates_and_mcp_config(client, monkeypatch, tmp_path):
+    _use_tmp_profiles(monkeypatch, tmp_path)
+    r = client.get("/api/v1/hub/onboarding/state")
+    assert r.status_code == 200
+    body = r.json()
+    ids = [t["id"] for t in body["templates"]]
+    assert {"cnblogs", "zhihu", "csdn", "juejin"} <= set(ids)
+    assert body["needs_setup"] is True
+    assert body["profiles"] == []
+    cfg = body["mcp"]["config"]["mcpServers"]["harbor"]
+    assert cfg["args"][0].endswith("mcp_server.py")
+    assert "HUB_DATA_DIR" in cfg["env"]
+
+
+def test_init_renders_personal_profile_and_check_passes(client, monkeypatch, tmp_path):
+    root = _use_tmp_profiles(monkeypatch, tmp_path)
+    r = client.post("/api/v1/hub/onboarding/init", json={
+        "name": "demo", "platforms": ["cnblogs", "juejin"],
+    })
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body["name"] == "demo"
+    assert body["profile"] == "profiles/demo/profile.yaml"
+    assert (root / "demo" / "profile.yaml").is_file()
+    assert (root / "demo" / "progress").is_dir()
+    assert {Path(p).stem for p in body["playbooks"]} == {"cnblogs", "juejin"}
+
+    state = client.get("/api/v1/hub/onboarding/state").json()
+    assert state["needs_setup"] is False
+    assert state["profiles"][0]["name"] == "demo"
+    assert state["profiles"][0]["platforms"] == ["cnblogs", "juejin"]
+
+    check = client.post("/api/v1/hub/onboarding/check", json={"name": "demo"})
+    assert check.status_code == 200
+    assert check.json()["ok"] is True
+
+
+def test_init_rejects_bad_name_and_duplicate(client, monkeypatch, tmp_path):
+    _use_tmp_profiles(monkeypatch, tmp_path)
+    bad = client.post("/api/v1/hub/onboarding/init", json={"name": "../etc"})
+    assert bad.status_code == 422
+
+    first = client.post("/api/v1/hub/onboarding/init", json={"name": "demo"})
+    assert first.status_code == 200
+    again = client.post("/api/v1/hub/onboarding/init", json={"name": "demo"})
+    assert again.status_code == 422
+    assert "已存在" in again.json()["message"]

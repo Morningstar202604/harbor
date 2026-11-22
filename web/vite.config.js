@@ -37,10 +37,11 @@ export default defineConfig(({ command }) => ({
     setupFiles: ['src/test/setup.js'],
     include: ['src/**/*.test.js'],
     // 默认 5s 对首次动态 import 的用例偏紧：机器负载高时（例如同时跑 569 个
-    // 后端测试）单条用例的模块编译会被拖到 1.5s 以上，触发假失败。
-    // 提到 15s 不影响"真卡死"的判断，只是给冷启动留出余量。
-    testTimeout: 15000,
-    hookTimeout: 15000
+    // 后端测试）单条用例的模块编译会被拖到数秒以上，触发假失败。
+    // 提到 60s 不影响"真卡死"的判断，只是给冷启动留出余量；CI 机器更快，
+    // 但本机首轮要编译整个 Element Plus，30s 仍会偶发超时。
+    testTimeout: 60000,
+    hookTimeout: 60000
   },
 
   server: {

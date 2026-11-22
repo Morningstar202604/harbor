@@ -20,6 +20,7 @@
         <WriteView v-if="hub.view === 'write'" @ai-write="aiDialog = true" />
         <PublishCenterView v-if="hub.view === 'publish'" />
         <TasksView v-else-if="hub.view === 'tasks'" />
+        <SetupView v-else-if="hub.view === 'setup'" />
         <SettingsView v-else-if="hub.view === 'settings'" />
       </main>
     </div>
@@ -42,6 +43,7 @@ import SideNav from '@/components/SideNav.vue'
 const WriteView = defineAsyncComponent(() => import('@/views/WriteView.vue'))
 const PublishCenterView = defineAsyncComponent(() => import('@/views/PublishCenterView.vue'))
 const TasksView = defineAsyncComponent(() => import('@/views/TasksView.vue'))
+const SetupView = defineAsyncComponent(() => import('@/views/SetupView.vue'))
 const SettingsView = defineAsyncComponent(() => import('@/views/SettingsView.vue'))
 const AIWriteDialog = defineAsyncComponent(() => import('@/components/AIWriteDialog.vue'))
 

@@ -28,9 +28,13 @@ backed_dir = Path(SPECPATH).resolve()
 entry = backed_dir / "start.py"
 
 # 数据/配置：把 .env.example 和 config.example.json 打包进去，运行时释放
+root_dir = backed_dir.parent
 datas = [
     (str(backed_dir / ".env.example"), "."),
     (str(backed_dir / "config.example.json"), "."),
+    # 首次使用向导需要模板与示例档案；装到只读目录后从 _MEIPASS 读
+    (str(root_dir / "playbooks"), "playbooks"),
+    (str(root_dir / "profiles" / "example.yaml"), "profiles"),
 ]
 
 # Hidden imports：uvicorn/logging 等常被动态导入
@@ -63,11 +67,12 @@ hidden_imports = [
     "croniter",
     "prometheus_client",
     "tenacity",
+    "mcp_server",
 ]
 
 a = Analysis(
     [str(entry)],
-    pathex=[str(backed_dir)],
+    pathex=[str(backed_dir), str(backed_dir.parent)],
     binaries=[],
     datas=datas,
     hiddenimports=hidden_imports,

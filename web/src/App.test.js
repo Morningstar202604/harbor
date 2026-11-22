@@ -28,6 +28,7 @@ const stubs = {
   WriteView: { template: '<div data-view="write" />' },
   PublishCenterView: { template: '<div data-view="publish" />' },
   TasksView: { template: '<div data-view="tasks" />' },
+  SetupView: { template: '<div data-view="setup" />' },
   SettingsView: { template: '<div data-view="settings" />' },
   AIWriteDialog: { template: '<div />' },
   'el-config-provider': { template: '<div><slot /></div>' }
@@ -46,6 +47,7 @@ describe('App 视图互斥渲染（回归：v-show 与 v-if 链并存导致叠�
     ['write', 'write'],
     ['publish', 'publish'],
     ['tasks', 'tasks'],
+    ['setup', 'setup'],
     ['settings', 'settings']
   ])('view=%s 时只渲染 %s 一个视图', async (view, expected) => {
     const hub = useHubStore()

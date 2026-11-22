@@ -11,7 +11,7 @@ import { useScheduleStore } from './schedule'
 import { useWebhookStore } from './webhook'
 import { useSettingsStore } from './settings'
 
-const VIEWS = ['write', 'publish', 'tasks', 'settings']
+const VIEWS = ['write', 'publish', 'tasks', 'setup', 'settings']
 
 /**
  *主编排层：组合所有子 store，对外提供统一接口。
@@ -24,6 +24,8 @@ export const useHubStore = defineStore('hub', {
     aiReady: false,
     aiProviders: [],
     publishing: false,
+    needsSetup: false,
+    settingsTab: 'ai',
   }),
 
   getters: {
@@ -84,6 +86,17 @@ export const useHubStore = defineStore('hub', {
         task.loadTasks(),
         settings.loadAI(),
       ])
+
+      // 首次启动：没有个人档案就先进向导。老库/已有档案不打扰。
+      // api 方法可能存在（旧测试桩没有），失败不阻断主流程。
+      try {
+        const ob = await api.onboardingState?.()
+        if (ob) {
+          this.needsSetup = !ob.profiles?.length
+          if (this.needsSetup && !article.total) this.switchView('setup')
+          else if (this.view === 'setup') this.switchView('write')
+        }
+      } catch { this.needsSetup = false }
 
       // 文章增删改走 SSE 推送：其他端/标签页的改动也能立刻反映到列表
       task._onArticleEvent = (evt) => {

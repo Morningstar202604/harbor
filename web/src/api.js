@@ -80,6 +80,11 @@ export const api = {
   // ---------------- 总览 ----------------
   status: () => http.get('/status'),
   platforms: () => http.get('/platforms'),
+
+  // ---------------- 首次使用向导 ----------------
+  onboardingState: () => http.get('/onboarding/state'),
+  onboardingInit: (data) => http.post('/onboarding/init', data),
+  onboardingCheck: (name) => http.post('/onboarding/check', { name }),
   accounts: () => http.get('/accounts'),
   checkAccount: (platform, account = 'default') =>
     http.get(`/accounts/${platform}/check`, { params: { account } }),
