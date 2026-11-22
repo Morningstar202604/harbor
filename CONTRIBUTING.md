@@ -87,7 +87,9 @@ button that fails is not.
 
 - Root markdown is limited to: `README.md`, `README.zh-CN.md`, `CHANGELOG.md`,
   `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md`, `LICENSE`, `AGENT.md`,
-  `PLATFORM_CONNECTION.md`.
+  `AGENTS.md`, `CLAUDE.md`, `PLATFORM_CONNECTION.md`.
+- `AGENTS.md` is the entry point for AI coding agents; `docs/agent/CONTEXT.md` is
+  generated from code by `scripts/gen_agent_context.py` — never edit it by hand.
 - Long-form articles, audits and design notes go under `docs/`.
 - `README.md` and `README.zh-CN.md` must stay structurally parallel: same sections,
   same order, same claims.

@@ -72,54 +72,39 @@ Every item below was driven by running the product, not by reading the code.
 
 ## Next
 
-### 0.15.0 — Editorial workflow depth
+一个版本号只出现一次；`Shipped` 里是已完成的历史，`Next` 是还没做的。
 
-- [ ] Draft collaboration: comments and suggestion mode on article bodies
-- [ ] Publish diff preview: show what will change on each platform before syncing
-- [ ] Bulk operations: retag, reschedule, re-publish across a filtered article set
-- [ ] RSS and JSON Feed output so the library is subscribable, not just exportable
+### 0.16.0 — 工程收敛（不新增用户可见功能）
 
-### 0.16.0 — Publish failure forensics
+先补齐"看得懂、改得动"，再谈功能。验收：六处版本一致、`/docs` 版本等于清单版本、
+测试全绿、CI 五 job 绿、`sys.path.insert` 只剩测试与脚本。
 
-- [x] Read back the published URL after a successful submit, compare title and body,
-      store `publications.verified_at` — shipped in 0.15.0
-- [ ] On publish failure, capture a Playwright trace plus screenshot for replay
+- [ ] 文档与代码对齐：AGENT.md / ARCHITECTURE.md 的版本与 15 个适配器；ROADMAP 单一版本号
+- [ ] 配置收敛：`config_unified.py` 删掉 Redis / 连接池 / JWT / 密码策略等死字段；CORS 默认收紧
+- [ ] 包结构：`backed` → `backend`，顶层散包收成单根包（行为不变，测试兜底）
+- [ ] 依赖自动化：修好 Dependabot 或改月度手更（Pillow 分叉目前每天红）
+- [ ] 适配器契约测试：segmentfault / telegraph / 51cto / 小红书（当前测试零引用）
 
-### 0.13.0 — Verification and packaging
+### 0.17.0 — 并发与失败取证
 
-The theme is **"prove it, then ship it"**: turn every documented capability into a
-recorded verification, and make the desktop build reproducible.
+"一次写作发 15 平台"不该是分钟级排队。
 
-- [ ] Record real publish verification for the protocol platforms that need no browser
-      (cnblogs, Dev.to, GitHub Pages, Telegraph) — `docs/verification/`
-- [ ] Reproducible Tauri build: sidecar staging script, CI job on a Windows runner
-- [ ] Docker smoke test in CI (compose up, health check, authenticated API call)
-- [ ] Regenerate all README screenshots from the current UI
-- [ ] Publish `docs/verification/` index and link it from README
+- [ ] 平台级子任务 + 有界并发（同账号串行、跨账号并行），人工延迟只约束同账号
+- [ ] 发布失败落 Playwright trace + 截图 + DOM 快照，按 task_id 归档
+- [ ] `adapter_probe` 进 CI：选择器漂移在合并前就红
+- [ ] 前端 eslint warning 清零，`--max-warnings` 999 → 0
 
-**Exit criteria:** every README capability row has either an automated test or a dated
-verification record; `docker compose up` is exercised in CI; `tauri build` produces an
-artifact on at least one platform.
+### 0.18.0 — 编辑工作流
 
-### 0.14.0 — Editorial workflow depth
-
-- [ ] Draft collaboration: comments and suggestion mode on article bodies
-- [ ] Schedule templates: per-platform time slots with timezone handling
-- [ ] Publish diff preview: show what will change on each platform before syncing
-- [ ] Bulk operations: retag, reschedule, re-publish across a filtered article set
-
-### 0.15.0 — Observability and operations
-
-- [ ] Structured JSON logs with request correlation IDs
-- [ ] Prometheus-compatible `/metrics` export
-- [ ] Task timeline view in the UI (per-task step history, retries, timings)
-- [ ] Backup/restore UI with integrity verification
+- [ ] 发布前 diff 预览：同步前展示每个平台会改什么
+- [ ] 批量操作：按筛选集重打标签、重排期、重发
+- [ ] RSS / JSON Feed：文章库可订阅，不只是可导出
 
 ---
 
 ## Backlog (unscheduled)
 
-- [ ] Additional adapters: 掘金 API channel, Substack, Hashnode, Medium
+- [ ] Additional adapters: 只扩国内平台（掘金 API channel 等）；国外平台按既定策略不再新增
 - [ ] Image generation integration for cover art
 - [ ] Multi-user mode with per-account permissions
 - [ ] Webhook delivery retry with exponential backoff and dead-letter queue

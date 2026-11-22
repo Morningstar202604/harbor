@@ -2,10 +2,10 @@
 
 | 项 | 值 |
 |---|---|
-| 版本 | 0.10.0 |
-| 日期 | 2026-10-29 |
+| 版本 | 0.15.0 |
+| 日期 | 2026-11-08 |
 | 状态 | 维护中 |
-| 唯一真理源 | 本文件 + [`AGENT.md`](../../AGENT.md) |
+| 唯一真理源 | 本文件 + [`AGENTS.md`](../../AGENTS.md) + [`AGENT.md`](../../AGENT.md)；路由/工具/表结构等事实见 [`docs/agent/CONTEXT.md`](../agent/CONTEXT.md) |
 | 位置 | 2026-10-10 从仓库根目录迁入 `docs/architecture/`（tech-debt 台账 #11） |
 
 ## 1. 系统概览
@@ -13,8 +13,8 @@
 内容港 Harbor：**写 → 合规审查 → 多平台分发 → 原地更新 → 人机协作收尾**。
 
 - 技术栈：Python 3.12+ / FastAPI / SQLite / Patchright (Playwright 反检测 fork) / Vue 3 + Element Plus + Pinia
-- 架构模式：统一任务引擎 (TaskManager) + 10 个平台适配器
-- 部署：单机 SQLite 跑通全部功能；生产可切 MySQL / PostgreSQL
+- 架构模式：统一任务引擎 (TaskManager) + 15 个平台适配器
+- 部署：单机 SQLite（裸 sqlite3 + WAL，无 ORM）跑通全部功能；目前没有 MySQL/PostgreSQL 迁移路径，别照旧文档假设
 
 ## 2. 当前架构
 
@@ -75,7 +75,7 @@ harbor/
 │   │   ├── humanize.py        # 人机延迟 / 贝塞尔鼠标轨迹
 │   │   ├── observability.py   # 结构化日志 + 事件计数
 │   │   ├── cnblogs_login.py   # 博客园自动抠 MetaWeblog 令牌
-│   │   └── adapters/          # 10 个平台适配器
+│   │   └── adapters/          # 15 个平台适配器
 │   │       ├── __init__.py    # @register 注册器
 │   │       ├── base.py        # PlatformAdapter 基类
 │   │       ├── csdn.py

@@ -1,312 +1,155 @@
-# AGENT.md — 开发者指南
+# AGENT.md — 目录级开发指南
 
-面向 AI 编码助手和人类开发者的项目结构说明。**反映 0.13.0 架构**（2026-11-02）。
+> 面向 AI 编码助手与人类开发者的目录说明。**版本 0.15.0（2026-11-08）**，与代码同步。
+> 入口先读 [`AGENTS.md`](AGENTS.md)；路由 / MCP 工具 / 适配器能力 / 表结构等**事实清单**看
+> [`docs/agent/CONTEXT.md`](docs/agent/CONTEXT.md)（由 `scripts/gen_agent_context.py` 生成，勿手改）。
 
-## 1. 目录结构（0.13.0 真实）
-
-> 根目录 Markdown 契约：README.md、README.zh-CN.md、CHANGELOG.md、CONTRIBUTING.md、
-> SECURITY.md、CODE_OF_CONDUCT.md、AGENT.md、PLATFORM_CONNECTION.md、LICENSE。
-> 其余长文与审计一律进 `docs/`。
+## 1. 目录结构
 
 ```
 harbor/
-├── backed/
-│   ├── app/
-│   │   ├── factory.py              # FastAPI 应用工厂 (create_app)
-│   │   ├── config.py               # AppConfig（CORS / 应用元数据）
-│   │   ├── exceptions.py           # 全局异常处理器
-│   │   ├── middleware.py           # 中间件注册（CORS/限流/审计/安全头）
-│   │   └── routes.py              # 基础路由（/health /api/info）
-│   ├── api/
-│   │   ├── __init__.py            # 导出 hub_router + get_router_info
-│   │   ├── hub.py                 # REST 聚合入口（51 行，只做 include）
-│   │   ├── auth.py                # 鉴权中间件（Token + XFF 校验）
-│   │   ├── deps.py                # 共享依赖（get_hub / get_task_manager）
-│   │   └── routers/               # 按领域拆分的子路由器
-│   │       ├── __init__.py
-│   │       ├── system.py          # /health /status /metrics /jobs /publications /pending-human
-│   │       ├── articles.py        # 文章 CRUD + 分页 + 搜索 + 导入 + 版本历史 + AI 增强 + 质检
-│   │       ├── accounts.py        # 登录/登出/诊断/验证码/辅助/刷新 + cnblogs bootstrap（SSRF 防护 + 能力矩阵）
-│   │       ├── browser.py         # 浏览器操控面：/browser/{platform}/fetch|screenshot
-│   │       ├── media.py           # 图片上传/抓取/托管
-│       └── system.py 额外含 /adapters/probe、/mcp/bridge、/platform-cooldowns、/status.auth_sweep
-│   │       ├── publishing.py      # 发布/更新/同步 + 任务查询/恢复
-│   │       ├── tags.py            # 标签治理
-│   │       ├── schedules.py       # 定时发布
-│   │       ├── webhooks.py        # Webhook CRUD + 站内通知 + SSE
-│   │       └── ai.py             # AI 写稿/Provider/模板/门禁状态
-│   ├── middleware/
-│   │   ├── rate_limiter.py        # 令牌桶限流（含 XFF 绕过防护 + 桶表上限）
-│   │   ├── security_headers.py    # 安全响应头（CSP/X-Frame-Options 等）
-│   │   └── audit_middleware.py    # HTTP 审计日志
-│   ├── core/
-│   │   ├── human_click.py         # 拟人鼠标轨迹（贝塞尔采样）
-│   │   ├── permissions.py         # 权限校验
-│   │   └── security.py            # 安全辅助
-│   ├── config/
-│   │   ├── __init__.py            # settings 导出
-│   │   ├── config_unified.py      # 统一配置（Pydantic Settings）
-│   │   ├── config_factory.py      # 配置工厂（env > json > default）
-│   │   └── manage.py             # 配置管理 CLI
-│   ├── service/publishing/
-│   │   ├── service.py             # Hub 编排器（696 行）
-│   │   ├── db.py                  # SQLite 唯一真理源（388 行）
-│   │   ├── tasks.py               # TaskManager（统一任务引擎）
-│   │   ├── scheduler.py           # 定时发布调度器
-│   │   ├── browser.py             # Patchright Chromium（729 行）
-│   │   ├── browser_pool.py        # 浏览器实例池（LRU + per-key 互斥）
-│   │   ├── gate.py                # AIGC 合规门禁（四道闸门）
-│   │   ├── ai.py                  # OpenAI 兼容 LLM 调用（tenacity 退避重试）
-│   │   ├── ai_service.py          # AI 增强操作（写稿/改写/润色/翻译/工具）
-│   │   ├── ai_enhancements.py     # AI 工具函数（大纲/SEO/配图/克隆/模板）
-│   │   ├── observability.py       # 日志/指标/可观测（585 行）
-│   │   ├── events.py              # 事件系统（通知/SSE/Webhook 聚合）
-│   │   ├── _event_notifier.py     # 站内通知环形缓冲
-│   │   ├── _sse_broker.py         # SSE 订阅/广播
-│   │   ├── _webhook_store.py      # Webhook 存储 + HMAC 签名
-│   │   ├── _account_ops.py        # 账号操作（登录/登出/验证码/辅助）
-│   │   ├── versions.py            # 版本管理（快照/回滚/diff）
-│   │   ├── tags.py                # 标签治理
-│   │   ├── content_qa.py          # 内容质检（可读性/SEO/重复度，签名缓存）
-│   │   ├── media.py               # 媒体资产：内容寻址存储 + 图片改写 + SSRF 防护下载
-│   │   ├── importing.py           # 导入：front-matter 解析 + 网页正文提取
-│   │   ├── content_transform.py   # AST 级平台内容变换（markdown-it-py）
-│   │   ├── ratelimit.py           # 平台限流冷却（Retry-After 落库共享）
-│   │   ├── mcp_bridge.py          # 外部 MCP Server 桥接（Client，白名单）
-│   │   ├── adapter_probe.py       # 适配器离线契约探针（选择器/DOM 漂移）
-│   │   ├── browser_ops.py         # 浏览器操控面：带登录态抓取/截图（/browser/*）
-│   │   ├── auth_sweep.py          # 登录态自动巡检（过期标离线 + auth.expired 事件）
-│   │   ├── article_ops.py         # Hub mixin：文章 CRUD 与导入
-│   │   ├── ai_ops.py              # Hub mixin：AI 委托
-│   │   └── publish_ops.py         # Hub mixin：发布/更新/同步编排
-│   │   ├── crypto.py              # Fernet 加密（Webhook secret）
-│   │   ├── humanize.py            # 人机模拟（WPM/延迟）
-│   │   ├── cnblogs_login.py       # 博客园浏览器登录 + MetaWeblog 令牌提取
-│   │   ├── adapters/              # 平台适配器（15 个）
-│   │   │   ├── __init__.py        # @register 注册器
-│   │   │   ├── base.py            # PlatformAdapter 基类（527 行）
-│   │   │   ├── bilibili.py        # B站专栏
-│   │   │   ├── cnblogs.py         # 博客园（XML-RPC）
-│   │   │   ├── csdn.py            # CSDN
-│   │   │   ├── devto.py           # Dev.to（官方 REST API）
-│   │   │   ├── github_pages.py    # GitHub Pages / Jekyll（Contents API）
-│   │   │   ├── juejin.py          # 掘金
-│   │   │   ├── metaweblog.py     # 博客园元数据
-│   │   │   ├── oschina.py         # 开源中国
-│   │   │   ├── segmentfault.py   # SegmentFault
-│   │   │   ├── telegraph.py      # Telegraph（telegra.ph，免注册即时发布）
-│   │   │   ├── toutiao.py         # 头条号
-│   │   │   ├── wechat.py          # 微信公众号（官方草稿箱 API）
-│   │   │   ├── wuyi_cto.py       # 51CTO
-│   │   │   ├── xiaohongshu.py    # 小红书（浏览器自动化，选择器待实机验证）
-│   │   │   └── zhihu.py          # 知乎
-│   │   ├── url_safety.py            # 出网统一校验：公网 IP 判定 / 超时钳制 / 连接钉扎抓取 / 逐跳重定向
-│   ├── ai_providers.py        # AI 多 Provider 路由（7 家内置：DeepSeek/Kimi/GLM/…）
-│   │   ├── ai_config.py           # AI 配置读写（掩码/白名单原子写/连通性测试）
-│   │   ├── providers/             # 平台外部工具 Provider（biliup/wenyan 等薄壳）
-│   │   │   ├── __init__.py
-│   │   │   ├── base.py            # Provider 基类
-│   │   │   ├── bilibili.py        # B站 API Provider
-│   │   │   ├── registry.py        # Provider 注册 + 路由
-│   │   │   └── toutiao.py         # 头条 API Provider
-│   │   └── tools/                 # 平台 API 工具（0.12.0 新增，0.13.0 保留）
-│   │       ├── juejin_api.py      # 掘金 OpenAPI
-│   │       └── metaweblog.py      # MetaWeblog XML-RPC 客户端
-│   ├── utils/
-│   │   ├── auth.py                # JWT / Token
-│   │   ├── logger.py             # 日志（loguru + 结构化）
-│   │   ├── masking.py            # 敏感信息脱敏
-│   │   ├── response_code.py      # 响应码枚举
-│   │   ├── security.py           # 安全工具（bcrypt/常量比较）
-│   │   └── custom_exceptions.py  # 自定义异常
-│   ├── cli.py                    # 命令行入口
-│   ├── start.py                  # 服务启动
-│   └── desktop_sidecar.py        # Tauri 桌面端 sidecar 启动
-├── web/
-│   ├── src/                      # Vue3 + Element Plus 前端
-│   │   ├── api.js               # REST 客户端（baseURL = /api/v1/hub）
-│   │   ├── stores/              # Pinia stores（hub/article/task/account/tag/webhook/schedule）
-│   │   ├── components/          # Vue 组件
-│   │   └── composables/        # 组合式函数
-│   ├── src-tauri/               # Tauri 2.0 壳（Cargo + Rust）
-│   └── package.json             # pnpm 管理
-├── scripts/
-│   ├── check_all.ps1            # 一键门禁（Windows，八道）
-│   ├── check_all.sh             # 一键门禁（Linux/macOS，八道）
-│   ├── bump_version.py          # 五处版本清单原子更新与一致性校验
-│   ├── scan_secrets.py          # 密钥扫描（token 前缀 / 私钥头 / 高熵赋值）
-│   ├── capture_screenshots.py   # 生成 docs/screenshots 的界面截图
-│   ├── backup_data.py           # 数据备份（在线一致性快照）
-│   ├── build_sidecar.ps1        # 桌面端后端 sidecar 构建（未跨平台验证）
-│   └── login_probe.py           # 登录页诊断（导出二维码 / 复检登录态，不代替扫码）
-├── mcp_server.py                # MCP Server（32 Tool，stdio + SSE；可桥接外部 MCP Server）
-├── deploy/                      # Docker 部署
-└── docs/
-    ├── PROJECT_MANAGEMENT.md    # 分支模型 / 完成定义 / 三道门禁 / 五仓同步 / 技术债政策
-    ├── VERSIONING.md            # SemVer 规则 / 五处版本清单 / 发布清单
-    ├── ROADMAP.md               # 已交付 / 下一步 / 待排期 / 明确不做
-    ├── REPO_METADATA.md         # 五仓描述与 topics 的规范副本
-    ├── PLATFORM_PUBLISH_GUIDE.md
-    ├── architecture/ARCHITECTURE.md
-    ├── audit/AUDIT.md
-    ├── audit/archive/           # 历史审查快照
-    ├── articles/                # 对外长文（技术随笔）
-    ├── design/tech-debt.md
-    ├── screenshots/             # README 截图（scripts/capture_screenshots.py 生成）
-    ├── verification/            # 人工检查的带日期证据
-    └── writing-style.md
+├── AGENTS.md / AGENT.md       # 智能体入口 / 本文件（目录级细节）
+├── mcp_server.py              # MCP Server：32 tool，stdio / streamable-http / SSE
+├── backed/                    # 后端（FastAPI，uv 管理）
+│   ├── app/                   # 工厂 / 中间件 / 异常 / 基础路由
+│   ├── api/                   # HTTP 边界：hub.py 聚合，routers/* 按领域拆
+│   ├── service/publishing/    # 业务层：Hub、任务引擎、门禁、事件、媒体、版本、适配器
+│   ├── config/                # 配置（config.json 为运行时唯一口径）
+│   ├── core/ middleware/      # 拟人点击、权限、限流、安全头、审计
+│   ├── utils/                 # 日志、脱敏、JWT、响应码
+│   ├── tests/                 # 49 个 test_*.py
+│   ├── cli.py / start.py / desktop_sidecar.py
+│   └── pyproject.toml / uv.lock
+├── web/                       # Vue3 + Element Plus + Pinia；src-tauri/ 为 Tauri 2 壳
+├── deploy/                    # Dockerfile、docker-compose.yml、nginx.conf
+├── scripts/                   # 门禁、上下文生成、备份、截图、真机验证、登录诊断
+└── docs/                      # 架构 / 审计 / 设计 / 验证记录 / 智能体上下文
 ```
 
-## 2. 数据流（0.13.0）
+### 后端关键模块（`backed/service/publishing/`）
+
+| 文件 | 职责 |
+|---|---|
+| `service.py` | Hub 编排器：账号、浏览器池、生命周期，组合三个 mixin |
+| `article_ops.py` / `ai_ops.py` / `publish_ops.py` | 文章 CRUD、AI 委托、发布/更新/同步编排 |
+| `tasks.py` | TaskManager：tasks 表持久化，单 worker 串行消费，重试与退避 |
+| `db.py` | **唯一** SQL 与 schema（6 张表 + FTS5 + 迁移） |
+| `browser.py` / `browser_pool.py` | Patchright 单浏览器线程 + 实例池（LRU，per-key 互斥） |
+| `gate.py` | AIGC 合规四道闸门（安全扫描 / AIGC 标识 / 双模型审查 / 人工确认） |
+| `events.py` / `_sse_broker.py` / `_webhook_store.py` | 事件、SSE 重放、Webhook HMAC |
+| `observability.py` | 日志 / 指标 / trace，`/metrics` 双格式（JSON + Prometheus） |
+| `media.py` / `content_transform.py` / `content_qa.py` | 媒体内容寻址、平台 AST 变换、内容质检 |
+| `versions.py` / `tags.py` / `scheduler.py` | 版本快照回滚、标签治理、定时发布 |
+| `url_safety.py` | 出网统一校验：公网 IP 判定 / 连接钉扎 / 逐跳重定向 |
+| `adapters/` | 15 个平台适配器 + `base.py` 能力矩阵与注册器 |
+
+### 平台适配器（15 个，`adapters/*.py`）
 
 ```
-HTTP Request
-    │
-    ├─ 认证中间件 (api/auth.py: X-API-Token 校验 + XFF 受信判定)
-    │
-    ▼
-api/hub.py (hub_router, 聚合 8 个子路由器)
-    │  ├─ /system/*        → system_router
-    │  ├─ /articles/*     → articles_router
-    │  ├─ /accounts/*     → accounts_router (含 platform/account 正则校验 + SSRF 防护)
-    │  ├─ /publishing 路径 → publishing_router
-    │  ├─ /tags/*         → tags_router
-    │  ├─ /schedules/*    → schedules_router
-    │  ├─ /webhooks/*     → webhooks_router
-    │  └─ /ai/*           → ai_router
-    │
-    ▼
-get_hub() → Hub 实例 (api/deps.py 惰性单例)
-    │  ├─ Hub.publish/update/sync → TaskManager.submit() → Worker 线程
-    │  ├─ Hub.login/check/solve_captcha → _account_ops → browser_pool → BuiltinBrowser
-    │  └─ Hub.ai_* → AIService → ai.py / ai_enhancements.py → LLM
-    │
-    ▼
-TaskManager Worker (串行, tasks.py)
-    │  ├─ Gate.check (AIGC 合规四道闸门)
-    │  ├─ _with_adapter → adapters/*.publish/update
-    │  ├─ Browser 操作 (Patchright Chromium, 专属线程)
-    │  └─ Triage: HUMAN_HINTS→waiting_human / RETRY_HINTS→retry / 未分类→retry once→fail
-    │
-    ▼
-SQLite (db.py, WAL 模式, LockedConnection 线程安全)
+adapters/wuyi_cto.py       # 51CTO · 协议（XML-RPC）
+adapters/bilibili.py       # B站专栏 · 浏览器
+adapters/cnblogs.py        # 博客园 · 协议（XML-RPC）
+adapters/csdn.py           # CSDN · 浏览器
+adapters/devto.py          # Dev.to · 协议（REST API）
+adapters/github_pages.py   # GitHub Pages · 协议（Contents API）
+adapters/juejin.py         # 掘金 · 浏览器
+adapters/metaweblog.py     # 自建博客 WordPress/Typecho · 协议（XML-RPC）
+adapters/oschina.py        # 开源中国 · 浏览器
+adapters/segmentfault.py   # SegmentFault · 浏览器
+adapters/telegraph.py      # Telegraph · 协议（免注册 token）
+adapters/toutiao.py        # 头条号 · 浏览器
+adapters/wechat.py         # 微信公众号 · 协议（AppSecret）
+adapters/xiaohongshu.py    # 小红书 · 浏览器扫码
+adapters/zhihu.py          # 知乎 · 浏览器
 ```
 
-**REST 异步模型**：`submit()` 立即返回 `task_id`，客户端轮询 `GET /api/v1/hub/tasks/{id}`。
-**MCP 同步模型**：`mcp_server.py` 直接调 `hub.publish(...)`，同步返回结果。
+能力矩阵以代码声明为准（`CAPABILITIES` + 每个类的 `capabilities`），完整矩阵见
+[`docs/agent/CONTEXT.md`](docs/agent/CONTEXT.md) §5。新平台接入步骤见 [`CONTRIBUTING.md`](CONTRIBUTING.md)。
 
-## 3. 适配器列表（15 个，由 test_docs_links.py 校验）
+### 脚本
 
-| 适配器 | 文件 | needs_browser | 认证方式 |
-|--------|------|:---:|---|
-| 51cto | wuyi_cto.py | False | API |
-| bilibili | bilibili.py | True | 浏览器 |
-| cnblogs | cnblogs.py | False | XML-RPC |
-| csdn | csdn.py | True | 浏览器 |
-| devto | devto.py | False | API（api-key） |
-| github | github_pages.py | False | API（PAT） |
-| juejin | juejin.py | True | 浏览器 |
-| metaweblog | metaweblog.py | False | XML-RPC |
-| oschina | oschina.py | True | 浏览器 |
-| segmentfault | segmentfault.py | True | 浏览器 |
-| telegraph | telegraph.py | False | API（免注册 token） |
-| toutiao | toutiao.py | True | 浏览器 |
-| wechat | wechat.py | False | API（AppSecret） |
-| xiaohongshu | xiaohongshu.py | True | 浏览器（扫码） |
-| zhihu | zhihu.py | True | 浏览器 |
+`scripts/` 里每个都该有 `--help` 或被文档引用：
 
-新增平台：在 `adapters/` 下创建 `{platform}.py`，继承 `PlatformAdapter`，末尾 `@register`，
-在 `adapters/__init__.py` 加导入，在 `config/config_unified.py` 加默认配置。
+| 脚本 | 用途 |
+|---|---|
+| `check_all.sh` / `check_all.ps1` | 一键门禁（Linux/macOS、Windows 两版） |
+| `gen_agent_context.py` | 生成 `docs/agent/CONTEXT.*`；`--check` 进 CI |
+| `bump_version.py` | 六处版本清单原子更新与一致性校验 |
+| `scan_secrets.py` | 密钥扫描（token 前缀 / 私钥头 / 高熵赋值） |
+| `backup_data.py` | 在线一致性快照（`sqlite3.Connection.backup()` + integrity_check） |
+| `verify_real_publish.py` | 真机发布验证（真 commit、真回读、原地上新、默认自动清理） |
+| `capture_screenshots.py` | 重新生成 README 截图 |
+| `login_probe.py` | 登录页诊断（导出二维码 / 复检登录态，不代替扫码） |
+| `stage_sidecar.py` / `build_sidecar.ps1` | Tauri 桌面端 sidecar 打包 |
 
-## 4. 开发命令
+## 2. 数据流
 
-### 启动 Web 服务
+```
+HTTP → 鉴权中间件（X-API-Token + XFF 受信判定）→ api/hub.py（聚合 10 个子路由）
+     → Hub 单例（惰性）→ TaskManager.submit()（落 tasks 表）→ worker 线程
+     → gate.py（四道闸门）→ media.py（图片本地化）→ content_transform.py（平台改写）
+     → adapters/<platform>.publish|update → publications 落库 + 回读 verify_state
+```
+
+- **REST 异步模型**：`submit()` 立刻返回 `task_id`，客户端轮询或走 SSE。
+- **MCP 同步模型**：`mcp_server.py` 直接调 `hub.publish(...)`，同步返回结果。
+- **任务状态**：`pending → running → ok / failed / waiting_human`；启动时把残留 `running` 放回 `pending`。
+
+## 3. 开发命令
 
 ```bash
-cd backed
-uv run uvicorn app.factory:create_app --host 0.0.0.0 --port 8000 --reload
+# 后端
+cd backed && uv sync
+uv run uvicorn app.factory:create_app --factory --host 127.0.0.1 --port 8000 --reload
+
+# 前端（registry 必须显式指定，本机 npmmirror 会 407）
+cd web && pnpm install --frozen-lockfile --registry=https://registry.npmjs.org
+pnpm dev            # http://127.0.0.1:5173，代理 /api 到 8000
+
+# 门禁 / 测试
+bash scripts/check_all.sh
+cd backed && uv run pytest -q
+uv run ruff check .
+
+# 版本
+cd backed && uv run python ../scripts/bump_version.py x.y.z
 ```
 
-### 启动桌面端
+## 4. 不要做的事
 
-```bash
-cd web
-pnpm install
-pnpm run tauri dev
-```
+- 不要在 `db.py` 之外写原生 SQL（跨表查询走 `db.list_*`）
+- 不要在 `browser.py` 之外直接操作 Playwright context / 另起线程
+- 不要在 `api/hub.py` 之外创建 FastAPI router（端点一律进 `api/routers/*`）
+- 不要绕过 TaskManager 持久化任务（MCP 同步调用与 CLI 除外）
+- 不要给适配器声明没实现的能力（默认全 False 是有意的）
+- 不要把"接口返回 200"当成发布成功（看 `publications.verify_state`）
+- 不要手改 `docs/agent/CONTEXT.*`（改代码后跑生成器）
+- 不要改 `check_all.ps1` 里 scriptblock 内的 `exit` 语义（会杀掉整个 pwsh）
 
-### CLI
-
-```bash
-cd backed
-uv run python -m backed.cli <command>
-uv run python -m backed.cli sync              # 同步平台状态
-uv run --project backed python -m backed.cli status             # 查看中台状态
-# 任务查询/人工恢复请使用 REST 或 MCP 接口
-```
-
-### 测试
-
-```bash
-# 一键门禁（六道：compileall → ruff → pytest → eslint → vitest → vite build）
-pwsh -File scripts/check_all.ps1        # Windows
-bash scripts/check_all.sh              # Linux/macOS
-
-# 单跑
-cd backed
-uv run pytest -q                        # 当前约 506 个展开用例，以命令输出为准
-uv run pytest tests/test_tasks.py -q    # 任务引擎
-uv run ruff check .                     # 静态门禁
-
-# 前端（在仓库根执行）
-pnpm --dir web lint                     # eslint
-pnpm --dir web test                     # vitest（当前约 62 个展开用例，以命令输出为准）
-```
-
-`conftest.py` 的 `sandbox` fixture（autouse）把 DB/事件日志/Webhook 派发线程
-全部关进 pytest 临时目录，**不碰开发库**。
-
-### 备份
-
-```bash
-cd backed
-uv run python ../scripts/backup_data.py              # 到 ~/harbor-backups
-uv run python ../scripts/backup_data.py --dry-run    # 只看计划
-```
-
-## 5. 不要做的事
-
-- 不要在 `db.py` 之外写原生 SQL（跨表查询走 `db.list_*` 系列函数）
-- 不要在 `browser.py` 之外直接操作 Playwright context
-- 不要在 `api/hub.py` 之外创建 FastAPI router（所有端点走 `api/routers/*`）
-- 不要绕过 TaskManager 持久化任务（MCP 同步调用除外）
-- 不要复用 0.4.0 之前的 scaffold 模式（v1/schemas/repository/_service.py 已废弃）
-- 不要改 `check_all.ps1` 里的 `exit 1` 为 scriptblock 内的裸 exit（会杀整个 pwsh）
-
-## 6. 配置
+## 5. 配置与环境变量
 
 | 环境变量 | 说明 | 默认 |
 |---|---|---|
-| `HARBOR_API_TOKEN` | REST 鉴权 Token（优先于 config.json） | 未配置时首启自动生成 UUID 并落盘 |
-| `HARBOR_SECRET_KEY` | 签名密钥（生产必须设） | 开发随机 |
-| `TRUSTED_NETS` | 受信代理网段（XFF 校验） | 127.0.0.0/8,::1/128 |
+| `HARBOR_API_TOKEN` | REST 鉴权 Token（优先于 config.json） | 未配置时首启生成 UUID 并落盘 |
+| `HARBOR_SECRET_KEY` | 签名密钥（生产必须设） | 开发随机/空 |
+| `TRUSTED_NETS` | 受信代理网段（XFF 校验） | 127.0.0.0/8, ::1/128 |
 | `TRUSTED_PROXIES` | 受信反向代理 IP（限流键） | 空 |
 | `CORS_ORIGINS` | 跨域白名单（逗号分隔） | 同源 |
-| `DEMO=1` | 演示模式（不开浏览器不调外部 API） | 0 |
-| `AI_API_KEY` | LLM API 密钥 | 空 |
-| `AI_BASE_URL` | LLM 端点 | deepseek |
-| `ASSIST_ALLOW_LOCAL=1` | 允许 assist 打开 localhost（桌面版调试） | 0 |
+| `DEMO=1` | 演示模式（不开浏览器、不调外部 API） | 0 |
+| `AI_API_KEY` / `AI_BASE_URL` | LLM 密钥与端点 | 空 / deepseek |
+| `ASSIST_ALLOW_LOCAL=1` | 允许 assist 打开 localhost（桌面调试） | 0 |
 | `FERNET_KEY` | Webhook secret 加密主密钥 | 自动生成 |
 
-### 登录诊断
+用户配置的**唯一运行时口径**是 `backed/config.json`（`service/publishing/db.py:config_file()`，
+env > 数据根 > 旧版位置）。`config_unified.py` 那套 Pydantic 类是大头死配置，别往上面加字段。
+
+## 6. 登录诊断
 
 ```bash
-# 打开平台登录页，导出二维码 PNG（不代替人扫码）
 uv run --project backed python scripts/login_probe.py --platform juejin
 uv run --project backed python scripts/login_probe.py --platform csdn --headed --wait 30
-# 复检本地 profile 的登录态是否还在
 uv run --project backed python scripts/login_probe.py --platform juejin --check-cookie
 ```
 
-只回答两件事：登录页是否可用、二维码/登录态是否真的生成。真实扫码仍走应用内
+它只回答两件事：登录页是否可用、二维码/登录态是否真的生成。真实扫码走应用内
 「设置 → 平台账号 → 去登录」。

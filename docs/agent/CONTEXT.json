@@ -1,0 +1,4799 @@
+{
+  "adapters": [
+    {
+      "capabilities": {
+        "cover": false,
+        "draft": true,
+        "hosted_media": true,
+        "list": true,
+        "publish": true,
+        "question": false,
+        "tags": true,
+        "update": true
+      },
+      "id": "51cto",
+      "key_selectors": [
+        "editor",
+        "title_input"
+      ],
+      "login_url": "https://www.51cto.com/",
+      "name": "51CTO博客",
+      "needs_browser": false,
+      "selector_version": "2026-09"
+    },
+    {
+      "capabilities": {
+        "cover": false,
+        "draft": true,
+        "hosted_media": false,
+        "list": false,
+        "publish": true,
+        "question": false,
+        "tags": true,
+        "update": true
+      },
+      "id": "bilibili",
+      "key_selectors": [
+        "editor",
+        "title_input"
+      ],
+      "login_url": "https://passport.bilibili.com/login",
+      "name": "B站专栏",
+      "needs_browser": true,
+      "selector_version": "2026-09"
+    },
+    {
+      "capabilities": {
+        "cover": false,
+        "draft": true,
+        "hosted_media": true,
+        "list": true,
+        "publish": true,
+        "question": false,
+        "tags": true,
+        "update": true
+      },
+      "id": "cnblogs",
+      "key_selectors": [
+        "editor",
+        "title_input"
+      ],
+      "login_url": "https://account.cnblogs.com/signin",
+      "name": "博客园",
+      "needs_browser": false,
+      "selector_version": "2026-09"
+    },
+    {
+      "capabilities": {
+        "cover": true,
+        "draft": true,
+        "hosted_media": false,
+        "list": true,
+        "publish": true,
+        "question": false,
+        "tags": true,
+        "update": true
+      },
+      "id": "csdn",
+      "key_selectors": [
+        "editor",
+        "title_input"
+      ],
+      "login_url": "https://passport.csdn.net/login",
+      "name": "CSDN",
+      "needs_browser": true,
+      "selector_version": "2026-09"
+    },
+    {
+      "capabilities": {
+        "cover": true,
+        "draft": true,
+        "hosted_media": true,
+        "list": true,
+        "publish": true,
+        "question": false,
+        "tags": true,
+        "update": true
+      },
+      "id": "devto",
+      "key_selectors": [],
+      "login_url": "https://dev.to/enter",
+      "name": "Dev.to",
+      "needs_browser": false,
+      "selector_version": ""
+    },
+    {
+      "capabilities": {
+        "cover": false,
+        "draft": false,
+        "hosted_media": true,
+        "list": true,
+        "publish": true,
+        "question": false,
+        "tags": true,
+        "update": true
+      },
+      "id": "github",
+      "key_selectors": [],
+      "login_url": "https://github.com/settings/tokens",
+      "name": "GitHub Pages",
+      "needs_browser": false,
+      "selector_version": ""
+    },
+    {
+      "capabilities": {
+        "cover": true,
+        "draft": true,
+        "hosted_media": false,
+        "list": true,
+        "publish": true,
+        "question": false,
+        "tags": true,
+        "update": true
+      },
+      "id": "juejin",
+      "key_selectors": [
+        "editor",
+        "title_input"
+      ],
+      "login_url": "https://juejin.cn/login",
+      "name": "稀土掘金",
+      "needs_browser": true,
+      "selector_version": "2026-09"
+    },
+    {
+      "capabilities": {
+        "cover": false,
+        "draft": true,
+        "hosted_media": true,
+        "list": true,
+        "publish": true,
+        "question": false,
+        "tags": true,
+        "update": true
+      },
+      "id": "metaweblog",
+      "key_selectors": [],
+      "login_url": null,
+      "name": "自建博客",
+      "needs_browser": false,
+      "selector_version": ""
+    },
+    {
+      "capabilities": {
+        "cover": false,
+        "draft": true,
+        "hosted_media": false,
+        "list": false,
+        "publish": true,
+        "question": false,
+        "tags": false,
+        "update": false
+      },
+      "id": "oschina",
+      "key_selectors": [
+        "editor",
+        "title_input"
+      ],
+      "login_url": "https://www.oschina.net/home/login",
+      "name": "开源中国",
+      "needs_browser": true,
+      "selector_version": "2026-09"
+    },
+    {
+      "capabilities": {
+        "cover": false,
+        "draft": true,
+        "hosted_media": false,
+        "list": false,
+        "publish": true,
+        "question": false,
+        "tags": true,
+        "update": true
+      },
+      "id": "segmentfault",
+      "key_selectors": [
+        "editor",
+        "title_input"
+      ],
+      "login_url": "https://segmentfault.com/user/login",
+      "name": "思否",
+      "needs_browser": true,
+      "selector_version": "2026-09"
+    },
+    {
+      "capabilities": {
+        "cover": false,
+        "draft": false,
+        "hosted_media": true,
+        "list": true,
+        "publish": true,
+        "question": false,
+        "tags": false,
+        "update": true
+      },
+      "id": "telegraph",
+      "key_selectors": [],
+      "login_url": "",
+      "name": "Telegraph",
+      "needs_browser": false,
+      "selector_version": ""
+    },
+    {
+      "capabilities": {
+        "cover": false,
+        "draft": true,
+        "hosted_media": false,
+        "list": false,
+        "publish": true,
+        "question": false,
+        "tags": false,
+        "update": false
+      },
+      "id": "toutiao",
+      "key_selectors": [
+        "editor",
+        "title_input"
+      ],
+      "login_url": "https://sso.toutiao.com/login?service=https%3A%2F%2Fmp.toutiao.com%2F",
+      "name": "头条号",
+      "needs_browser": true,
+      "selector_version": "2026-09"
+    },
+    {
+      "capabilities": {
+        "cover": false,
+        "draft": true,
+        "hosted_media": false,
+        "list": true,
+        "publish": true,
+        "question": false,
+        "tags": false,
+        "update": true
+      },
+      "id": "wechat",
+      "key_selectors": [],
+      "login_url": "https://mp.weixin.qq.com/",
+      "name": "微信公众号",
+      "needs_browser": false,
+      "selector_version": ""
+    },
+    {
+      "capabilities": {
+        "cover": false,
+        "draft": true,
+        "hosted_media": false,
+        "list": false,
+        "publish": true,
+        "question": false,
+        "tags": false,
+        "update": false
+      },
+      "id": "xiaohongshu",
+      "key_selectors": [
+        "editor",
+        "publish_btn",
+        "title_input"
+      ],
+      "login_url": "https://www.xiaohongshu.com/login",
+      "name": "小红书",
+      "needs_browser": true,
+      "selector_version": "2026-10-30 (未验证)"
+    },
+    {
+      "capabilities": {
+        "cover": false,
+        "draft": true,
+        "hosted_media": false,
+        "list": false,
+        "publish": true,
+        "question": true,
+        "tags": true,
+        "update": true
+      },
+      "id": "zhihu",
+      "key_selectors": [
+        "editor",
+        "title_input"
+      ],
+      "login_url": "https://www.zhihu.com/signin?next=%2F",
+      "name": "知乎",
+      "needs_browser": true,
+      "selector_version": "2026-09"
+    }
+  ],
+  "cli": [
+    {
+      "command": "ai-outline",
+      "doc": "AI 提炼文章大纲"
+    },
+    {
+      "command": "ai-polish",
+      "doc": "AI 润色文章"
+    },
+    {
+      "command": "ai-prompts",
+      "doc": "AI 生成文章配图 prompt"
+    },
+    {
+      "command": "ai-rewrite",
+      "doc": "AI 改写已有文章"
+    },
+    {
+      "command": "ai-seo",
+      "doc": "AI 生成 SEO 元数据"
+    },
+    {
+      "command": "ai-translate",
+      "doc": "AI 翻译文章"
+    },
+    {
+      "command": "ai-write",
+      "doc": "AI 写一篇并入库"
+    },
+    {
+      "command": "bootstrap-cnblogs",
+      "doc": "浏览器登录博客园并自动抠出 MetaWeblog 令牌写进 config.json"
+    },
+    {
+      "command": "check",
+      "doc": "检查平台登录态"
+    },
+    {
+      "command": "clone",
+      "doc": "克隆文章（标题自动加「副本）」）"
+    },
+    {
+      "command": "create",
+      "doc": "新建文章"
+    },
+    {
+      "command": "delete",
+      "doc": "删除文章（平台侧已发布副本不受影响）"
+    },
+    {
+      "command": "diagnose",
+      "doc": "查看平台接入说明与验证码处理方式"
+    },
+    {
+      "command": "edit",
+      "doc": "修改文章标题/正文/标签/摘要/状态"
+    },
+    {
+      "command": "export",
+      "doc": "导出文章为带 front-matter 的 Markdown"
+    },
+    {
+      "command": "import-md",
+      "doc": "导入本地 Markdown"
+    },
+    {
+      "command": "list",
+      "doc": "列出文章（默认按更新时间倒序）"
+    },
+    {
+      "command": "login",
+      "doc": "扫码/过验证登录（首次必须，之后长期有效）"
+    },
+    {
+      "command": "logout",
+      "doc": "清除登录态（删 profile+cookie 快照，需重新扫码）"
+    },
+    {
+      "command": "publish",
+      "doc": "发布到平台（逗号分隔，如 juejin,csdn）"
+    },
+    {
+      "command": "refresh",
+      "doc": "抓取平台上已有文章列表入库"
+    },
+    {
+      "command": "rollback",
+      "doc": "回滚文章到指定版本"
+    },
+    {
+      "command": "schedule-add",
+      "doc": "添加定时发布任务"
+    },
+    {
+      "command": "schedule-del",
+      "doc": "删除定时任务"
+    },
+    {
+      "command": "schedule-list",
+      "doc": "列出全部定时任务"
+    },
+    {
+      "command": "schedule-trigger",
+      "doc": "手动立即执行一次定时任务"
+    },
+    {
+      "command": "search",
+      "doc": "全文检索文章（SQLite FTS5）"
+    },
+    {
+      "command": "serve",
+      "doc": "启动 REST API 服务（复用 api.hub 的 FastAPI app）"
+    },
+    {
+      "command": "show",
+      "doc": "查看单篇文章（正文默认打印）"
+    },
+    {
+      "command": "solve-captcha",
+      "doc": "打开页面就地处理验证码（半自动+人工）"
+    },
+    {
+      "command": "status",
+      "doc": "中台总览：文章数、发布数、待同步数、账号状态"
+    },
+    {
+      "command": "sync",
+      "doc": "把所有改动同步到已发布平台"
+    },
+    {
+      "command": "tag-rename",
+      "doc": "重命名标签"
+    },
+    {
+      "command": "tag-sync",
+      "doc": "从文章重建标签统计"
+    },
+    {
+      "command": "tags",
+      "doc": "列出热门标签"
+    },
+    {
+      "command": "update",
+      "doc": "原地更新已发布文章"
+    },
+    {
+      "command": "versions",
+      "doc": "列出文章的版本历史"
+    }
+  ],
+  "config": {
+    "keys": [
+      "AI_API_KEY",
+      "AI_BASE_URL",
+      "AI_DIRECT_PUBLISH",
+      "AI_MODEL",
+      "MCP_BRIDGE",
+      "REVIEW_MODEL",
+      "WRITING_STYLE_FILE",
+      "api_token",
+      "platforms"
+    ],
+    "platforms": [
+      "51cto",
+      "_平台能力矩阵",
+      "_浏览器类平台_列表",
+      "_浏览器类平台_说明",
+      "cnblogs",
+      "devto",
+      "github",
+      "metaweblog",
+      "wechat"
+    ]
+  },
+  "dependencies": [
+    {
+      "dst": "service.publishing.observability",
+      "src": "api.auth"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "api.auth"
+    },
+    {
+      "dst": "service.publishing.service",
+      "src": "api.deps"
+    },
+    {
+      "dst": "api.auth",
+      "src": "api.hub"
+    },
+    {
+      "dst": "api.deps",
+      "src": "api.hub"
+    },
+    {
+      "dst": "api.routers",
+      "src": "api.hub"
+    },
+    {
+      "dst": "api",
+      "src": "api.routers"
+    },
+    {
+      "dst": "api.deps",
+      "src": "api.routers.accounts"
+    },
+    {
+      "dst": "service.publishing.url_safety",
+      "src": "api.routers.accounts"
+    },
+    {
+      "dst": "service.publishing.adapters",
+      "src": "api.routers.accounts"
+    },
+    {
+      "dst": "service.publishing.adapters.base",
+      "src": "api.routers.accounts"
+    },
+    {
+      "dst": "api.deps",
+      "src": "api.routers.ai"
+    },
+    {
+      "dst": "service.publishing.ai_providers",
+      "src": "api.routers.ai"
+    },
+    {
+      "dst": "service.publishing.providers",
+      "src": "api.routers.ai"
+    },
+    {
+      "dst": "service.publishing.gate",
+      "src": "api.routers.ai"
+    },
+    {
+      "dst": "service.publishing.ai_config",
+      "src": "api.routers.ai"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "api.routers.ai"
+    },
+    {
+      "dst": "api.deps",
+      "src": "api.routers.articles"
+    },
+    {
+      "dst": "service.publishing.versions",
+      "src": "api.routers.articles"
+    },
+    {
+      "dst": "service.publishing.events",
+      "src": "api.routers.articles"
+    },
+    {
+      "dst": "api.routers.accounts",
+      "src": "api.routers.articles"
+    },
+    {
+      "dst": "service.publishing.importing",
+      "src": "api.routers.articles"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "api.routers.articles"
+    },
+    {
+      "dst": "api.deps",
+      "src": "api.routers.browser"
+    },
+    {
+      "dst": "api.routers.accounts",
+      "src": "api.routers.browser"
+    },
+    {
+      "dst": "service.publishing.browser_ops",
+      "src": "api.routers.browser"
+    },
+    {
+      "dst": "api.deps",
+      "src": "api.routers.media"
+    },
+    {
+      "dst": "service.publishing.media",
+      "src": "api.routers.media"
+    },
+    {
+      "dst": "api.deps",
+      "src": "api.routers.publishing"
+    },
+    {
+      "dst": "service.publishing.gate",
+      "src": "api.routers.publishing"
+    },
+    {
+      "dst": "api.deps",
+      "src": "api.routers.schedules"
+    },
+    {
+      "dst": "service.publishing.scheduler",
+      "src": "api.routers.schedules"
+    },
+    {
+      "dst": "service.publishing.observability",
+      "src": "api.routers.system"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "api.routers.system"
+    },
+    {
+      "dst": "api.deps",
+      "src": "api.routers.system"
+    },
+    {
+      "dst": "service.publishing.adapter_probe",
+      "src": "api.routers.system"
+    },
+    {
+      "dst": "service.publishing.mcp_bridge",
+      "src": "api.routers.system"
+    },
+    {
+      "dst": "service.publishing.ratelimit",
+      "src": "api.routers.system"
+    },
+    {
+      "dst": "api.deps",
+      "src": "api.routers.tags"
+    },
+    {
+      "dst": "service.publishing.tags",
+      "src": "api.routers.tags"
+    },
+    {
+      "dst": "service.publishing.url_safety",
+      "src": "api.routers.webhooks"
+    },
+    {
+      "dst": "service.publishing.events",
+      "src": "api.routers.webhooks"
+    },
+    {
+      "dst": "api.deps",
+      "src": "api.routers.webhooks"
+    },
+    {
+      "dst": "config",
+      "src": "app"
+    },
+    {
+      "dst": "middleware",
+      "src": "app"
+    },
+    {
+      "dst": "config",
+      "src": "app.config"
+    },
+    {
+      "dst": "utils.logger",
+      "src": "app.exceptions"
+    },
+    {
+      "dst": "service.publishing.gate",
+      "src": "app.exceptions"
+    },
+    {
+      "dst": "utils.custom_exceptions",
+      "src": "app.exceptions"
+    },
+    {
+      "dst": "utils.response_code",
+      "src": "app.exceptions"
+    },
+    {
+      "dst": "config",
+      "src": "app.factory"
+    },
+    {
+      "dst": "config.config_factory",
+      "src": "app.factory"
+    },
+    {
+      "dst": "utils.logger",
+      "src": "app.factory"
+    },
+    {
+      "dst": "app.config",
+      "src": "app.factory"
+    },
+    {
+      "dst": "app.middleware",
+      "src": "app.factory"
+    },
+    {
+      "dst": "app.exceptions",
+      "src": "app.factory"
+    },
+    {
+      "dst": "app.routes",
+      "src": "app.factory"
+    },
+    {
+      "dst": "api.hub",
+      "src": "app.factory"
+    },
+    {
+      "dst": "service.publishing.auth_sweep",
+      "src": "app.factory"
+    },
+    {
+      "dst": "api.deps",
+      "src": "app.factory"
+    },
+    {
+      "dst": "config",
+      "src": "app.middleware"
+    },
+    {
+      "dst": "utils.logger",
+      "src": "app.middleware"
+    },
+    {
+      "dst": "app.config",
+      "src": "app.middleware"
+    },
+    {
+      "dst": "middleware",
+      "src": "app.middleware"
+    },
+    {
+      "dst": "config",
+      "src": "app.routes"
+    },
+    {
+      "dst": "api",
+      "src": "app.routes"
+    },
+    {
+      "dst": "service.publishing.service",
+      "src": "cli"
+    },
+    {
+      "dst": "api.routers.articles",
+      "src": "cli"
+    },
+    {
+      "dst": "service.publishing.versions",
+      "src": "cli"
+    },
+    {
+      "dst": "service.publishing.tags",
+      "src": "cli"
+    },
+    {
+      "dst": "config.config_unified",
+      "src": "config.config_factory"
+    },
+    {
+      "dst": "config",
+      "src": "config.manage"
+    },
+    {
+      "dst": "config",
+      "src": "core.permissions"
+    },
+    {
+      "dst": "utils.custom_exceptions",
+      "src": "core.permissions"
+    },
+    {
+      "dst": "utils.auth",
+      "src": "core.security"
+    },
+    {
+      "dst": "utils.security",
+      "src": "core.security"
+    },
+    {
+      "dst": "config",
+      "src": "desktop_sidecar"
+    },
+    {
+      "dst": "app",
+      "src": "desktop_sidecar"
+    },
+    {
+      "dst": "service.publishing.observability",
+      "src": "middleware.audit_middleware"
+    },
+    {
+      "dst": "utils.logger",
+      "src": "middleware.audit_middleware"
+    },
+    {
+      "dst": "service.publishing.media",
+      "src": "middleware.public_base"
+    },
+    {
+      "dst": "api.auth",
+      "src": "middleware.public_base"
+    },
+    {
+      "dst": "config",
+      "src": "middleware.rate_limiter"
+    },
+    {
+      "dst": "utils.logger",
+      "src": "middleware.rate_limiter"
+    },
+    {
+      "dst": "utils.response_code",
+      "src": "middleware.rate_limiter"
+    },
+    {
+      "dst": "config",
+      "src": "middleware.security_headers"
+    },
+    {
+      "dst": "service.publishing.adapters.base",
+      "src": "service.publishing._account_ops"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing._account_ops"
+    },
+    {
+      "dst": "service.publishing.browser",
+      "src": "service.publishing._account_ops"
+    },
+    {
+      "dst": "service.publishing.crypto",
+      "src": "service.publishing._webhook_store"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing._webhook_store"
+    },
+    {
+      "dst": "service.publishing.adapters.base",
+      "src": "service.publishing.adapter_probe"
+    },
+    {
+      "dst": "service.publishing.browser",
+      "src": "service.publishing.adapters.base"
+    },
+    {
+      "dst": "service.publishing.providers",
+      "src": "service.publishing.adapters.base"
+    },
+    {
+      "dst": "service.publishing.adapters.base",
+      "src": "service.publishing.adapters.bilibili"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.adapters.cnblogs"
+    },
+    {
+      "dst": "service.publishing.adapters.base",
+      "src": "service.publishing.adapters.cnblogs"
+    },
+    {
+      "dst": "service.publishing.tools.metaweblog",
+      "src": "service.publishing.adapters.cnblogs"
+    },
+    {
+      "dst": "service.publishing.adapters.base",
+      "src": "service.publishing.adapters.csdn"
+    },
+    {
+      "dst": "service.publishing.browser",
+      "src": "service.publishing.adapters.csdn"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.adapters.devto"
+    },
+    {
+      "dst": "service.publishing.adapters.base",
+      "src": "service.publishing.adapters.devto"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.adapters.github_pages"
+    },
+    {
+      "dst": "service.publishing.adapters.base",
+      "src": "service.publishing.adapters.github_pages"
+    },
+    {
+      "dst": "service.publishing.adapters.base",
+      "src": "service.publishing.adapters.juejin"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.adapters.metaweblog"
+    },
+    {
+      "dst": "service.publishing.adapters.base",
+      "src": "service.publishing.adapters.metaweblog"
+    },
+    {
+      "dst": "service.publishing.adapters.base",
+      "src": "service.publishing.adapters.oschina"
+    },
+    {
+      "dst": "service.publishing.adapters.base",
+      "src": "service.publishing.adapters.segmentfault"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.adapters.telegraph"
+    },
+    {
+      "dst": "service.publishing.adapters.base",
+      "src": "service.publishing.adapters.telegraph"
+    },
+    {
+      "dst": "service.publishing.adapters.base",
+      "src": "service.publishing.adapters.toutiao"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.adapters.wechat"
+    },
+    {
+      "dst": "service.publishing.adapters.base",
+      "src": "service.publishing.adapters.wechat"
+    },
+    {
+      "dst": "service.publishing.media",
+      "src": "service.publishing.adapters.wechat"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.adapters.wuyi_cto"
+    },
+    {
+      "dst": "service.publishing.adapters.base",
+      "src": "service.publishing.adapters.wuyi_cto"
+    },
+    {
+      "dst": "service.publishing.adapters.base",
+      "src": "service.publishing.adapters.xiaohongshu"
+    },
+    {
+      "dst": "service.publishing.adapters.base",
+      "src": "service.publishing.adapters.zhihu"
+    },
+    {
+      "dst": "core.human_click",
+      "src": "service.publishing.adapters.zhihu"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.ai"
+    },
+    {
+      "dst": "service.publishing.ai_providers",
+      "src": "service.publishing.ai"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.ai_config"
+    },
+    {
+      "dst": "service.publishing.ai_providers",
+      "src": "service.publishing.ai_config"
+    },
+    {
+      "dst": "service.publishing.gate",
+      "src": "service.publishing.ai_config"
+    },
+    {
+      "dst": "service.publishing.ai",
+      "src": "service.publishing.ai_config"
+    },
+    {
+      "dst": "service.publishing.url_safety",
+      "src": "service.publishing.ai_config"
+    },
+    {
+      "dst": "service.publishing.crypto",
+      "src": "service.publishing.ai_config"
+    },
+    {
+      "dst": "service.publishing.ai",
+      "src": "service.publishing.ai_enhancements"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.ai_providers"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.ai_service"
+    },
+    {
+      "dst": "service.publishing.versions",
+      "src": "service.publishing.ai_service"
+    },
+    {
+      "dst": "service.publishing.gate",
+      "src": "service.publishing.ai_service"
+    },
+    {
+      "dst": "service.publishing.ai",
+      "src": "service.publishing.ai_service"
+    },
+    {
+      "dst": "service.publishing.ai_enhancements",
+      "src": "service.publishing.ai_service"
+    },
+    {
+      "dst": "service.publishing.ai_providers",
+      "src": "service.publishing.ai_service"
+    },
+    {
+      "dst": "service.publishing.content_qa",
+      "src": "service.publishing.ai_service"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.article_ops"
+    },
+    {
+      "dst": "service.publishing.versions",
+      "src": "service.publishing.article_ops"
+    },
+    {
+      "dst": "service.publishing.importing",
+      "src": "service.publishing.article_ops"
+    },
+    {
+      "dst": "utils.logger",
+      "src": "service.publishing.auth_sweep"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.auth_sweep"
+    },
+    {
+      "dst": "service.publishing.events",
+      "src": "service.publishing.auth_sweep"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.browser"
+    },
+    {
+      "dst": "service.publishing.humanize",
+      "src": "service.publishing.browser"
+    },
+    {
+      "dst": "service.publishing.crypto",
+      "src": "service.publishing.browser"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.browser_ops"
+    },
+    {
+      "dst": "service.publishing.url_safety",
+      "src": "service.publishing.browser_ops"
+    },
+    {
+      "dst": "service.publishing.browser",
+      "src": "service.publishing.browser_ops"
+    },
+    {
+      "dst": "service.publishing.browser",
+      "src": "service.publishing.browser_pool"
+    },
+    {
+      "dst": "service.publishing.humanize",
+      "src": "service.publishing.cnblogs_login"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.crypto"
+    },
+    {
+      "dst": "service.publishing.crypto",
+      "src": "service.publishing.db"
+    },
+    {
+      "dst": "service.publishing._event_notifier",
+      "src": "service.publishing.events"
+    },
+    {
+      "dst": "service.publishing._sse_broker",
+      "src": "service.publishing.events"
+    },
+    {
+      "dst": "service.publishing._webhook_store",
+      "src": "service.publishing.events"
+    },
+    {
+      "dst": "service.publishing.url_safety",
+      "src": "service.publishing.events"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.gate"
+    },
+    {
+      "dst": "service.publishing.ai",
+      "src": "service.publishing.gate"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.importing"
+    },
+    {
+      "dst": "service.publishing.url_safety",
+      "src": "service.publishing.importing"
+    },
+    {
+      "dst": "service.publishing.browser_ops",
+      "src": "service.publishing.importing"
+    },
+    {
+      "dst": "service.publishing.url_safety",
+      "src": "service.publishing.mcp_bridge"
+    },
+    {
+      "dst": "service.publishing.gate",
+      "src": "service.publishing.mcp_bridge"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.media"
+    },
+    {
+      "dst": "service.publishing.gate",
+      "src": "service.publishing.media"
+    },
+    {
+      "dst": "utils.logger",
+      "src": "service.publishing.observability"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.observability"
+    },
+    {
+      "dst": "service.publishing.providers.base",
+      "src": "service.publishing.providers.bilibili"
+    },
+    {
+      "dst": "service.publishing.providers.registry",
+      "src": "service.publishing.providers.bilibili"
+    },
+    {
+      "dst": "service.publishing.providers.base",
+      "src": "service.publishing.providers.registry"
+    },
+    {
+      "dst": "service.publishing.providers.base",
+      "src": "service.publishing.providers.toutiao"
+    },
+    {
+      "dst": "service.publishing.providers.registry",
+      "src": "service.publishing.providers.toutiao"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.publish_ops"
+    },
+    {
+      "dst": "service.publishing.gate",
+      "src": "service.publishing.publish_ops"
+    },
+    {
+      "dst": "service.publishing.adapters.base",
+      "src": "service.publishing.publish_ops"
+    },
+    {
+      "dst": "service.publishing.browser",
+      "src": "service.publishing.publish_ops"
+    },
+    {
+      "dst": "service.publishing.observability",
+      "src": "service.publishing.publish_ops"
+    },
+    {
+      "dst": "service.publishing.media",
+      "src": "service.publishing.publish_ops"
+    },
+    {
+      "dst": "service.publishing.content_transform",
+      "src": "service.publishing.publish_ops"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.tasks",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.scheduler",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.versions",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.adapters.base",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.browser_pool",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.ai_service",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.ai_ops",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.article_ops",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.publish_ops",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.browser",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.adapters.bilibili",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.adapters.cnblogs",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.adapters.csdn",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.adapters.juejin",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.adapters.metaweblog",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.adapters.oschina",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.adapters.segmentfault",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.adapters.toutiao",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.adapters.zhihu",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.adapters.wuyi_cto",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.adapters",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.events",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing._account_ops",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.cnblogs_login",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.auth_sweep",
+      "src": "service.publishing.service"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.tags"
+    },
+    {
+      "dst": "service.publishing.ai",
+      "src": "service.publishing.tags"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.tasks"
+    },
+    {
+      "dst": "service.publishing.events",
+      "src": "service.publishing.tasks"
+    },
+    {
+      "dst": "service.publishing.ratelimit",
+      "src": "service.publishing.tasks"
+    },
+    {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.versions"
+    },
+    {
+      "dst": "config",
+      "src": "start"
+    },
+    {
+      "dst": "app",
+      "src": "start"
+    },
+    {
+      "dst": "utils.auth",
+      "src": "utils"
+    },
+    {
+      "dst": "utils.custom_exceptions",
+      "src": "utils"
+    },
+    {
+      "dst": "utils.logger",
+      "src": "utils"
+    },
+    {
+      "dst": "utils.masking",
+      "src": "utils"
+    },
+    {
+      "dst": "utils.response_code",
+      "src": "utils"
+    },
+    {
+      "dst": "utils.security",
+      "src": "utils"
+    },
+    {
+      "dst": "utils.custom_exceptions",
+      "src": "utils.auth"
+    },
+    {
+      "dst": "utils.logger",
+      "src": "utils.auth"
+    },
+    {
+      "dst": "config",
+      "src": "utils.auth"
+    },
+    {
+      "dst": "utils.response_code",
+      "src": "utils.custom_exceptions"
+    }
+  ],
+  "entrypoints": [
+    {
+      "path": "mcp_server.py",
+      "role": "MCP Server（stdio / streamable-http / SSE），32 个 tool"
+    },
+    {
+      "path": "backed/app/factory.py",
+      "role": "FastAPI 唯一装配入口 create_app()"
+    },
+    {
+      "path": "backed/cli.py",
+      "role": "命令行入口"
+    },
+    {
+      "path": "backed/desktop_sidecar.py",
+      "role": "Tauri 桌面端 sidecar 启动"
+    },
+    {
+      "path": "scripts/check_all.sh",
+      "role": "本地八道门禁"
+    },
+    {
+      "path": "scripts/gen_agent_context.py",
+      "role": "本文件生成器（--check 进 CI）"
+    }
+  ],
+  "graph": {
+    "module_count": 105,
+    "packages": {
+      "__init__": 1,
+      "api": 15,
+      "app": 6,
+      "cli": 1,
+      "config": 4,
+      "core": 4,
+      "desktop_sidecar": 1,
+      "middleware": 5,
+      "service": 60,
+      "start": 1,
+      "utils": 7
+    },
+    "top_fan_in": [
+      {
+        "importers": 31,
+        "module": "service.publishing.db"
+      },
+      {
+        "importers": 20,
+        "module": "service.publishing.adapters.base"
+      },
+      {
+        "importers": 12,
+        "module": "api.deps"
+      },
+      {
+        "importers": 12,
+        "module": "config"
+      },
+      {
+        "importers": 9,
+        "module": "utils.logger"
+      },
+      {
+        "importers": 8,
+        "module": "service.publishing.gate"
+      },
+      {
+        "importers": 7,
+        "module": "service.publishing.browser"
+      },
+      {
+        "importers": 7,
+        "module": "service.publishing.url_safety"
+      },
+      {
+        "importers": 5,
+        "module": "service.publishing.ai"
+      },
+      {
+        "importers": 5,
+        "module": "service.publishing.events"
+      },
+      {
+        "importers": 5,
+        "module": "service.publishing.versions"
+      },
+      {
+        "importers": 4,
+        "module": "service.publishing.ai_providers"
+      }
+    ],
+    "top_fan_out": [
+      {
+        "deps": 26,
+        "module": "service.publishing.service"
+      },
+      {
+        "deps": 10,
+        "module": "app.factory"
+      },
+      {
+        "deps": 7,
+        "module": "service.publishing.ai_service"
+      },
+      {
+        "deps": 7,
+        "module": "service.publishing.publish_ops"
+      },
+      {
+        "deps": 6,
+        "module": "api.routers.ai"
+      },
+      {
+        "deps": 6,
+        "module": "api.routers.articles"
+      },
+      {
+        "deps": 6,
+        "module": "api.routers.system"
+      },
+      {
+        "deps": 6,
+        "module": "service.publishing.ai_config"
+      },
+      {
+        "deps": 6,
+        "module": "utils"
+      },
+      {
+        "deps": 4,
+        "module": "api.routers.accounts"
+      },
+      {
+        "deps": 4,
+        "module": "app.exceptions"
+      },
+      {
+        "deps": 4,
+        "module": "app.middleware"
+      }
+    ],
+    "total_loc": 23461
+  },
+  "mcp_tools": [
+    {
+      "args": [
+        "article_id",
+        "n"
+      ],
+      "doc": "根据文章内容生成 n 个英文文生图 prompt（兼容 SDXL/Flux/DALL·E）。",
+      "name": "ai_image_prompts"
+    },
+    {
+      "args": [
+        "article_id",
+        "model"
+      ],
+      "doc": "AI 润色文章：修错别字、顺语句、统一代码块语言标识。",
+      "name": "ai_polish_article"
+    },
+    {
+      "args": [
+        "article_id",
+        "instruction",
+        "model"
+      ],
+      "doc": "按指令 AI 改写已有文章（如\"更口语\"\"补充踩坑章节\"\"压缩到 800 字\"）。",
+      "name": "ai_rewrite_article"
+    },
+    {
+      "args": [
+        "article_id",
+        "target_lang",
+        "model"
+      ],
+      "doc": "翻译文章到目标语言（en/ja/ko/fr/de），保留代码块不动。",
+      "name": "ai_translate_article"
+    },
+    {
+      "args": [
+        "topic",
+        "words",
+        "tags_hint",
+        "model",
+        "publish_to",
+        "style"
+      ],
+      "doc": "让 AI 写一篇技术文章，自动入库。可选直接发布到指定平台。",
+      "name": "ai_write_article"
+    },
+    {
+      "args": [
+        "content_md",
+        "title",
+        "summary",
+        "tags"
+      ],
+      "doc": "对任意文本（不保存入库）运行内容质检。",
+      "name": "analyze_text"
+    },
+    {
+      "args": [
+        "platform",
+        "url",
+        "account"
+      ],
+      "doc": "带平台登录态的内置浏览器抓取页面：标题 + 正文（登录墙后的内容也能拿）。",
+      "name": "browser_fetch"
+    },
+    {
+      "args": [
+        "platform",
+        "url",
+        "full_page",
+        "account"
+      ],
+      "doc": "带平台登录态打开页面截图，落盘 data/exports/screenshots/，返回路径。",
+      "name": "browser_screenshot"
+    },
+    {
+      "args": [
+        "title",
+        "content_md",
+        "summary",
+        "tags"
+      ],
+      "doc": "新建一篇文章，返回 {id, title}。",
+      "name": "create_article"
+    },
+    {
+      "args": [
+        "server",
+        "tool",
+        "arguments"
+      ],
+      "doc": "调用外部 MCP Server 的工具（仅白名单内）。",
+      "name": "external_mcp_call"
+    },
+    {
+      "args": [],
+      "doc": "已配置的外部 MCP Server（Playwright / fetch / filesystem 等）状态与能力覆盖。",
+      "name": "external_mcp_status"
+    },
+    {
+      "args": [
+        "server"
+      ],
+      "doc": "列出一个外部 MCP Server 实际提供的工具（配白名单前先看）。",
+      "name": "external_mcp_tools"
+    },
+    {
+      "args": [
+        "article_id"
+      ],
+      "doc": "按 ID 获取文章完整字段（标题/正文/摘要/标签/状态）。",
+      "name": "get_article"
+    },
+    {
+      "args": [
+        "task_id"
+      ],
+      "doc": "查询任务状态（pending/running/ok/failed/waiting_human）。",
+      "name": "get_task"
+    },
+    {
+      "args": [
+        "url",
+        "tags"
+      ],
+      "doc": "从网页抓取正文导入为文章（trafilatura 提取，需公网可访问）。",
+      "name": "import_from_url"
+    },
+    {
+      "args": [
+        "path",
+        "tags"
+      ],
+      "doc": "导入本地 Markdown 文件，自动提取 front-matter 元数据。",
+      "name": "import_markdown"
+    },
+    {
+      "args": [
+        "url"
+      ],
+      "doc": "把远程图片抓进本地媒体库，返回可长期引用的稳定 URL。",
+      "name": "ingest_image"
+    },
+    {
+      "args": [
+        "status",
+        "limit"
+      ],
+      "doc": "列出文章列表。status 可选：draft/published/review/archived。",
+      "name": "list_articles"
+    },
+    {
+      "args": [
+        "limit"
+      ],
+      "doc": "列出已入库的图片资产（内容寻址去重）与统计。",
+      "name": "list_media"
+    },
+    {
+      "args": [],
+      "doc": "列出所有可用平台及其在线状态。",
+      "name": "list_platforms"
+    },
+    {
+      "args": [],
+      "doc": "列出所有已配置的 AI Provider + 可用模型 + 价格级别。",
+      "name": "list_providers"
+    },
+    {
+      "args": [
+        "limit"
+      ],
+      "doc": "列出热门标签及其出现次数。",
+      "name": "list_tags"
+    },
+    {
+      "args": [
+        "article_id",
+        "platforms",
+        "draft_only",
+        "account",
+        "human_confirmed"
+      ],
+      "doc": "异步发布文章到指定平台，返回 task_id。用 get_task 查询进度。",
+      "name": "publish_article"
+    },
+    {
+      "args": [
+        "article_id"
+      ],
+      "doc": "对文章运行内容质检：可读性评分 + SEO 评分 + 库内重复度 + 改进建议。",
+      "name": "quality_check"
+    },
+    {
+      "args": [
+        "task_id",
+        "approved"
+      ],
+      "doc": "恢复等待人工的任务。approved=True 重跑；False 标记放弃。",
+      "name": "resume_task"
+    },
+    {
+      "args": [
+        "keyword",
+        "limit"
+      ],
+      "doc": "全文检索文章库（FTS5 相关度排序），返回匹配文章列表。",
+      "name": "search_articles"
+    },
+    {
+      "args": [
+        "title",
+        "content_md"
+      ],
+      "doc": "根据标题 + 正文推荐 3-5 个标签。",
+      "name": "suggest_tags"
+    },
+    {
+      "args": [
+        "article_id",
+        "title",
+        "content_md",
+        "summary",
+        "tags",
+        "status"
+      ],
+      "doc": "更新文章的任意字段。内容变更后会自动 pend 已发布平台的同步。",
+      "name": "update_article"
+    },
+    {
+      "args": [
+        "article_id",
+        "platforms",
+        "account"
+      ],
+      "doc": "原地更新（不是重发）：打开已发布平台的编辑页改内容并保存。",
+      "name": "update_remote_article"
+    },
+    {
+      "args": [],
+      "doc": "经外部执行器列出 Wechatsync 支持的平台（29+，可超出内置 10 个）。",
+      "name": "wechatsync_platforms"
+    },
+    {
+      "args": [
+        "article_id",
+        "platforms",
+        "title",
+        "cover",
+        "dry_run"
+      ],
+      "doc": "把文章库里的一篇交给外部执行器 Wechatsync 分发到多个平台。",
+      "name": "wechatsync_publish"
+    },
+    {
+      "args": [],
+      "doc": "查询外部执行器 Wechatsync 的就绪状态（是否安装、是否配 token）。",
+      "name": "wechatsync_status"
+    }
+  ],
+  "modules": [
+    {
+      "classes": [],
+      "doc": "AI 内容中台后端（backed）",
+      "functions": [],
+      "loc": 6,
+      "module": "__init__",
+      "path": "backed/__init__.py"
+    },
+    {
+      "classes": [],
+      "doc": "API 路由包：聚合各版本路由并挂载到应用。",
+      "functions": [
+        "_iter_routes",
+        "get_router_info"
+      ],
+      "loc": 57,
+      "module": "api",
+      "path": "backed/api/__init__.py"
+    },
+    {
+      "classes": [],
+      "doc": "API 鉴权与安全中间件：IP 校验 + Token 验证 + X-Forwarded-For 校验。",
+      "functions": [
+        "_resolve_token",
+        "_api_token",
+        "_trusted_sources",
+        "_trusted_proxies",
+        "get_client_ip",
+        "is_trusted",
+        "attach_auth_middleware"
+      ],
+      "loc": 173,
+      "module": "api.auth",
+      "path": "backed/api/auth.py"
+    },
+    {
+      "classes": [],
+      "doc": "子路由器共享依赖：get_hub() / get_task_manager() / 鉴权检查。",
+      "functions": [
+        "get_hub",
+        "get_task_manager"
+      ],
+      "loc": 35,
+      "module": "api.deps",
+      "path": "backed/api/deps.py"
+    },
+    {
+      "classes": [],
+      "doc": "REST API 总入口：聚合全部子路由器，统一挂载到 ``/api/hub`` 前缀。",
+      "functions": [
+        "register_hub"
+      ],
+      "loc": 71,
+      "module": "api.hub",
+      "path": "backed/api/hub.py"
+    },
+    {
+      "classes": [],
+      "doc": "子路由器聚合：由 ``api.hub`` 统一 include 进 ``hub_router``。",
+      "functions": [],
+      "loc": 20,
+      "module": "api.routers",
+      "path": "backed/api/routers/__init__.py"
+    },
+    {
+      "classes": [
+        "LoginIn",
+        "CaptchaIn",
+        "AssistIn",
+        "BootstrapIn"
+      ],
+      "doc": "账号 / 平台端点：登录 / 登出 / 诊断 / 验证码 / 辅助操作 / 刷新。",
+      "functions": [
+        "_check_platform",
+        "_check_account",
+        "_check_url_safety",
+        "_bootstrap_run",
+        "bootstrap_cnblogs",
+        "bootstrap_cnblogs_job",
+        "platforms",
+        "accounts",
+        "check_account",
+        "login",
+        "logout",
+        "diagnose",
+        "solve_captcha",
+        "assist_open",
+        "refresh"
+      ],
+      "loc": 207,
+      "module": "api.routers.accounts",
+      "path": "backed/api/routers/accounts.py"
+    },
+    {
+      "classes": [
+        "AIWriteIn",
+        "AIModelIn",
+        "AIRewriteIn",
+        "AIWriteTemplateIn",
+        "AIConfigPatchIn",
+        "AITestIn"
+      ],
+      "doc": "AI 写稿 / Provider 管理 / AIGC 合规门禁端点。",
+      "functions": [
+        "ai_write",
+        "ai_write_template",
+        "ai_status",
+        "ai_providers",
+        "ai_tool_providers",
+        "ai_templates",
+        "ai_gate",
+        "ai_config_get",
+        "ai_config_put",
+        "ai_config_test"
+      ],
+      "loc": 163,
+      "module": "api.routers.ai",
+      "path": "backed/api/routers/ai.py"
+    },
+    {
+      "classes": [
+        "ArticleIn",
+        "ArticlePatch",
+        "ImportIn",
+        "AIModelIn",
+        "AIRewriteIn",
+        "QAAnalyzeIn"
+      ],
+      "doc": "文章端点：CRUD + 搜索 + 导入 + 版本历史 + AI 增强工具 + 质检。",
+      "functions": [
+        "_clean_text",
+        "list_articles",
+        "articles_page",
+        "_emit_article_event",
+        "create_article",
+        "get_article",
+        "update_article",
+        "delete_article",
+        "search",
+        "import_md",
+        "article_clone",
+        "article_export",
+        "_safe_filename",
+        "build_markdown_export",
+        "versions_list",
+        "versions_diff",
+        "versions_get",
+        "versions_rollback",
+        "ai_rewrite",
+        "ai_polish",
+        "ai_translate",
+        "ai_image_prompts",
+        "ai_outline",
+        "ai_seo",
+        "article_qa",
+        "qa_analyze"
+      ],
+      "loc": 409,
+      "module": "api.routers.articles",
+      "path": "backed/api/routers/articles.py"
+    },
+    {
+      "classes": [
+        "BrowserFetchIn",
+        "BrowserShotIn"
+      ],
+      "doc": "浏览器操控面端点：带登录态抓取 / 截图。",
+      "functions": [
+        "_check_url",
+        "browser_fetch",
+        "browser_screenshot"
+      ],
+      "loc": 74,
+      "module": "api.routers.browser",
+      "path": "backed/api/routers/browser.py"
+    },
+    {
+      "classes": [
+        "MediaUrlIn"
+      ],
+      "doc": "媒体资产 API：图片入库、列表、统计与本地托管服务。",
+      "functions": [
+        "media_upload",
+        "media_ingest",
+        "media_list",
+        "media_stats",
+        "media_orphans",
+        "media_purge_orphans",
+        "media_file"
+      ],
+      "loc": 126,
+      "module": "api.routers.media",
+      "path": "backed/api/routers/media.py"
+    },
+    {
+      "classes": [
+        "PublishIn",
+        "UpdateIn",
+        "ResumeIn"
+      ],
+      "doc": "发布 / 更新 / 同步端点 + 统一任务查询。",
+      "functions": [
+        "publish",
+        "update",
+        "sync_pending",
+        "verify_publication",
+        "_task_row",
+        "tasks_list",
+        "tasks_page",
+        "tasks_detail",
+        "tasks_resume"
+      ],
+      "loc": 192,
+      "module": "api.routers.publishing",
+      "path": "backed/api/routers/publishing.py"
+    },
+    {
+      "classes": [
+        "ScheduleIn",
+        "SchedulePatch"
+      ],
+      "doc": "定时发布调度器端点。",
+      "functions": [
+        "schedules_list",
+        "schedules_create",
+        "schedules_get",
+        "schedules_update",
+        "schedules_pause",
+        "schedules_resume",
+        "schedules_trigger",
+        "schedules_delete"
+      ],
+      "loc": 105,
+      "module": "api.routers.schedules",
+      "path": "backed/api/routers/schedules.py"
+    },
+    {
+      "classes": [
+        "MCPCallIn"
+      ],
+      "doc": "系统端点：health / status / metrics / jobs / publications / pending-human。",
+      "functions": [
+        "health",
+        "status",
+        "metrics",
+        "jobs",
+        "publications",
+        "adapters_probe",
+        "adapters_probe_dump",
+        "mcp_bridge_status",
+        "mcp_bridge_tools",
+        "mcp_bridge_call",
+        "clear_cooldowns",
+        "pending_human"
+      ],
+      "loc": 140,
+      "module": "api.routers.system",
+      "path": "backed/api/routers/system.py"
+    },
+    {
+      "classes": [
+        "TagSuggestIn"
+      ],
+      "doc": "标签治理端点。",
+      "functions": [
+        "tags_list",
+        "tags_clusters",
+        "tags_trending",
+        "tags_sync",
+        "tags_rename",
+        "tags_merge",
+        "tags_alias",
+        "tags_suggest"
+      ],
+      "loc": 76,
+      "module": "api.routers.tags",
+      "path": "backed/api/routers/tags.py"
+    },
+    {
+      "classes": [
+        "WebhookIn"
+      ],
+      "doc": "Webhook / 事件通知 / SSE 端点。",
+      "functions": [
+        "_validate_webhook_url",
+        "webhooks_list",
+        "webhooks_create",
+        "webhooks_update",
+        "webhooks_delete",
+        "webhooks_test",
+        "notifications_list",
+        "events_stream"
+      ],
+      "loc": 212,
+      "module": "api.routers.webhooks",
+      "path": "backed/api/routers/webhooks.py"
+    },
+    {
+      "classes": [],
+      "doc": "应用初始化包",
+      "functions": [],
+      "loc": 16,
+      "module": "app",
+      "path": "backed/app/__init__.py"
+    },
+    {
+      "classes": [
+        "AppConfig"
+      ],
+      "doc": "应用配置（不依赖 docs/，直接读 config.settings）",
+      "functions": [],
+      "loc": 38,
+      "module": "app.config",
+      "path": "backed/app/config.py"
+    },
+    {
+      "classes": [
+        "ValidationErrorDetail",
+        "ErrorResponse",
+        "ValidationErrorResponse"
+      ],
+      "doc": "异常处理器配置",
+      "functions": [
+        "setup_exception_handlers"
+      ],
+      "loc": 138,
+      "module": "app.exceptions",
+      "path": "backed/app/exceptions.py"
+    },
+    {
+      "classes": [],
+      "doc": "应用工厂：lifespan + 中间件 + 异常 + 路由。",
+      "functions": [
+        "lifespan",
+        "_mount_web_ui",
+        "create_app"
+      ],
+      "loc": 121,
+      "module": "app.factory",
+      "path": "backed/app/factory.py"
+    },
+    {
+      "classes": [],
+      "doc": "中间件统一注册入口（配置驱动）",
+      "functions": [
+        "setup_middleware"
+      ],
+      "loc": 43,
+      "module": "app.middleware",
+      "path": "backed/app/middleware.py"
+    },
+    {
+      "classes": [],
+      "doc": "基础路由配置",
+      "functions": [
+        "setup_routes"
+      ],
+      "loc": 37,
+      "module": "app.routes",
+      "path": "backed/app/routes.py"
+    },
+    {
+      "classes": [],
+      "doc": "命令行入口：基于 click 重写。",
+      "functions": [
+        "_hub",
+        "_echo_json",
+        "cli",
+        "login",
+        "check",
+        "logout",
+        "diagnose",
+        "solve_captcha",
+        "bootstrap_cnblogs",
+        "import_md",
+        "create",
+        "list_cmd",
+        "show_cmd",
+        "edit_cmd",
+        "delete_cmd",
+        "search_cmd",
+        "export_cmd",
+        "publish",
+        "update",
+        "sync",
+        "refresh",
+        "ai_write",
+        "ai_rewrite",
+        "ai_polish",
+        "schedule_add",
+        "schedule_list",
+        "schedule_del",
+        "schedule_trigger",
+        "versions_cmd",
+        "rollback_cmd",
+        "ai_translate_cmd",
+        "ai_prompts_cmd",
+        "ai_outline_cmd",
+        "ai_seo_cmd",
+        "clone_cmd",
+        "tags_cmd",
+        "tag_sync_cmd",
+        "tag_rename_cmd",
+        "status",
+        "serve"
+      ],
+      "loc": 448,
+      "module": "cli",
+      "path": "backed/cli.py"
+    },
+    {
+      "classes": [],
+      "doc": "配置模块 - 多环境配置（单轨）",
+      "functions": [
+        "_sanitize_bool_env"
+      ],
+      "loc": 86,
+      "module": "config",
+      "path": "backed/config/__init__.py"
+    },
+    {
+      "classes": [
+        "ConfigFactory",
+        "ConfigManager",
+        "Settings"
+      ],
+      "doc": "配置工厂模块 - 简化版本",
+      "functions": [
+        "get_config",
+        "get_config_manager",
+        "reload_config",
+        "validate_startup_config"
+      ],
+      "loc": 335,
+      "module": "config.config_factory",
+      "path": "backed/config/config_factory.py"
+    },
+    {
+      "classes": [
+        "Environment",
+        "LogLevel",
+        "BaseConfig",
+        "DevelopmentConfig",
+        "TestingConfig",
+        "StagingConfig",
+        "ProductionConfig",
+        "DockerConfig"
+      ],
+      "doc": "统一配置模块 - 包含所有环境的配置类",
+      "functions": [
+        "_env_files"
+      ],
+      "loc": 703,
+      "module": "config.config_unified",
+      "path": "backed/config/config_unified.py"
+    },
+    {
+      "classes": [],
+      "doc": "配置管理 CLI（不参与应用启动）",
+      "functions": [
+        "validate_config",
+        "export_config",
+        "compare_configs",
+        "generate_env_template",
+        "main"
+      ],
+      "loc": 236,
+      "module": "config.manage",
+      "path": "backed/config/manage.py"
+    },
+    {
+      "classes": [],
+      "doc": "核心基础设施包",
+      "functions": [],
+      "loc": 16,
+      "module": "core",
+      "path": "backed/core/__init__.py"
+    },
+    {
+      "classes": [],
+      "doc": "拟人化输入：给\"只有真实鼠标事件才认\"的自定义控件用。",
+      "functions": [
+        "curve_points",
+        "move_and_click",
+        "human_type",
+        "pick_option",
+        "_visible_options"
+      ],
+      "loc": 170,
+      "module": "core.human_click",
+      "path": "backed/core/human_click.py"
+    },
+    {
+      "classes": [],
+      "doc": "认证依赖（单用户 / 自托管场景）",
+      "functions": [
+        "get_current_active_user"
+      ],
+      "loc": 27,
+      "module": "core.permissions",
+      "path": "backed/core/permissions.py"
+    },
+    {
+      "classes": [
+        "SecurityHelper"
+      ],
+      "doc": "应用侧安全装配（薄封装）",
+      "functions": [
+        "get_password_hash",
+        "verify_password",
+        "create_access_token",
+        "verify_token"
+      ],
+      "loc": 74,
+      "module": "core.security",
+      "path": "backed/core/security.py"
+    },
+    {
+      "classes": [],
+      "doc": "桌面版 sidecar 入口。",
+      "functions": [
+        "main"
+      ],
+      "loc": 92,
+      "module": "desktop_sidecar",
+      "path": "backed/desktop_sidecar.py"
+    },
+    {
+      "classes": [],
+      "doc": "中间件包初始化（项目基线 BASELINE）",
+      "functions": [],
+      "loc": 26,
+      "module": "middleware",
+      "path": "backed/middleware/__init__.py"
+    },
+    {
+      "classes": [
+        "AuditMiddleware"
+      ],
+      "doc": "审计日志中间件（仅保留 AuditMiddleware）",
+      "functions": [
+        "create_audit_middleware"
+      ],
+      "loc": 238,
+      "module": "middleware.audit_middleware",
+      "path": "backed/middleware/audit_middleware.py"
+    },
+    {
+      "classes": [
+        "PublicBaseMiddleware"
+      ],
+      "doc": "对外地址推断中间件：把\"用户实际访问的站点地址\"记下来，供后台任务复用。",
+      "functions": [
+        "_is_loopback_host"
+      ],
+      "loc": 66,
+      "module": "middleware.public_base",
+      "path": "backed/middleware/public_base.py"
+    },
+    {
+      "classes": [
+        "InMemoryRateLimiter",
+        "RateLimitMiddleware",
+        "RateLimiter"
+      ],
+      "doc": "速率限制中间件（纯内存令牌桶，无第三方限流库依赖）",
+      "functions": [
+        "_trusted_networks",
+        "_peer_is_trusted",
+        "get_limiter",
+        "init_rate_limiter",
+        "close_rate_limiter"
+      ],
+      "loc": 271,
+      "module": "middleware.rate_limiter",
+      "path": "backed/middleware/rate_limiter.py"
+    },
+    {
+      "classes": [
+        "SecurityHeadersMiddleware"
+      ],
+      "doc": "安全头中间件（仅保留 SecurityHeadersMiddleware）",
+      "functions": [],
+      "loc": 88,
+      "module": "middleware.security_headers",
+      "path": "backed/middleware/security_headers.py"
+    },
+    {
+      "classes": [],
+      "doc": "账号操作（登录 / 登出 / 辅助 / 验证码）的具体实现——从 ``service.py`` Hub 抽出。",
+      "functions": [
+        "login",
+        "login_api_only",
+        "login_browser",
+        "logout",
+        "solve_captcha",
+        "assist_open"
+      ],
+      "loc": 157,
+      "module": "service.publishing._account_ops",
+      "path": "backed/service/publishing/_account_ops.py"
+    },
+    {
+      "classes": [],
+      "doc": "站内通知环形缓冲（内存，最近 200 条，跨线程安全）。",
+      "functions": [
+        "append",
+        "get_all",
+        "get_since",
+        "clear"
+      ],
+      "loc": 36,
+      "module": "service.publishing._event_notifier",
+      "path": "backed/service/publishing/_event_notifier.py"
+    },
+    {
+      "classes": [],
+      "doc": "SSE 客户端管理：订阅、注销、广播、断线重放。",
+      "functions": [
+        "next_event_id",
+        "subscribe",
+        "unsubscribe",
+        "broadcast",
+        "replay_after",
+        "client_count",
+        "reset_for_tests"
+      ],
+      "loc": 98,
+      "module": "service.publishing._sse_broker",
+      "path": "backed/service/publishing/_sse_broker.py"
+    },
+    {
+      "classes": [],
+      "doc": "Webhook 存储 + HMAC 签名：注册/查询/更新/删除 webhook + 派发签名。",
+      "functions": [
+        "_default_db_path",
+        "_conn",
+        "_use",
+        "init",
+        "register",
+        "list_all",
+        "update",
+        "delete",
+        "sign_payload"
+      ],
+      "loc": 166,
+      "module": "service.publishing._webhook_store",
+      "path": "backed/service/publishing/_webhook_store.py"
+    },
+    {
+      "classes": [],
+      "doc": "适配器离线契约探针：没有真机账号时，用机器能跑的方式锁住\"适配器还能用\"。",
+      "functions": [
+        "_balanced",
+        "check_selector_syntax",
+        "static_contract_report",
+        "dom_fixtures",
+        "check_dom",
+        "full_report",
+        "ADAPTERS_KEYS",
+        "save_dump",
+        "report_json"
+      ],
+      "loc": 229,
+      "module": "service.publishing.adapter_probe",
+      "path": "backed/service/publishing/adapter_probe.py"
+    },
+    {
+      "classes": [],
+      "doc": "平台适配器包：**导入本包即完成全部适配器注册**。",
+      "functions": [],
+      "loc": 32,
+      "module": "service.publishing.adapters",
+      "path": "backed/service/publishing/adapters/__init__.py"
+    },
+    {
+      "classes": [
+        "PlatformError",
+        "PlatformAdapter"
+      ],
+      "doc": "平台适配器接口。",
+      "functions": [
+        "md_to_html",
+        "_apply_strikethrough",
+        "_http_error",
+        "_flatten",
+        "_frag_pos",
+        "find_text",
+        "key_fragments",
+        "_required_fragments",
+        "_doc_order_fragments",
+        "_target_body_flat",
+        "content_evidence",
+        "_strip_site_suffix",
+        "title_evidence",
+        "capability_of",
+        "register",
+        "get_adapter"
+      ],
+      "loc": 867,
+      "module": "service.publishing.adapters.base",
+      "path": "backed/service/publishing/adapters/base.py"
+    },
+    {
+      "classes": [
+        "BilibiliAdapter"
+      ],
+      "doc": "B站专栏适配器：创作 API 建草稿（FormData + csrf）。",
+      "functions": [],
+      "loc": 92,
+      "module": "service.publishing.adapters.bilibili",
+      "path": "backed/service/publishing/adapters/bilibili.py"
+    },
+    {
+      "classes": [
+        "CnblogsAdapter"
+      ],
+      "doc": "博客园适配器：走 MetaWeblog XML-RPC 标准协议，**不需要浏览器**。",
+      "functions": [
+        "_load_creds",
+        "_client"
+      ],
+      "loc": 171,
+      "module": "service.publishing.adapters.cnblogs",
+      "path": "backed/service/publishing/adapters/cnblogs.py"
+    },
+    {
+      "classes": [
+        "CSDNAdapter"
+      ],
+      "doc": "CSDN 适配器。",
+      "functions": [
+        "_click_text"
+      ],
+      "loc": 1158,
+      "module": "service.publishing.adapters.csdn",
+      "path": "backed/service/publishing/adapters/csdn.py"
+    },
+    {
+      "classes": [
+        "DevToAdapter"
+      ],
+      "doc": "Dev.to 适配器（Forem 官方 REST API，纯协议免浏览器）。",
+      "functions": [
+        "_creds",
+        "_headers",
+        "_clean_tags"
+      ],
+      "loc": 203,
+      "module": "service.publishing.adapters.devto",
+      "path": "backed/service/publishing/adapters/devto.py"
+    },
+    {
+      "classes": [
+        "GitHubPagesAdapter"
+      ],
+      "doc": "GitHub Pages / Jekyll 仓库适配器（官方 Contents API，纯协议免浏览器）。",
+      "functions": [
+        "_creds",
+        "_headers",
+        "_slug",
+        "_utc_now",
+        "_file_path",
+        "_front_matter",
+        "_site_url",
+        "_split_front_matter",
+        "_front_title",
+        "_strip_front_matter",
+        "_pages_build_state",
+        "_site_check"
+      ],
+      "loc": 422,
+      "module": "service.publishing.adapters.github_pages",
+      "path": "backed/service/publishing/adapters/github_pages.py"
+    },
+    {
+      "classes": [
+        "JuejinAdapter"
+      ],
+      "doc": "掘金适配器：发布 + 原地更新 + 列表。",
+      "functions": [
+        "_resolve_tag_ids",
+        "api_tag_search",
+        "_click_text",
+        "tag_name_for_search"
+      ],
+      "loc": 597,
+      "module": "service.publishing.adapters.juejin",
+      "path": "backed/service/publishing/adapters/juejin.py"
+    },
+    {
+      "classes": [
+        "MetaWeblogAdapter"
+      ],
+      "doc": "自建博客通用适配器（WordPress / Typecho 等 MetaWeblog 标准协议）。",
+      "functions": [
+        "_creds",
+        "_client"
+      ],
+      "loc": 150,
+      "module": "service.publishing.adapters.metaweblog",
+      "path": "backed/service/publishing/adapters/metaweblog.py"
+    },
+    {
+      "classes": [
+        "OschinaAdapter"
+      ],
+      "doc": "开源中国 OSCHINA 适配器：写作页 UI 注入（UEditor iframe 富文本）。",
+      "functions": [],
+      "loc": 134,
+      "module": "service.publishing.adapters.oschina",
+      "path": "backed/service/publishing/adapters/oschina.py"
+    },
+    {
+      "classes": [
+        "SegmentFaultAdapter"
+      ],
+      "doc": "SegmentFault 思否适配器：API 建草稿 + 写作页点发布。",
+      "functions": [],
+      "loc": 111,
+      "module": "service.publishing.adapters.segmentfault",
+      "path": "backed/service/publishing/adapters/segmentfault.py"
+    },
+    {
+      "classes": [
+        "TelegraphAdapter"
+      ],
+      "doc": "Telegraph 适配器（telegra.ph 免登录即时发布，纯 API）。",
+      "functions": [
+        "_creds",
+        "_save_token",
+        "_md_to_telegraph_nodes"
+      ],
+      "loc": 123,
+      "module": "service.publishing.adapters.telegraph",
+      "path": "backed/service/publishing/adapters/telegraph.py"
+    },
+    {
+      "classes": [
+        "ToutiaoAdapter"
+      ],
+      "doc": "头条号适配器：mp 后台 UI 注入（自研富文本编辑器）。",
+      "functions": [],
+      "loc": 109,
+      "module": "service.publishing.adapters.toutiao",
+      "path": "backed/service/publishing/adapters/toutiao.py"
+    },
+    {
+      "classes": [
+        "WeChatAdapter"
+      ],
+      "doc": "微信公众号适配器（官方草稿箱 API，纯协议免浏览器）。",
+      "functions": [
+        "_creds",
+        "_err",
+        "_get_token",
+        "_post",
+        "_sanitize_html"
+      ],
+      "loc": 257,
+      "module": "service.publishing.adapters.wechat",
+      "path": "backed/service/publishing/adapters/wechat.py"
+    },
+    {
+      "classes": [
+        "WuyiCTOAdapter"
+      ],
+      "doc": "51CTO 博客适配器：走 MetaWeblog XML-RPC 标准协议，**不需要浏览器**。",
+      "functions": [
+        "_creds",
+        "_client",
+        "_md_to_html"
+      ],
+      "loc": 218,
+      "module": "service.publishing.adapters.wuyi_cto",
+      "path": "backed/service/publishing/adapters/wuyi_cto.py"
+    },
+    {
+      "classes": [
+        "XiaohongshuAdapter"
+      ],
+      "doc": "小红书适配器（浏览器自动化，Patchright 驱动系统 Edge）。",
+      "functions": [],
+      "loc": 102,
+      "module": "service.publishing.adapters.xiaohongshu",
+      "path": "backed/service/publishing/adapters/xiaohongshu.py"
+    },
+    {
+      "classes": [
+        "ZhihuAdapter"
+      ],
+      "doc": "知乎适配器：专栏文章，走 UI（Markdown 文件导入 + 点发布）。",
+      "functions": [
+        "_click_exact",
+        "_click_button"
+      ],
+      "loc": 810,
+      "module": "service.publishing.adapters.zhihu",
+      "path": "backed/service/publishing/adapters/zhihu.py"
+    },
+    {
+      "classes": [
+        "AIError"
+      ],
+      "doc": "AI 写稿模块：文章从哪来。",
+      "functions": [
+        "_get_providers",
+        "_cfg",
+        "_load_dotenv",
+        "_file_cfg",
+        "style_file",
+        "load_style",
+        "system_write",
+        "chat",
+        "_post_chat",
+        "_split_title",
+        "write_article",
+        "rewrite",
+        "polish",
+        "summarize",
+        "suggest_tags",
+        "is_ready"
+      ],
+      "loc": 315,
+      "module": "service.publishing.ai",
+      "path": "backed/service/publishing/ai.py"
+    },
+    {
+      "classes": [],
+      "doc": "AI 配置读写信封：掩码输出 + 白名单原子写 config.json + 连通性测试。",
+      "functions": [
+        "_config_file",
+        "mask_key",
+        "_read_json",
+        "_atomic_write",
+        "_env_key_of",
+        "get_ai_config",
+        "_validate_provider_base_url",
+        "update_ai_config",
+        "test_provider"
+      ],
+      "loc": 366,
+      "module": "service.publishing.ai_config",
+      "path": "backed/service/publishing/ai_config.py"
+    },
+    {
+      "classes": [],
+      "doc": "AI 增强工具集：翻译、配图提示、文章克隆、自定义提示词模板。",
+      "functions": [
+        "translate",
+        "image_prompts",
+        "clone_article",
+        "extract_outline",
+        "reading_time",
+        "seo_fields",
+        "ai_write_with_template",
+        "list_templates"
+      ],
+      "loc": 274,
+      "module": "service.publishing.ai_enhancements",
+      "path": "backed/service/publishing/ai_enhancements.py"
+    },
+    {
+      "classes": [
+        "AIOpsMixin"
+      ],
+      "doc": "AIOpsMixin — AI 能力委托（从 service.Hub 机械抽出，逻辑未改）。",
+      "functions": [],
+      "loc": 86,
+      "module": "service.publishing.ai_ops",
+      "path": "backed/service/publishing/ai_ops.py"
+    },
+    {
+      "classes": [
+        "ProviderError"
+      ],
+      "doc": "多模型 Provider 注册表 + 任务分级路由。",
+      "functions": [
+        "_load_file_cfg",
+        "_resolve_providers",
+        "list_providers",
+        "_select_provider_for_level",
+        "resolve_model",
+        "chat_with_provider",
+        "chat",
+        "legacy_chat",
+        "_legacy_model",
+        "is_ready",
+        "_probe_local_ollama"
+      ],
+      "loc": 416,
+      "module": "service.publishing.ai_providers",
+      "path": "backed/service/publishing/ai_providers.py"
+    },
+    {
+      "classes": [
+        "AIService"
+      ],
+      "doc": "AI 增强操作（写稿/改写/润色/翻译/工具）。",
+      "functions": [],
+      "loc": 221,
+      "module": "service.publishing.ai_service",
+      "path": "backed/service/publishing/ai_service.py"
+    },
+    {
+      "classes": [
+        "ArticleOpsMixin"
+      ],
+      "doc": "ArticleOpsMixin — 文章 CRUD 与导入（从 service.Hub 机械抽出，逻辑未改）。",
+      "functions": [
+        "_markdown_import_root"
+      ],
+      "loc": 113,
+      "module": "service.publishing.article_ops",
+      "path": "backed/service/publishing/article_ops.py"
+    },
+    {
+      "classes": [
+        "AuthSweeper"
+      ],
+      "doc": "登录态自动巡检：周期核查已登录账号，过期即标离线并发事件。",
+      "functions": [
+        "interval_minutes",
+        "status"
+      ],
+      "loc": 142,
+      "module": "service.publishing.auth_sweep",
+      "path": "backed/service/publishing/auth_sweep.py"
+    },
+    {
+      "classes": [
+        "CaptchaPolicy",
+        "BuiltinBrowser"
+      ],
+      "doc": "内置浏览器：程序自带 Chromium，登录态存在本地 profile，扫码一次长期有效。",
+      "functions": [
+        "_bw_worker",
+        "browser_thread_run",
+        "_get_shared_pw",
+        "_stop_shared_pw",
+        "_sock_path",
+        "_xvfb_running",
+        "_display_alive",
+        "_reap_dead_socket",
+        "ensure_display",
+        "stop_display",
+        "_profile_root",
+        "_find_chrome",
+        "resolve_channel_executable",
+        "dump_captcha",
+        "wait_human_captcha",
+        "ensure_login",
+        "dump_dom"
+      ],
+      "loc": 862,
+      "module": "service.publishing.browser",
+      "path": "backed/service/publishing/browser.py"
+    },
+    {
+      "classes": [],
+      "doc": "内置浏览器操控面：带登录态抓取 / 截图——\"随便操控\"的 API 化。",
+      "functions": [
+        "validate_url",
+        "_pinned_resolver_rules",
+        "_guard_requests",
+        "_run_with_pinned_browser",
+        "browser_fetch",
+        "browser_screenshot"
+      ],
+      "loc": 183,
+      "module": "service.publishing.browser_ops",
+      "path": "backed/service/publishing/browser_ops.py"
+    },
+    {
+      "classes": [
+        "BrowserPoolManager"
+      ],
+      "doc": "无头浏览器实例池。",
+      "functions": [],
+      "loc": 132,
+      "module": "service.publishing.browser_pool",
+      "path": "backed/service/publishing/browser_pool.py"
+    },
+    {
+      "classes": [],
+      "doc": "博客园「浏览器登录 → 自动抠 MetaWeblog 令牌」引导模块。",
+      "functions": [
+        "_visible_inputs",
+        "_click_aliyun",
+        "_click_recaptcha_checkbox",
+        "_body",
+        "_has_bframe",
+        "login_browser",
+        "extract_metaweblog"
+      ],
+      "loc": 326,
+      "module": "service.publishing.cnblogs_login",
+      "path": "backed/service/publishing/cnblogs_login.py"
+    },
+    {
+      "classes": [],
+      "doc": "内容质检：零外部依赖的本地评分引擎。",
+      "functions": [
+        "_strip_md",
+        "readability_score",
+        "seo_score",
+        "_shingles",
+        "_hash_shingle",
+        "_minhash",
+        "_jaccard",
+        "check_similarity",
+        "_ensure_sim_table",
+        "_text_hash",
+        "_signature_of",
+        "full_qa",
+        "_read_tip"
+      ],
+      "loc": 394,
+      "module": "service.publishing.content_qa",
+      "path": "backed/service/publishing/content_qa.py"
+    },
+    {
+      "classes": [],
+      "doc": "按平台改写内容的 AST 层（Markdown token 级，不做字符串正则）。",
+      "functions": [
+        "_token_lines",
+        "strip_leading_h1",
+        "rewrite_image_urls",
+        "strip_tag_line",
+        "prepare_for_platform"
+      ],
+      "loc": 155,
+      "module": "service.publishing.content_transform",
+      "path": "backed/service/publishing/content_transform.py"
+    },
+    {
+      "classes": [],
+      "doc": "敏感字段加密：Webhook secret / API Token 等平台凭证落库前 Fernet 加密。",
+      "functions": [
+        "_key_file",
+        "_restrict_key_file",
+        "_load_key",
+        "_get_fernet",
+        "encrypt",
+        "decrypt"
+      ],
+      "loc": 107,
+      "module": "service.publishing.crypto",
+      "path": "backed/service/publishing/crypto.py"
+    },
+    {
+      "classes": [
+        "LockedConnection"
+      ],
+      "doc": "数据层：SQLite 单文件，AI 管的就是这几张表。",
+      "functions": [
+        "data_root",
+        "config_file",
+        "_strip_credentials",
+        "legacy_config_file",
+        "load_config_dict",
+        "_schema_version",
+        "_has_column",
+        "migrate",
+        "connect",
+        "_ensure_fts",
+        "prune_jobs",
+        "now",
+        "create_article",
+        "update_article",
+        "get_article",
+        "delete_article",
+        "list_articles",
+        "count_articles",
+        "search_articles",
+        "upsert_publication",
+        "mark_verify",
+        "get_publications",
+        "get_pending_updates",
+        "add_job",
+        "finish_job",
+        "list_jobs",
+        "upsert_account",
+        "list_accounts",
+        "create_task",
+        "get_task",
+        "list_tasks",
+        "count_tasks",
+        "next_pending_tasks",
+        "update_task",
+        "prune_tasks",
+        "list_pending_human",
+        "list_publications_joined",
+        "list_failed_jobs"
+      ],
+      "loc": 776,
+      "module": "service.publishing.db",
+      "path": "backed/service/publishing/db.py"
+    },
+    {
+      "classes": [],
+      "doc": "事件系统总入口：聚合通知缓冲 / SSE 实时流 / Webhook 派发。",
+      "functions": [
+        "init_events",
+        "get_notifications",
+        "subscribe_sse",
+        "unsubscribe_sse",
+        "replay_after",
+        "emit",
+        "register_webhook",
+        "list_webhooks",
+        "update_webhook",
+        "delete_webhook",
+        "_enqueue_webhook",
+        "dispatch_queue_stats",
+        "_dispatch_async",
+        "_webhook_target_allowed",
+        "_wh_list_enabled",
+        "_update_webhook_status",
+        "_dispatcher_loop",
+        "start_dispatcher",
+        "stop_dispatcher",
+        "on_task_complete"
+      ],
+      "loc": 316,
+      "module": "service.publishing.events",
+      "path": "backed/service/publishing/events.py"
+    },
+    {
+      "classes": [
+        "GateError"
+      ],
+      "doc": "AIGC 合规门禁 + 双模型审查 + 发布闸门。",
+      "functions": [
+        "_cfg",
+        "is_enabled",
+        "is_ai_direct_publish",
+        "is_ai_sourced",
+        "_get_automaton",
+        "reload_patterns",
+        "scan_dangerous",
+        "is_declaration_in_text",
+        "add_aigc_label",
+        "_local_review",
+        "dual_model_review",
+        "gate_publish",
+        "apply_gate_before_publish"
+      ],
+      "loc": 301,
+      "module": "service.publishing.gate",
+      "path": "backed/service/publishing/gate.py"
+    },
+    {
+      "classes": [],
+      "doc": "拟人化操作 + 人机验证辅助。",
+      "functions": [
+        "gaussian_delay",
+        "human_pause",
+        "human_mouse_move",
+        "human_click",
+        "slide_to"
+      ],
+      "loc": 132,
+      "module": "service.publishing.humanize",
+      "path": "backed/service/publishing/humanize.py"
+    },
+    {
+      "classes": [
+        "ImportError_"
+      ],
+      "doc": "外部内容导入：URL 抓取 + Markdown front-matter 解析。",
+      "functions": [
+        "parse_markdown",
+        "_normalize_tags",
+        "_default_import_root",
+        "_is_safe_markdown_name",
+        "read_markdown_file",
+        "_extract_from_html",
+        "_fetch_public_html",
+        "fetch_url",
+        "fetch_url_browser",
+        "_clean_markdown"
+      ],
+      "loc": 212,
+      "module": "service.publishing.importing",
+      "path": "backed/service/publishing/importing.py"
+    },
+    {
+      "classes": [
+        "MCPBridgeError"
+      ],
+      "doc": "外部 MCP Server 桥接：把别人的 MCP 工具当成自己的后端用。",
+      "functions": [
+        "_config_path",
+        "load_config",
+        "_resolve_command",
+        "_allow_tools",
+        "_child_env",
+        "_call_async",
+        "_normalize_result",
+        "call_tool",
+        "_list_tools_async",
+        "list_tools",
+        "status",
+        "capability_coverage"
+      ],
+      "loc": 281,
+      "module": "service.publishing.mcp_bridge",
+      "path": "backed/service/publishing/mcp_bridge.py"
+    },
+    {
+      "classes": [],
+      "doc": "图片资产管线：本地化、去重、稳定 URL。",
+      "functions": [
+        "media_root",
+        "ensure_schema",
+        "set_runtime_base",
+        "clear_runtime_base",
+        "public_base",
+        "base_source",
+        "_is_public_host",
+        "_validate_url",
+        "fetch_bytes",
+        "sniff_image",
+        "_guess_ext",
+        "store_bytes",
+        "asset_path",
+        "asset_url",
+        "ingest_url",
+        "ingest_path",
+        "rewrite_markdown",
+        "list_assets",
+        "stats",
+        "find_orphans",
+        "purge_orphans"
+      ],
+      "loc": 512,
+      "module": "service.publishing.media",
+      "path": "backed/service/publishing/media.py"
+    },
+    {
+      "classes": [
+        "MetricRegistry",
+        "TraceContext",
+        "AuditLevel",
+        "AuditAction",
+        "AuditEvent",
+        "AuditLogger"
+      ],
+      "doc": "可观测性：结构化日志 + 指标 + 发布链路 trace。",
+      "functions": [
+        "_data_dir",
+        "_build_event_logger",
+        "emit",
+        "prometheus_exposition",
+        "_fmt_bucket",
+        "_prom_name",
+        "begin_api_trace",
+        "audit_operation",
+        "audit_security_event"
+      ],
+      "loc": 835,
+      "module": "service.publishing.observability",
+      "path": "backed/service/publishing/observability.py"
+    },
+    {
+      "classes": [],
+      "doc": "外部成熟工具封装层：用开源社区验证过的方案做兜底，不重复造轮子。",
+      "functions": [],
+      "loc": 28,
+      "module": "service.publishing.providers",
+      "path": "backed/service/publishing/providers/__init__.py"
+    },
+    {
+      "classes": [
+        "ProviderResult",
+        "ProviderError",
+        "PublishProvider"
+      ],
+      "doc": "外部工具 provider 的标准接口。",
+      "functions": [],
+      "loc": 63,
+      "module": "service.publishing.providers.base",
+      "path": "backed/service/publishing/providers/base.py"
+    },
+    {
+      "classes": [
+        "BilibiliProvider"
+      ],
+      "doc": "B 站视频投稿：基于 biliup-rs / biliup 的外部工具封装。",
+      "functions": [],
+      "loc": 128,
+      "module": "service.publishing.providers.bilibili",
+      "path": "backed/service/publishing/providers/bilibili.py"
+    },
+    {
+      "classes": [],
+      "doc": "Provider 注册表：解析平台 → 对应外部工具。",
+      "functions": [
+        "register",
+        "resolve_provider",
+        "list_available_providers",
+        "all_providers"
+      ],
+      "loc": 46,
+      "module": "service.publishing.providers.registry",
+      "path": "backed/service/publishing/providers/registry.py"
+    },
+    {
+      "classes": [
+        "ToutiaoProvider"
+      ],
+      "doc": "头条号 / 头条平台：基于 super-publisher 的外部工具封装。",
+      "functions": [],
+      "loc": 144,
+      "module": "service.publishing.providers.toutiao",
+      "path": "backed/service/publishing/providers/toutiao.py"
+    },
+    {
+      "classes": [
+        "PublishOpsMixin"
+      ],
+      "doc": "PublishOpsMixin — 发布 / 更新 / 同步编排（从 service.Hub 机械抽出，逻辑未改）。",
+      "functions": [
+        "_content_hash"
+      ],
+      "loc": 567,
+      "module": "service.publishing.publish_ops",
+      "path": "backed/service/publishing/publish_ops.py"
+    },
+    {
+      "classes": [],
+      "doc": "平台级限流窗口：把 429/503 的 Retry-After 变成\"整平台冷却\"。",
+      "functions": [
+        "ensure_schema",
+        "parse_retry_after",
+        "parse_rate_limit_reset",
+        "retry_after_from_headers",
+        "mark",
+        "remaining",
+        "snapshot",
+        "clear",
+        "classify_and_mark"
+      ],
+      "loc": 205,
+      "module": "service.publishing.ratelimit",
+      "path": "backed/service/publishing/ratelimit.py"
+    },
+    {
+      "classes": [
+        "ScheduleExpressionError",
+        "Scheduler"
+      ],
+      "doc": "定时发布调度器：周期轮询 scheduled_tasks 表，到点的任务提交进 TaskManager。",
+      "functions": [
+        "_ensure_table",
+        "validate_schedule_expr",
+        "_calc_next_run",
+        "_cron_next",
+        "_cron_match",
+        "init_scheduler"
+      ],
+      "loc": 487,
+      "module": "service.publishing.scheduler",
+      "path": "backed/service/publishing/scheduler.py"
+    },
+    {
+      "classes": [
+        "Hub"
+      ],
+      "doc": "业务层：把 文章库 × 内置浏览器 × 平台适配器 串起来。",
+      "functions": [
+        "_content_hash"
+      ],
+      "loc": 488,
+      "module": "service.publishing.service",
+      "path": "backed/service/publishing/service.py"
+    },
+    {
+      "classes": [],
+      "doc": "统一标签管理：标签统计、合并、热门推荐、自动打标。",
+      "functions": [
+        "_config_path",
+        "_ensure_table",
+        "_load_alias_map",
+        "_save_alias_map",
+        "sync_from_articles",
+        "_normalize",
+        "cluster_similar_tags",
+        "_guess_category",
+        "list_tags",
+        "trending",
+        "_term_patterns",
+        "_preferred_synonyms",
+        "_local_suggest",
+        "suggest_for_article",
+        "merge_tags",
+        "rename_tag",
+        "add_alias"
+      ],
+      "loc": 428,
+      "module": "service.publishing.tags",
+      "path": "backed/service/publishing/tags.py"
+    },
+    {
+      "classes": [
+        "TaskManager"
+      ],
+      "doc": "统一任务引擎（重构第一刀）。",
+      "functions": [
+        "_has_pending_user",
+        "_pending_user_message",
+        "_load_result",
+        "_failed_platforms"
+      ],
+      "loc": 452,
+      "module": "service.publishing.tasks",
+      "path": "backed/service/publishing/tasks.py"
+    },
+    {
+      "classes": [
+        "JuejinAPIError",
+        "JuejinClient"
+      ],
+      "doc": "掘金 API 客户端——基于成熟开源项目 web-publish (MIT)。",
+      "functions": [],
+      "loc": 185,
+      "module": "service.publishing.tools.juejin_api",
+      "path": "backed/service/publishing/tools/juejin_api.py"
+    },
+    {
+      "classes": [
+        "MetaWeblogClient"
+      ],
+      "doc": "博客园 (cnblogs) MetaWeblog API 通用客户端。",
+      "functions": [
+        "_build_post_struct",
+        "_guess_mime"
+      ],
+      "loc": 117,
+      "module": "service.publishing.tools.metaweblog",
+      "path": "backed/service/publishing/tools/metaweblog.py"
+    },
+    {
+      "classes": [
+        "URLSafetyError"
+      ],
+      "doc": "Shared validation for network targets crossing the publishing boundary.",
+      "functions": [
+        "validate_timeout",
+        "_is_public_ip",
+        "resolve_public_ips",
+        "validate_url",
+        "validate_redirect_url",
+        "fetch_pinned",
+        "_fetch_pinned"
+      ],
+      "loc": 238,
+      "module": "service.publishing.url_safety",
+      "path": "backed/service/publishing/url_safety.py"
+    },
+    {
+      "classes": [],
+      "doc": "文章版本管理：每次 article 更新前自动快照旧内容进 version_history 表。",
+      "functions": [
+        "_ensure_table",
+        "_md_hash",
+        "capture",
+        "list_versions",
+        "get_version",
+        "rollback",
+        "diff_versions",
+        "prune_versions",
+        "init_versions"
+      ],
+      "loc": 186,
+      "module": "service.publishing.versions",
+      "path": "backed/service/publishing/versions.py"
+    },
+    {
+      "classes": [],
+      "doc": "应用入口文件",
+      "functions": [
+        "main"
+      ],
+      "loc": 90,
+      "module": "start",
+      "path": "backed/start.py"
+    },
+    {
+      "classes": [],
+      "doc": "通用工具包",
+      "functions": [],
+      "loc": 33,
+      "module": "utils",
+      "path": "backed/utils/__init__.py"
+    },
+    {
+      "classes": [
+        "JWTAuthenticator"
+      ],
+      "doc": "JWT 工具（通用）",
+      "functions": [
+        "create_jwt_authenticator_from_settings",
+        "get_token_payload"
+      ],
+      "loc": 180,
+      "module": "utils.auth",
+      "path": "backed/utils/auth.py"
+    },
+    {
+      "classes": [
+        "BaseAPIException",
+        "AuthenticationException"
+      ],
+      "doc": "自定义异常模块",
+      "functions": [],
+      "loc": 27,
+      "module": "utils.custom_exceptions",
+      "path": "backed/utils/custom_exceptions.py"
+    },
+    {
+      "classes": [],
+      "doc": "日志工具（通用，可独立于业务项目使用）",
+      "functions": [
+        "setup_logging",
+        "get_logger",
+        "setup_logger",
+        "get_security_logger",
+        "log_security_event",
+        "log_api_access"
+      ],
+      "loc": 166,
+      "module": "utils.logger",
+      "path": "backed/utils/logger.py"
+    },
+    {
+      "classes": [],
+      "doc": "通用脱敏工具（可独立于业务项目使用）",
+      "functions": [
+        "mask_phone",
+        "mask_email",
+        "mask_middle",
+        "mask_id_card"
+      ],
+      "loc": 44,
+      "module": "utils.masking",
+      "path": "backed/utils/masking.py"
+    },
+    {
+      "classes": [
+        "ResponseCode"
+      ],
+      "doc": "响应码定义模块",
+      "functions": [],
+      "loc": 63,
+      "module": "utils.response_code",
+      "path": "backed/utils/response_code.py"
+    },
+    {
+      "classes": [
+        "SecurityUtil"
+      ],
+      "doc": "通用安全工具",
+      "functions": [],
+      "loc": 62,
+      "module": "utils.security",
+      "path": "backed/utils/security.py"
+    }
+  ],
+  "project": {
+    "backend_python": ">=3.10",
+    "name": "Harbor (内容港)",
+    "stack": [
+      "FastAPI",
+      "SQLite(WAL/FTS5)",
+      "Patchright(Chromium)",
+      "Vue3 + Element Plus + Pinia",
+      "Tauri 2",
+      "MCP"
+    ],
+    "version": "0.15.0",
+    "web_node": "pnpm@9.15.9"
+  },
+  "routes": [
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "accounts",
+      "path": "/api/v1/hub/accounts"
+    },
+    {
+      "doc": "浏览器登录博客园并自动抠 MetaWeblog 三件套写 config.json。",
+      "methods": [
+        "POST"
+      ],
+      "name": "bootstrap_cnblogs",
+      "path": "/api/v1/hub/accounts/cnblogs/bootstrap"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "bootstrap_cnblogs_job",
+      "path": "/api/v1/hub/accounts/cnblogs/bootstrap/{job_id}"
+    },
+    {
+      "doc": "清除登录态：删 profile + cookie 快照，账号状态置离线。",
+      "methods": [
+        "DELETE"
+      ],
+      "name": "logout",
+      "path": "/api/v1/hub/accounts/{platform}"
+    },
+    {
+      "doc": "带登录态的内置有头浏览器打开平台页（人工步骤接管）。",
+      "methods": [
+        "POST"
+      ],
+      "name": "assist_open",
+      "path": "/api/v1/hub/accounts/{platform}/assist"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "check_account",
+      "path": "/api/v1/hub/accounts/{platform}/check"
+    },
+    {
+      "doc": "这个平台该怎么接、验证码怎么过——排查用。",
+      "methods": [
+        "GET"
+      ],
+      "name": "diagnose",
+      "path": "/api/v1/hub/accounts/{platform}/diagnose"
+    },
+    {
+      "doc": "异步启动登录：提交任务，轮询 GET /tasks/{task_id}。",
+      "methods": [
+        "POST"
+      ],
+      "name": "login",
+      "path": "/api/v1/hub/accounts/{platform}/login"
+    },
+    {
+      "doc": "打开页面就地处理验证码：先半自动试，不行转人工。",
+      "methods": [
+        "POST"
+      ],
+      "name": "solve_captcha",
+      "path": "/api/v1/hub/accounts/{platform}/solve-captcha"
+    },
+    {
+      "doc": "离线检查全部平台适配器：接口实现 / 能力一致性 / 选择器合法性 / DOM 漂移。",
+      "methods": [
+        "GET"
+      ],
+      "name": "adapters_probe",
+      "path": "/api/v1/hub/adapters/probe"
+    },
+    {
+      "doc": "保存一份平台 DOM 采样，供 probe 做选择器漂移比对。",
+      "methods": [
+        "POST"
+      ],
+      "name": "adapters_probe_dump",
+      "path": "/api/v1/hub/adapters/probe/{platform}/dump"
+    },
+    {
+      "doc": "AI 配置全貌（密钥只回掩码，永不回显完整 key）。",
+      "methods": [
+        "GET"
+      ],
+      "name": "ai_config_get",
+      "path": "/api/v1/hub/ai/config"
+    },
+    {
+      "doc": "白名单写回：providers.<key> / REVIEW_MODEL / AI_DIRECT_PUBLISH。",
+      "methods": [
+        "PUT"
+      ],
+      "name": "ai_config_put",
+      "path": "/api/v1/hub/ai/config"
+    },
+    {
+      "doc": "真实最小调用测连通（ping→pong）。允许对未保存字段先测。",
+      "methods": [
+        "POST"
+      ],
+      "name": "ai_config_test",
+      "path": "/api/v1/hub/ai/config/test"
+    },
+    {
+      "doc": "AIGC 合规门禁状态：开关、审查模型、高危词数、直发开关、最近拒绝。",
+      "methods": [
+        "GET"
+      ],
+      "name": "ai_gate",
+      "path": "/api/v1/hub/ai/gate"
+    },
+    {
+      "doc": "列出所有已配置的 AI Provider + 模型（掩码，不含明文密钥）。",
+      "methods": [
+        "GET"
+      ],
+      "name": "ai_providers",
+      "path": "/api/v1/hub/ai/providers"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "ai_status",
+      "path": "/api/v1/hub/ai/status"
+    },
+    {
+      "doc": "列出所有可用写作模板。",
+      "methods": [
+        "GET"
+      ],
+      "name": "ai_templates",
+      "path": "/api/v1/hub/ai/templates"
+    },
+    {
+      "doc": "平台外部工具 Provider（biliup-rs / wenyan-cli 等）安装与登录状态。",
+      "methods": [
+        "GET"
+      ],
+      "name": "ai_tool_providers",
+      "path": "/api/v1/hub/ai/tool-providers"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "POST"
+      ],
+      "name": "ai_write",
+      "path": "/api/v1/hub/ai/write"
+    },
+    {
+      "doc": "用预置模板 AI 写文章。",
+      "methods": [
+        "POST"
+      ],
+      "name": "ai_write_template",
+      "path": "/api/v1/hub/ai/write-template"
+    },
+    {
+      "doc": "文章列表。默认只返回列表元信息（不含正文），避免整页正文 JSON 化。",
+      "methods": [
+        "GET"
+      ],
+      "name": "list_articles",
+      "path": "/api/v1/hub/articles"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "POST"
+      ],
+      "name": "create_article",
+      "path": "/api/v1/hub/articles"
+    },
+    {
+      "doc": "导入文章：`path` 读本地 Markdown，`url` 抓网页转 Markdown（二选一）。",
+      "methods": [
+        "POST"
+      ],
+      "name": "import_md",
+      "path": "/api/v1/hub/articles/import"
+    },
+    {
+      "doc": "分页视图：返回 {items,total,has_more}，供前端「加载更多」。",
+      "methods": [
+        "GET"
+      ],
+      "name": "articles_page",
+      "path": "/api/v1/hub/articles/page"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "search",
+      "path": "/api/v1/hub/articles/search/{keyword}"
+    },
+    {
+      "doc": "删除本地文章记录。平台侧已发布的副本不会被动到。",
+      "methods": [
+        "DELETE"
+      ],
+      "name": "delete_article",
+      "path": "/api/v1/hub/articles/{aid}"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "get_article",
+      "path": "/api/v1/hub/articles/{aid}"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "PUT"
+      ],
+      "name": "update_article",
+      "path": "/api/v1/hub/articles/{aid}"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "ai_image_prompts",
+      "path": "/api/v1/hub/articles/{aid}/ai-image-prompts"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "ai_outline",
+      "path": "/api/v1/hub/articles/{aid}/ai-outline"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "POST"
+      ],
+      "name": "ai_polish",
+      "path": "/api/v1/hub/articles/{aid}/ai-polish"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "POST"
+      ],
+      "name": "ai_rewrite",
+      "path": "/api/v1/hub/articles/{aid}/ai-rewrite"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "ai_seo",
+      "path": "/api/v1/hub/articles/{aid}/ai-seo"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "POST"
+      ],
+      "name": "ai_translate",
+      "path": "/api/v1/hub/articles/{aid}/ai-translate"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "POST"
+      ],
+      "name": "article_clone",
+      "path": "/api/v1/hub/articles/{aid}/clone"
+    },
+    {
+      "doc": "导出为带 YAML front-matter 的 Markdown（Hexo/Hugo/Obsidian 可直接用）。",
+      "methods": [
+        "GET"
+      ],
+      "name": "article_export",
+      "path": "/api/v1/hub/articles/{aid}/export"
+    },
+    {
+      "doc": "异步发布：提交到统一任务引擎，立即返回 task_id。",
+      "methods": [
+        "POST"
+      ],
+      "name": "publish",
+      "path": "/api/v1/hub/articles/{aid}/publish"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "POST"
+      ],
+      "name": "article_qa",
+      "path": "/api/v1/hub/articles/{aid}/qa"
+    },
+    {
+      "doc": "异步原地更新：提交任务，轮询 GET /tasks/{task_id}。",
+      "methods": [
+        "POST"
+      ],
+      "name": "update",
+      "path": "/api/v1/hub/articles/{aid}/update"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "versions_list",
+      "path": "/api/v1/hub/articles/{aid}/versions"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "versions_diff",
+      "path": "/api/v1/hub/articles/{aid}/versions/diff"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "versions_get",
+      "path": "/api/v1/hub/articles/{aid}/versions/{vid}"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "POST"
+      ],
+      "name": "versions_rollback",
+      "path": "/api/v1/hub/articles/{aid}/versions/{vid}/rollback"
+    },
+    {
+      "doc": "带平台登录态抓取页面正文（登录墙后的内容也能拿）。",
+      "methods": [
+        "POST"
+      ],
+      "name": "browser_fetch",
+      "path": "/api/v1/hub/browser/{platform}/fetch"
+    },
+    {
+      "doc": "带登录态打开页面截图，落盘 data/exports/screenshots/。",
+      "methods": [
+        "POST"
+      ],
+      "name": "browser_screenshot",
+      "path": "/api/v1/hub/browser/{platform}/screenshot"
+    },
+    {
+      "doc": "SSE 实时推送任务/发布/文章事件。前端用 EventSource 连。",
+      "methods": [
+        "GET"
+      ],
+      "name": "events_stream",
+      "path": "/api/v1/hub/events/stream"
+    },
+    {
+      "doc": "桌面版 Tauri sidecar 健康检查端点。",
+      "methods": [
+        "GET"
+      ],
+      "name": "health",
+      "path": "/api/v1/hub/health"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "jobs",
+      "path": "/api/v1/hub/jobs"
+    },
+    {
+      "doc": "已配置的外部 MCP Server 概览 + 能力覆盖情况。",
+      "methods": [
+        "GET"
+      ],
+      "name": "mcp_bridge_status",
+      "path": "/api/v1/hub/mcp/bridge/status"
+    },
+    {
+      "doc": "调用外部 MCP Server 的工具（仅白名单内工具）。",
+      "methods": [
+        "POST"
+      ],
+      "name": "mcp_bridge_call",
+      "path": "/api/v1/hub/mcp/bridge/{server}/call"
+    },
+    {
+      "doc": "列出某个外部 server 实际提供的工具（配白名单前先看这个）。",
+      "methods": [
+        "GET"
+      ],
+      "name": "mcp_bridge_tools",
+      "path": "/api/v1/hub/mcp/bridge/{server}/tools"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "media_list",
+      "path": "/api/v1/hub/media"
+    },
+    {
+      "doc": "把远程图片抓取入库（SSRF 防护 + 大小上限），返回稳定 URL。",
+      "methods": [
+        "POST"
+      ],
+      "name": "media_ingest",
+      "path": "/api/v1/hub/media/ingest"
+    },
+    {
+      "doc": "未被任何文章引用的媒体资产（预览用，不删）。",
+      "methods": [
+        "GET"
+      ],
+      "name": "media_orphans",
+      "path": "/api/v1/hub/media/orphans"
+    },
+    {
+      "doc": "清理未引用的媒体资产。",
+      "methods": [
+        "POST"
+      ],
+      "name": "media_purge_orphans",
+      "path": "/api/v1/hub/media/orphans/purge"
+    },
+    {
+      "doc": "媒体库状态 + 对外地址来源（排查\"为什么图片没被改写\"）。",
+      "methods": [
+        "GET"
+      ],
+      "name": "media_stats",
+      "path": "/api/v1/hub/media/stats"
+    },
+    {
+      "doc": "上传图片入库（内容寻址去重）。返回稳定 URL。",
+      "methods": [
+        "POST"
+      ],
+      "name": "media_upload",
+      "path": "/api/v1/hub/media/upload"
+    },
+    {
+      "doc": "本地托管的图片（内容寻址 → 可永久缓存）。",
+      "methods": [
+        "GET"
+      ],
+      "name": "media_file",
+      "path": "/api/v1/hub/media/{name}"
+    },
+    {
+      "doc": "实时指标。`format=json`（默认）给调试用结构化快照；",
+      "methods": [
+        "GET"
+      ],
+      "name": "metrics",
+      "path": "/api/v1/hub/metrics"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "notifications_list",
+      "path": "/api/v1/hub/notifications"
+    },
+    {
+      "doc": "需要人工处理的发布实例（如掘金草稿等人点\"确定并发布\"）。",
+      "methods": [
+        "GET"
+      ],
+      "name": "pending_human",
+      "path": "/api/v1/hub/pending-human"
+    },
+    {
+      "doc": "手动解除平台限流冷却（平台侧确认恢复后用）。",
+      "methods": [
+        "POST"
+      ],
+      "name": "clear_cooldowns",
+      "path": "/api/v1/hub/platform-cooldowns/clear"
+    },
+    {
+      "doc": "平台清单 + 代码级能力矩阵。",
+      "methods": [
+        "GET"
+      ],
+      "name": "platforms",
+      "path": "/api/v1/hub/platforms"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "publications",
+      "path": "/api/v1/hub/publications"
+    },
+    {
+      "doc": "对一条已发布记录重新做回读验证（0.15.0）。",
+      "methods": [
+        "POST"
+      ],
+      "name": "verify_publication",
+      "path": "/api/v1/hub/publications/{pub_id}/verify"
+    },
+    {
+      "doc": "正文质检。JSON body 与 query 参数两种调用方式都支持。",
+      "methods": [
+        "POST"
+      ],
+      "name": "qa_analyze",
+      "path": "/api/v1/hub/qa/analyze"
+    },
+    {
+      "doc": "异步抓取平台文章入库。limit 传入 TaskManager，避免被 dispatch 硬编码为 50。",
+      "methods": [
+        "POST"
+      ],
+      "name": "refresh",
+      "path": "/api/v1/hub/refresh/{platform}"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "schedules_list",
+      "path": "/api/v1/hub/schedules"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "POST"
+      ],
+      "name": "schedules_create",
+      "path": "/api/v1/hub/schedules"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "DELETE"
+      ],
+      "name": "schedules_delete",
+      "path": "/api/v1/hub/schedules/{sid}"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "schedules_get",
+      "path": "/api/v1/hub/schedules/{sid}"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "PUT"
+      ],
+      "name": "schedules_update",
+      "path": "/api/v1/hub/schedules/{sid}"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "POST"
+      ],
+      "name": "schedules_pause",
+      "path": "/api/v1/hub/schedules/{sid}/pause"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "POST"
+      ],
+      "name": "schedules_resume",
+      "path": "/api/v1/hub/schedules/{sid}/resume"
+    },
+    {
+      "doc": "手动立即投递一次，不改调度计划。",
+      "methods": [
+        "POST"
+      ],
+      "name": "schedules_trigger",
+      "path": "/api/v1/hub/schedules/{sid}/trigger"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "status",
+      "path": "/api/v1/hub/status"
+    },
+    {
+      "doc": "异步同步扇出：把所有待更新实例提交一个 sync 任务。",
+      "methods": [
+        "POST"
+      ],
+      "name": "sync_pending",
+      "path": "/api/v1/hub/sync/pending"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "tags_list",
+      "path": "/api/v1/hub/tags"
+    },
+    {
+      "doc": "添加标签别名：alias 出现时自动替换成 canonical。",
+      "methods": [
+        "POST"
+      ],
+      "name": "tags_alias",
+      "path": "/api/v1/hub/tags/alias"
+    },
+    {
+      "doc": "近似重复标签簇：同义词治理的候选清单（一键合并前先看这个）。",
+      "methods": [
+        "GET"
+      ],
+      "name": "tags_clusters",
+      "path": "/api/v1/hub/tags/clusters"
+    },
+    {
+      "doc": "合并标签：_from -> to（_from 被合并消失，to 保留）。",
+      "methods": [
+        "POST"
+      ],
+      "name": "tags_merge",
+      "path": "/api/v1/hub/tags/merge"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "POST"
+      ],
+      "name": "tags_rename",
+      "path": "/api/v1/hub/tags/rename"
+    },
+    {
+      "doc": "根据标题+正文推荐 3-5 个标签。JSON body 与 query 参数都支持。",
+      "methods": [
+        "POST"
+      ],
+      "name": "tags_suggest",
+      "path": "/api/v1/hub/tags/suggest"
+    },
+    {
+      "doc": "从 articles 重建标签统计。",
+      "methods": [
+        "POST"
+      ],
+      "name": "tags_sync",
+      "path": "/api/v1/hub/tags/sync"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "tags_trending",
+      "path": "/api/v1/hub/tags/trending"
+    },
+    {
+      "doc": "任务列表：按 kind/status 过滤，默认返回最近 50 条。",
+      "methods": [
+        "GET"
+      ],
+      "name": "tasks_list",
+      "path": "/api/v1/hub/tasks"
+    },
+    {
+      "doc": "分页视图：返回 {items,total,has_more}。保持 /tasks 的原样返回不变。",
+      "methods": [
+        "GET"
+      ],
+      "name": "tasks_page",
+      "path": "/api/v1/hub/tasks/page"
+    },
+    {
+      "doc": "查询任意任务状态：pending / running / ok / failed / waiting_human。",
+      "methods": [
+        "GET"
+      ],
+      "name": "tasks_detail",
+      "path": "/api/v1/hub/tasks/{task_id}"
+    },
+    {
+      "doc": "恢复 waiting_human 任务：approved=true 重新执行；false 标记放弃。",
+      "methods": [
+        "POST"
+      ],
+      "name": "tasks_resume",
+      "path": "/api/v1/hub/tasks/{task_id}/resume"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "webhooks_list",
+      "path": "/api/v1/hub/webhooks"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "POST"
+      ],
+      "name": "webhooks_create",
+      "path": "/api/v1/hub/webhooks"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "DELETE"
+      ],
+      "name": "webhooks_delete",
+      "path": "/api/v1/hub/webhooks/{wid}"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "PUT"
+      ],
+      "name": "webhooks_update",
+      "path": "/api/v1/hub/webhooks/{wid}"
+    },
+    {
+      "doc": "发送测试事件到指定 webhook。",
+      "methods": [
+        "POST"
+      ],
+      "name": "webhooks_test",
+      "path": "/api/v1/hub/webhooks/{wid}/test"
+    }
+  ],
+  "schema": {
+    "fts_tables": [
+      "articles_fts"
+    ],
+    "indexes": [
+      "idx_articles_status",
+      "idx_articles_updated",
+      "idx_jobs_type_status",
+      "idx_pub_article",
+      "idx_pub_platform",
+      "idx_tasks_created",
+      "idx_tasks_status"
+    ],
+    "migrations": [
+      {
+        "version": 1
+      },
+      {
+        "version": 2
+      },
+      {
+        "version": 3
+      }
+    ],
+    "tables": [
+      {
+        "columns": [
+          {
+            "name": "id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "platform",
+            "type": "TEXT"
+          },
+          {
+            "name": "name",
+            "type": "TEXT"
+          },
+          {
+            "name": "profile_dir",
+            "type": "TEXT"
+          },
+          {
+            "name": "status",
+            "type": "TEXT"
+          },
+          {
+            "name": "last_check",
+            "type": "REAL"
+          }
+        ],
+        "table": "accounts"
+      },
+      {
+        "columns": [
+          {
+            "name": "id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "title",
+            "type": "TEXT"
+          },
+          {
+            "name": "content_md",
+            "type": "TEXT"
+          },
+          {
+            "name": "summary",
+            "type": "TEXT"
+          },
+          {
+            "name": "tags",
+            "type": "TEXT"
+          },
+          {
+            "name": "cover",
+            "type": "TEXT"
+          },
+          {
+            "name": "status",
+            "type": "TEXT"
+          },
+          {
+            "name": "source",
+            "type": "TEXT"
+          },
+          {
+            "name": "ai_model",
+            "type": "TEXT"
+          },
+          {
+            "name": "origin_url",
+            "type": "TEXT"
+          },
+          {
+            "name": "ext",
+            "type": "TEXT"
+          },
+          {
+            "name": "created_at",
+            "type": "REAL"
+          },
+          {
+            "name": "updated_at",
+            "type": "REAL"
+          }
+        ],
+        "table": "articles"
+      },
+      {
+        "columns": [
+          {
+            "name": "id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "article_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "platform",
+            "type": "TEXT"
+          },
+          {
+            "name": "account",
+            "type": "TEXT"
+          },
+          {
+            "name": "post_id",
+            "type": "TEXT"
+          },
+          {
+            "name": "post_url",
+            "type": "TEXT"
+          },
+          {
+            "name": "edit_url",
+            "type": "TEXT"
+          },
+          {
+            "name": "status",
+            "type": "TEXT"
+          },
+          {
+            "name": "draft_only",
+            "type": "INTEGER"
+          },
+          {
+            "name": "stats",
+            "type": "TEXT"
+          },
+          {
+            "name": "last_error",
+            "type": "TEXT"
+          },
+          {
+            "name": "content_hash",
+            "type": "TEXT"
+          },
+          {
+            "name": "published_at",
+            "type": "REAL"
+          },
+          {
+            "name": "updated_at",
+            "type": "REAL"
+          },
+          {
+            "name": "verify_state",
+            "type": "TEXT"
+          },
+          {
+            "name": "verified_at",
+            "type": "REAL"
+          },
+          {
+            "name": "verify_detail",
+            "type": "TEXT"
+          }
+        ],
+        "table": "publications"
+      },
+      {
+        "columns": [
+          {
+            "name": "id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "type",
+            "type": "TEXT"
+          },
+          {
+            "name": "article_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "platform",
+            "type": "TEXT"
+          },
+          {
+            "name": "status",
+            "type": "TEXT"
+          },
+          {
+            "name": "message",
+            "type": "TEXT"
+          },
+          {
+            "name": "created_at",
+            "type": "REAL"
+          },
+          {
+            "name": "finished_at",
+            "type": "REAL"
+          }
+        ],
+        "table": "jobs"
+      },
+      {
+        "columns": [
+          {
+            "name": "key",
+            "type": "TEXT"
+          },
+          {
+            "name": "value",
+            "type": "TEXT"
+          }
+        ],
+        "table": "meta"
+      },
+      {
+        "columns": [
+          {
+            "name": "id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "task_id",
+            "type": "TEXT"
+          },
+          {
+            "name": "kind",
+            "type": "TEXT"
+          },
+          {
+            "name": "article_id",
+            "type": "INTEGER"
+          },
+          {
+            "name": "platforms",
+            "type": "TEXT"
+          },
+          {
+            "name": "account",
+            "type": "TEXT"
+          },
+          {
+            "name": "draft_only",
+            "type": "INTEGER"
+          },
+          {
+            "name": "status",
+            "type": "TEXT"
+          },
+          {
+            "name": "message",
+            "type": "TEXT"
+          },
+          {
+            "name": "result",
+            "type": "TEXT"
+          },
+          {
+            "name": "error",
+            "type": "TEXT"
+          },
+          {
+            "name": "attempts",
+            "type": "INTEGER"
+          },
+          {
+            "name": "created_at",
+            "type": "REAL"
+          },
+          {
+            "name": "updated_at",
+            "type": "REAL"
+          },
+          {
+            "name": "finished_at",
+            "type": "REAL"
+          }
+        ],
+        "table": "tasks"
+      }
+    ]
+  },
+  "stats": {
+    "adapters": 15,
+    "cli_commands": 37,
+    "mcp_tools": 32,
+    "python_loc": 23461,
+    "python_modules": 105,
+    "rest_routes": 95
+  },
+  "tests": {
+    "files": [
+      {
+        "file": "backed/tests/conftest.py",
+        "loc": 123,
+        "tests": 0
+      },
+      {
+        "file": "backed/tests/fixtures/probe_mcp_server.py",
+        "loc": 27,
+        "tests": 0
+      },
+      {
+        "file": "backed/tests/test_0120_automation.py",
+        "loc": 318,
+        "tests": 20
+      },
+      {
+        "file": "backed/tests/test_ai_readiness.py",
+        "loc": 87,
+        "tests": 9
+      },
+      {
+        "file": "backed/tests/test_api_integration.py",
+        "loc": 279,
+        "tests": 13
+      },
+      {
+        "file": "backed/tests/test_app.py",
+        "loc": 85,
+        "tests": 4
+      },
+      {
+        "file": "backed/tests/test_article_delete.py",
+        "loc": 79,
+        "tests": 4
+      },
+      {
+        "file": "backed/tests/test_article_events.py",
+        "loc": 50,
+        "tests": 3
+      },
+      {
+        "file": "backed/tests/test_audit_20261027.py",
+        "loc": 132,
+        "tests": 8
+      },
+      {
+        "file": "backed/tests/test_auth_token_bootstrap.py",
+        "loc": 60,
+        "tests": 5
+      },
+      {
+        "file": "backed/tests/test_backup_data.py",
+        "loc": 255,
+        "tests": 16
+      },
+      {
+        "file": "backed/tests/test_capability_upgrade.py",
+        "loc": 861,
+        "tests": 71
+      },
+      {
+        "file": "backed/tests/test_config_migration_review.py",
+        "loc": 15,
+        "tests": 1
+      },
+      {
+        "file": "backed/tests/test_content_qa.py",
+        "loc": 112,
+        "tests": 11
+      },
+      {
+        "file": "backed/tests/test_csdn_publish_settings.py",
+        "loc": 245,
+        "tests": 14
+      },
+      {
+        "file": "backed/tests/test_db.py",
+        "loc": 215,
+        "tests": 15
+      },
+      {
+        "file": "backed/tests/test_debt_round2.py",
+        "loc": 254,
+        "tests": 13
+      },
+      {
+        "file": "backed/tests/test_debt_round2_paging.py",
+        "loc": 126,
+        "tests": 7
+      },
+      {
+        "file": "backed/tests/test_docs_links.py",
+        "loc": 101,
+        "tests": 6
+      },
+      {
+        "file": "backed/tests/test_events.py",
+        "loc": 161,
+        "tests": 14
+      },
+      {
+        "file": "backed/tests/test_export.py",
+        "loc": 58,
+        "tests": 5
+      },
+      {
+        "file": "backed/tests/test_gate.py",
+        "loc": 359,
+        "tests": 37
+      },
+      {
+        "file": "backed/tests/test_health_auth_boundary.py",
+        "loc": 48,
+        "tests": 3
+      },
+      {
+        "file": "backed/tests/test_human_click.py",
+        "loc": 201,
+        "tests": 15
+      },
+      {
+        "file": "backed/tests/test_input_validation.py",
+        "loc": 49,
+        "tests": 5
+      },
+      {
+        "file": "backed/tests/test_mcp_wechatsync.py",
+        "loc": 292,
+        "tests": 21
+      },
+      {
+        "file": "backed/tests/test_media_orphans.py",
+        "loc": 78,
+        "tests": 5
+      },
+      {
+        "file": "backed/tests/test_module_imports.py",
+        "loc": 131,
+        "tests": 6
+      },
+      {
+        "file": "backed/tests/test_publish_modes.py",
+        "loc": 299,
+        "tests": 10
+      },
+      {
+        "file": "backed/tests/test_publish_readback.py",
+        "loc": 211,
+        "tests": 14
+      },
+      {
+        "file": "backed/tests/test_rate_limiter.py",
+        "loc": 163,
+        "tests": 17
+      },
+      {
+        "file": "backed/tests/test_real_publish_and_ai_config.py",
+        "loc": 314,
+        "tests": 15
+      },
+      {
+        "file": "backed/tests/test_review_20261012.py",
+        "loc": 377,
+        "tests": 21
+      },
+      {
+        "file": "backed/tests/test_review_20261014.py",
+        "loc": 135,
+        "tests": 8
+      },
+      {
+        "file": "backed/tests/test_review_shutdown_security.py",
+        "loc": 48,
+        "tests": 3
+      },
+      {
+        "file": "backed/tests/test_router_info.py",
+        "loc": 25,
+        "tests": 2
+      },
+      {
+        "file": "backed/tests/test_schedule_validation.py",
+        "loc": 74,
+        "tests": 4
+      },
+      {
+        "file": "backed/tests/test_scheduler.py",
+        "loc": 253,
+        "tests": 22
+      },
+      {
+        "file": "backed/tests/test_security_headers.py",
+        "loc": 38,
+        "tests": 3
+      },
+      {
+        "file": "backed/tests/test_security_regression.py",
+        "loc": 265,
+        "tests": 15
+      },
+      {
+        "file": "backed/tests/test_sse_replay.py",
+        "loc": 90,
+        "tests": 7
+      },
+      {
+        "file": "backed/tests/test_tag_suggest.py",
+        "loc": 49,
+        "tests": 5
+      },
+      {
+        "file": "backed/tests/test_tags.py",
+        "loc": 174,
+        "tests": 14
+      },
+      {
+        "file": "backed/tests/test_task_failure_propagation.py",
+        "loc": 74,
+        "tests": 7
+      },
+      {
+        "file": "backed/tests/test_task_pending_user.py",
+        "loc": 84,
+        "tests": 4
+      },
+      {
+        "file": "backed/tests/test_tasks.py",
+        "loc": 196,
+        "tests": 11
+      },
+      {
+        "file": "backed/tests/test_title_evidence.py",
+        "loc": 73,
+        "tests": 6
+      },
+      {
+        "file": "backed/tests/test_url_safety_deadline_rebinding.py",
+        "loc": 165,
+        "tests": 6
+      },
+      {
+        "file": "backed/tests/test_url_safety_pinning.py",
+        "loc": 105,
+        "tests": 5
+      },
+      {
+        "file": "backed/tests/test_versions.py",
+        "loc": 146,
+        "tests": 11
+      },
+      {
+        "file": "backed/tests/test_zhihu_answer_flow.py",
+        "loc": 161,
+        "tests": 7
+      }
+    ],
+    "note": "parametrize 展开后的实际用例数以此为准：uv run pytest --collect-only -q",
+    "test_functions": 548,
+    "total_loc": 8320
+  }
+}

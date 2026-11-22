@@ -55,6 +55,8 @@ ruff_lint() {
 step "2/8 静态门禁 ruff" ruff_lint
 step "3/8 版本一致性"      uv run python "$repo_root/scripts/bump_version.py" --check
 step "4/8 密钥扫描"        uv run python "$repo_root/scripts/scan_secrets.py"
+# 事实清单（路由/工具/适配器/表结构）必须与代码一致：改了代码没重生成就红。
+step "4b/8 智能体上下文"   uv run python "$repo_root/scripts/gen_agent_context.py" --check
 step "5/8 单元测试 pytest" uv run pytest -q --no-header -p no:cacheprovider
 
 if [ -d "$repo_root/web/node_modules" ]; then

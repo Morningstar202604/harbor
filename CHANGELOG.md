@@ -4,6 +4,29 @@
 
 ## [Unreleased]
 
+### Added
+
+- **智能体可读化：读一遍仓库就能开工。** 新增根目录 [`AGENTS.md`](AGENTS.md)（定位 / 跑起来 /
+  代码地图 / 三条主链 / 硬规则 / 已知陷阱 / 短任务模板），`CLAUDE.md` 与
+  `.github/copilot-instructions.md` 作为指针。新增 `scripts/gen_agent_context.py`，从代码抽取
+  95 个 REST 操作、32 个 MCP tool、15 个适配器能力矩阵、6 张表、测试分布与 CLI 命令，产出
+  `docs/agent/CONTEXT.md` + `CONTEXT.json`，**禁止手改**。
+- **上下文新鲜度门禁。** CI 的 backend job 与 `scripts/check_all.sh` 增加
+  `gen_agent_context.py --check`：代码变了没重生成就红。
+- **`Makefile`**：`install / dev / web / demo / test / check / context / bump` 八个入口。
+
+### Changed
+
+- **`AGENT.md` 重写为 0.15.0 的目录级指南。** 原文件自述"反映 0.13.0 架构"，目录树里
+  `system.py` 重复一行、`ai_providers.py` 缩进错位；现改为分层表 + 15 个适配器清单 +
+  脚本清单，并指向生成的事实清单。
+- **`docs/architecture/ARCHITECTURE.md` 对齐代码**：版本 0.10.0 → 0.15.0，适配器 10 → 15，
+  删掉"生产可切 MySQL / PostgreSQL"这条没有代码支撑的承诺。
+- **`docs/ROADMAP.md` 重排**：一个版本号只出现一次；`Next` 收敛为 0.16（工程收敛）/
+  0.17（并发与失败取证）/ 0.18（编辑工作流），Backlog 标注国外平台不再扩展。
+- **根目录 Markdown 契约**纳入 `AGENTS.md` 与 `CLAUDE.md`，`CONTRIBUTING.md` 与
+  `docs/PROJECT_MANAGEMENT.md` 同步。
+
 ### Fixed
 
 - **CI 的两个新 job 首次运行即红，且都是真缺陷。** `docker-smoke`：compose 每次
