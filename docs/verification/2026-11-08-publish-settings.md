@@ -56,7 +56,7 @@ settings_filled:  [文章标签, 添加封面, 文章摘要, 分类专栏, 文�
                    参与活动=AtomGit「码动四季·开源同行」秋季征稿活动]
 settings_failed:  [话题(没有可见下拉)]
 post_id:          170247396
-post_url:         https://blog.csdn.net/weixin_56622231/article/details/170247396
+post_url:         https://blog.csdn.net/weixin_****/article/details/170247396
 verify:           回读：已确认
 ```
 
@@ -193,7 +193,7 @@ Regression tests added to `backed/tests/test_title_evidence.py` (now 13 cases).
 确认新段落真的出现在页面上（不是只看函数返回值）。
 
 结果：通过。线上文章
-`https://blog.csdn.net/weixin_56622231/article/details/170247396` 已包含
+`https://blog.csdn.net/weixin_****/article/details/170247396` 已包含
 「最终更新验证」段落，正文长度从 2942 增到 3454。
 
 达到这个结果之前，连续踩了四个"返回成功但没生效"：

@@ -33,6 +33,8 @@ DEMO=1 HARBOR_API_TOKEN=dev uv run uvicorn app.factory:create_app --factory --po
 4. [`docs/PROJECT_MANAGEMENT.md`](docs/PROJECT_MANAGEMENT.md) — 分支模型、完成定义、五仓同步
 5. [`docs/VERSIONING.md`](docs/VERSIONING.md) — 版本与发布清单
 
+做运营/定时任务时，另读 [`playbooks/README.md`](playbooks/README.md)。`playbooks/` 是**模板**，不含账号；个人副本放 `profiles/<name>/playbooks/`（已 gitignore）。**cron 里只有触发和指针，流程正文在文件里**。
+
 ## 4. 代码地图（一层一句话）
 
 | 路径 | 职责 | 规矩 |
@@ -46,6 +48,8 @@ DEMO=1 HARBOR_API_TOKEN=dev uv run uvicorn app.factory:create_app --factory --po
 | `web/` | Vue3 表现层 + Tauri 壳 | 不放业务规则 |
 | `deploy/` | Dockerfile / compose / nginx | 从仓库根上下文构建 |
 | `scripts/` | 门禁、生成、备份、真机验证 | 每个脚本带 `--help` 或被文档引用 |
+| `playbooks/` | 运营 SOP 模板（博客园/知乎/CSDN/掘金） | 模板不含账号；个人副本放 `profiles/<name>/`，不回写 cron |
+| `profiles/` | 个人档案约定（账号/主线/报告/进度） | 只提交 `README.md` 与 `example.yaml`，真实档案不入库 |
 
 ## 5. 三条主链（改之前先认路）
 
@@ -68,6 +72,8 @@ DEMO=1 HARBOR_API_TOKEN=dev uv run uvicorn app.factory:create_app --factory --po
 - 任何"成功"必须有证据：接口 200 ≠ 发布成功，回读才算；`verify_state` 默认必须是 `unverified`
 - 文档不许比代码宽：README 每条能力必须有测试，或 `docs/verification/` 里一条带日期的真机记录
 - 事实清单进生成物：加完端点/工具/适配器，跑 `python scripts/gen_agent_context.py` 再提交
+- 运营流程进 `playbooks/`：cron 的 query 只留触发 + 指针，不把 SOP 写回定时任务
+- 个人数据不进仓库：账号、平台用户 ID、文章 ID、报告链接、本机路径一律放 `profiles/<name>/`；提交前跑 `python scripts/scan_privacy.py`
 
 ## 7. 已知陷阱（踩过，别再踩）
 
@@ -94,12 +100,13 @@ uv run ruff check .                # 静态（E4/E7/E9/F，E402 故意放行）
 
 - trunk-based：只有 `main`；短分支 ≤3 天；squash 合并
 - commit：`type(scope): 中文一句话`，body 写"为什么"和"怎么验的"
-- 五仓同步：`gh-x33834` / `gh-morningstar` / `gh-badhope` / `gitcode` / `gitee`，一次推五个 `main`
+- 多仓镜像：按本机 remote 配置逐个推 `main`；凭据放 credential helper，不写进仓库、不进 commit
 - 版本：SemVer + 六处清单，`uv run python scripts/bump_version.py x.y.z`；不要手改单处
 
 ## 10. 给 AI 的任务模板（越短越好，细节都在仓库里）
 
 - 修 bug：`读 AGENTS.md，按 §5 定位「现象」，先复现再改，跑 check_all`
 - 加平台：`按 §6 新增适配器 + capabilities + 契约测试，最后重生成 CONTEXT`
-- 重构：`只动 <目录>，行为不变，692 测试必须全绿`
+- 重构：`只动 <目录>，行为不变，全部测试必须全绿`
+- 每日运营：`读 profiles/<name>/playbooks/<platform>.md 执行，登录失效即停，结束写“已做完”`
 - 发版：`按 docs/VERSIONING.md 的清单走，CHANGELOG 用 Keep a Changelog 单块`

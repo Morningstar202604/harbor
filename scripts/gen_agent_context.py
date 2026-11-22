@@ -31,6 +31,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
 BACKED = REPO / "backed"
+PLAYBOOKS = REPO / "playbooks"
 OUT_DIR = REPO / "docs" / "agent"
 OUT_JSON = OUT_DIR / "CONTEXT.json"
 OUT_MD = OUT_DIR / "CONTEXT.md"
@@ -354,6 +355,51 @@ def scan_cli() -> list[dict]:
     return sorted(out, key=lambda x: x["command"])
 
 
+def scan_playbooks() -> list[dict]:
+    """运营 SOP。front matter 提供平台/账号/节奏，行数作为规模指标。
+
+    定时任务只留触发和指针，流程正文在这里定义；缺字段直接报错，避免坏文件进 CI。
+    """
+    out: list[dict] = []
+    for p in sorted(PLAYBOOKS.glob("*.md")):
+        if p.name == "README.md":
+            continue
+        lines = p.read_text(encoding="utf-8").splitlines()
+        if not lines or lines[0].strip() != "---":
+            raise ValueError(f"{_rel(p)} 缺少 front matter")
+        meta: dict[str, str] = {}
+        closing = None
+        for i, line in enumerate(lines[1:], 1):
+            if line.strip() == "---":
+                closing = i
+                break
+            if ":" in line:
+                k, v = line.split(":", 1)
+                meta[k.strip()] = v.strip().strip('"').strip("'")
+        if closing is None:
+            raise ValueError(f"{_rel(p)} front matter 未闭合")
+        missing = [k for k in ("title", "platform", "schedule", "updated")
+                   if not meta.get(k)]
+        if missing:
+            raise ValueError(f"{_rel(p)} front matter 缺字段: {', '.join(missing)}")
+        out.append({
+            "file": _rel(p),
+            "title": meta["title"],
+            "platform": meta["platform"],
+            "account": meta.get("account", ""),
+            "scope": meta.get("scope", "template"),
+            "schedule": meta["schedule"],
+            "deadline": meta.get("deadline", ""),
+            "updated": meta["updated"],
+            "lines": len(lines),
+        })
+    ids = [x["platform"] for x in out]
+    dup = sorted({i for i in ids if ids.count(i) > 1})
+    if dup:
+        raise ValueError(f"playbook 平台重复: {', '.join(dup)}")
+    return out
+
+
 def scan_config() -> dict:
     path = BACKED / "config.example.json"
     try:
@@ -374,6 +420,7 @@ def build() -> dict:
     package = json.loads((REPO / "web/package.json").read_text(encoding="utf-8"))
 
     modules, edges, graph_stats = scan_modules()
+    playbooks = scan_playbooks()
     ctx = {
         "project": {
             "name": "Harbor (内容港)",
@@ -392,12 +439,14 @@ def build() -> dict:
             "mcp_tools": len(mcp := scan_mcp_tools()),
             "adapters": len(adapters := scan_adapters()),
             "cli_commands": len(cli := scan_cli()),
+            "playbooks": len(playbooks),
         },
         "graph": graph_stats,
         "modules": modules,
         "routes": routes,
         "mcp_tools": mcp,
         "adapters": adapters,
+        "playbooks": playbooks,
         "schema": scan_schema(),
         "tests": scan_tests(),
         "cli": cli,
@@ -410,6 +459,7 @@ def build() -> dict:
             {"path": "backed/desktop_sidecar.py", "role": "Tauri 桌面端 sidecar 启动"},
             {"path": "scripts/check_all.sh", "role": "本地八道门禁"},
             {"path": "scripts/gen_agent_context.py", "role": "本文件生成器（--check 进 CI）"},
+            {"path": "playbooks/README.md", "role": "运营 SOP 模板索引；个人档案在 profiles/（gitignored）"},
         ],
     }
     return ctx
@@ -449,7 +499,18 @@ def render_md(ctx: dict) -> str:
         a(f"| `{e['path']}` | {e['role']} |")
     a("")
 
-    a("## 2. 模块依赖（包级计数 + 扇入 Top）")
+    a("## 2. 运营 playbook（SOP）")
+    a("")
+    a(f"共 {len(ctx['playbooks'])} 份模板，位于 `playbooks/`。模板不含账号；真实档案、进度与报告链接"
+      "放 `profiles/<name>/`（已 gitignore）。定时任务只负责触发，流程正文以文件为准。")
+    a("")
+    a("| 平台 | 文件 | 触发 | 范围 | 行数 | 更新 |")
+    a("|---|---|---|---|---|---|")
+    for pb in ctx["playbooks"]:
+        a(f"| `{pb['platform']}` {pb['title']} | `{pb['file']}` | {pb['schedule']} | "
+          f"{pb['scope']} | {pb['lines']} | {pb['updated']} |")
+    a("")
+    a("## 3. 模块依赖（包级计数 + 扇入 Top）")
     a("")
     a("| 包 | 模块数 |")
     a("|---|---|")
@@ -462,7 +523,7 @@ def render_md(ctx: dict) -> str:
         a(f"- `{x['module']}` ← {x['importers']} 个模块")
     a("")
 
-    a("## 3. REST API")
+    a("## 4. REST API")
     a("")
     a(f"共 {ctx['stats']['rest_routes']} 个操作，前缀 `/api/v1/hub`。")
     a("")
@@ -472,7 +533,7 @@ def render_md(ctx: dict) -> str:
         a(f"| {'/'.join(r['methods'])} | `{r['path']}` | `{r['name']}` | {r['doc']} |")
     a("")
 
-    a("## 4. MCP 工具")
+    a("## 5. MCP 工具")
     a("")
     a(f"共 {ctx['stats']['mcp_tools']} 个，定义在 `mcp_server.py`。")
     a("")
@@ -482,7 +543,7 @@ def render_md(ctx: dict) -> str:
         a(f"| `{t['name']}` | {', '.join(t['args']) or '—'} | {t['doc']} |")
     a("")
 
-    a("## 5. 平台适配器与能力矩阵")
+    a("## 6. 平台适配器与能力矩阵")
     a("")
     a("能力为 `true` 才算真的支持；未声明一律 false（防假成功）。")
     a("")
@@ -495,7 +556,7 @@ def render_md(ctx: dict) -> str:
           + " | ".join(marks) + f" | {ad['selector_version'] or '—'} |")
     a("")
 
-    a("## 6. 数据库")
+    a("## 7. 数据库")
     a("")
     a("| 表 | 列 |")
     a("|---|---|")
@@ -510,7 +571,7 @@ def render_md(ctx: dict) -> str:
       f"{len(ctx['schema']['migrations'])} 段（`meta.schema_version` + `MIGRATIONS`）。")
     a("")
 
-    a("## 7. 测试分布")
+    a("## 8. 测试分布")
     a("")
     t = ctx["tests"]
     a(f"`test_*` 函数 {t['test_functions']} 个，测试代码 {t['total_loc']} 行。"
@@ -523,13 +584,13 @@ def render_md(ctx: dict) -> str:
             a(f"| `{f['file']}` | {f['tests']} | {f['loc']} |")
     a("")
 
-    a("## 8. CLI")
+    a("## 9. CLI")
     a("")
     for c in ctx["cli"]:
         a(f"- `{c['command']}` — {c['doc']}")
     a("")
 
-    a("## 9. 配置键（config.example.json）")
+    a("## 10. 配置键（config.example.json）")
     a("")
     a("顶层：" + "、".join(f"`{k}`" for k in ctx["config"]["keys"]))
     a("")

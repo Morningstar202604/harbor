@@ -94,6 +94,18 @@ Tauri 以 sidecar 方式拉起 Python 后端，并通过端口握手文件发现
 **Windows 已实测**（2026-11-07）：`tauri build` 编译通过、应用能启动、
 sidecar 绑定回环端口、数据目录建在 `%APPDATA%`。macOS 与 Linux 未测。
 
+## 给别人复用，也把自己的数据留在本机
+
+Harbor 是给任何人自托管用的，不绑定作者本人。一次部署服务一个人：cookie、账号、草稿都不出本机。
+
+- `profiles/` 是私人区：把 `profiles/example.yaml` 复制成 `profiles/<name>/profile.yaml`，
+  真实账号、报告链接、进度文件都放这里。除 README 与示例外，整个目录被 `.gitignore` 忽略。
+- `playbooks/` 只放**模板**（博客园/知乎/CSDN/掘金）。复制到 `profiles/<name>/playbooks/`，
+  填 `{{profile.*}}`，定时任务指向副本。
+- `python scripts/scan_privacy.py`（CI 也会跑）拦截账号 ID、飞书文档链接、本机绝对路径这类提交。
+
+一次部署一个人是设计取舍：发布依赖你的登录态，做成多租户 SaaS 是负债不是功能。
+
 ## 接入平台
 
 两类接入方式，按平台决定：

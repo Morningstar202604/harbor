@@ -1398,6 +1398,10 @@
     {
       "path": "scripts/gen_agent_context.py",
       "role": "本文件生成器（--check 进 CI）"
+    },
+    {
+      "path": "playbooks/README.md",
+      "role": "运营 SOP 模板索引；个人档案在 profiles/（gitignored）"
     }
   ],
   "graph": {
@@ -3449,6 +3453,52 @@
       "path": "backed/utils/security.py"
     }
   ],
+  "playbooks": [
+    {
+      "account": "",
+      "deadline": "",
+      "file": "playbooks/cnblogs.md",
+      "lines": 60,
+      "platform": "cnblogs",
+      "schedule": "建议每天 1 次（以 profile 为准）",
+      "scope": "template",
+      "title": "博客园每日运营（模板）",
+      "updated": "2026-11-22"
+    },
+    {
+      "account": "",
+      "deadline": "",
+      "file": "playbooks/csdn.md",
+      "lines": 33,
+      "platform": "csdn",
+      "schedule": "建议每天 1 次，直到清零",
+      "scope": "template",
+      "title": "CSDN 私密转公开（模板）",
+      "updated": "2026-11-22"
+    },
+    {
+      "account": "",
+      "deadline": "",
+      "file": "playbooks/juejin.md",
+      "lines": 34,
+      "platform": "juejin",
+      "schedule": "建议每天 1 次（以 profile 为准）",
+      "scope": "template",
+      "title": "掘金每日运营（模板）",
+      "updated": "2026-11-22"
+    },
+    {
+      "account": "",
+      "deadline": "",
+      "file": "playbooks/zhihu.md",
+      "lines": 50,
+      "platform": "zhihu",
+      "schedule": "建议每天 1-2 次（以 profile 为准）",
+      "scope": "template",
+      "title": "知乎每日运营（模板）",
+      "updated": "2026-11-22"
+    }
+  ],
   "project": {
     "backend_python": ">=3.10",
     "name": "Harbor (内容港)",
@@ -4530,6 +4580,7 @@
     "adapters": 15,
     "cli_commands": 37,
     "mcp_tools": 32,
+    "playbooks": 4,
     "python_loc": 23461,
     "python_modules": 105,
     "rest_routes": 95
@@ -4628,7 +4679,7 @@
       },
       {
         "file": "backed/tests/test_docs_links.py",
-        "loc": 101,
+        "loc": 105,
         "tests": 6
       },
       {
@@ -4794,6 +4845,6 @@
     ],
     "note": "parametrize 展开后的实际用例数以此为准：uv run pytest --collect-only -q",
     "test_functions": 548,
-    "total_loc": 8320
+    "total_loc": 8324
   }
 }

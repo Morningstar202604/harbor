@@ -214,3 +214,5 @@ jobs:
         run: uv run --project backed python scripts/bump_version.py --check
       - name: Secret scan
         run: uv run --project backed python scripts/scan_secrets.py
+      - name: Privacy scan
+        run: uv run --project backed python scripts/scan_privacy.py

@@ -28,8 +28,20 @@
 | `backed/desktop_sidecar.py` | Tauri 桌面端 sidecar 启动 |
 | `scripts/check_all.sh` | 本地八道门禁 |
 | `scripts/gen_agent_context.py` | 本文件生成器（--check 进 CI） |
+| `playbooks/README.md` | 运营 SOP 模板索引；个人档案在 profiles/（gitignored） |
 
-## 2. 模块依赖（包级计数 + 扇入 Top）
+## 2. 运营 playbook（SOP）
+
+共 4 份模板，位于 `playbooks/`。模板不含账号；真实档案、进度与报告链接放 `profiles/<name>/`（已 gitignore）。定时任务只负责触发，流程正文以文件为准。
+
+| 平台 | 文件 | 触发 | 范围 | 行数 | 更新 |
+|---|---|---|---|---|---|
+| `cnblogs` 博客园每日运营（模板） | `playbooks/cnblogs.md` | 建议每天 1 次（以 profile 为准） | template | 60 | 2026-11-22 |
+| `csdn` CSDN 私密转公开（模板） | `playbooks/csdn.md` | 建议每天 1 次，直到清零 | template | 33 | 2026-11-22 |
+| `juejin` 掘金每日运营（模板） | `playbooks/juejin.md` | 建议每天 1 次（以 profile 为准） | template | 34 | 2026-11-22 |
+| `zhihu` 知乎每日运营（模板） | `playbooks/zhihu.md` | 建议每天 1-2 次（以 profile 为准） | template | 50 | 2026-11-22 |
+
+## 3. 模块依赖（包级计数 + 扇入 Top）
 
 | 包 | 模块数 |
 |---|---|
@@ -60,7 +72,7 @@
 - `service.publishing.versions` ← 5 个模块
 - `service.publishing.ai_providers` ← 4 个模块
 
-## 3. REST API
+## 4. REST API
 
 共 95 个操作，前缀 `/api/v1/hub`。
 
@@ -162,7 +174,7 @@
 | PUT | `/api/v1/hub/webhooks/{wid}` | `webhooks_update` |  |
 | POST | `/api/v1/hub/webhooks/{wid}/test` | `webhooks_test` | 发送测试事件到指定 webhook。 |
 
-## 4. MCP 工具
+## 5. MCP 工具
 
 共 32 个，定义在 `mcp_server.py`。
 
@@ -201,7 +213,7 @@
 | `wechatsync_publish` | article_id, platforms, title, cover, dry_run | 把文章库里的一篇交给外部执行器 Wechatsync 分发到多个平台。 |
 | `wechatsync_status` | — | 查询外部执行器 Wechatsync 的就绪状态（是否安装、是否配 token）。 |
 
-## 5. 平台适配器与能力矩阵
+## 6. 平台适配器与能力矩阵
 
 能力为 `true` 才算真的支持；未声明一律 false（防假成功）。
 
@@ -223,7 +235,7 @@
 | `xiaohongshu` 小红书 | 是 | · | ✅ | · | · | ✅ | · | · | · | 2026-10-30 (未验证) |
 | `zhihu` 知乎 | 是 | · | ✅ | · | · | ✅ | ✅ | ✅ | ✅ | 2026-09 |
 
-## 6. 数据库
+## 7. 数据库
 
 | 表 | 列 |
 |---|---|
@@ -238,9 +250,9 @@
 
 索引 7 个；迁移版本 3 段（`meta.schema_version` + `MIGRATIONS`）。
 
-## 7. 测试分布
+## 8. 测试分布
 
-`test_*` 函数 548 个，测试代码 8320 行。parametrize 展开后的真实用例数：`uv run pytest --collect-only -q`。
+`test_*` 函数 548 个，测试代码 8324 行。parametrize 展开后的真实用例数：`uv run pytest --collect-only -q`。
 
 | 文件 | 用例函数 | 行数 |
 |---|---|---|
@@ -260,7 +272,7 @@
 | `backed/tests/test_db.py` | 15 | 215 |
 | `backed/tests/test_debt_round2.py` | 13 | 254 |
 | `backed/tests/test_debt_round2_paging.py` | 7 | 126 |
-| `backed/tests/test_docs_links.py` | 6 | 101 |
+| `backed/tests/test_docs_links.py` | 6 | 105 |
 | `backed/tests/test_events.py` | 14 | 161 |
 | `backed/tests/test_export.py` | 5 | 58 |
 | `backed/tests/test_gate.py` | 37 | 359 |
@@ -294,7 +306,7 @@
 | `backed/tests/test_versions.py` | 11 | 146 |
 | `backed/tests/test_zhihu_answer_flow.py` | 7 | 161 |
 
-## 8. CLI
+## 9. CLI
 
 - `ai-outline` — AI 提炼文章大纲
 - `ai-polish` — AI 润色文章
@@ -334,7 +346,7 @@
 - `update` — 原地更新已发布文章
 - `versions` — 列出文章的版本历史
 
-## 9. 配置键（config.example.json）
+## 10. 配置键（config.example.json）
 
 顶层：`AI_API_KEY`、`AI_BASE_URL`、`AI_DIRECT_PUBLISH`、`AI_MODEL`、`MCP_BRIDGE`、`REVIEW_MODEL`、`WRITING_STYLE_FILE`、`api_token`、`platforms`
 

@@ -96,6 +96,23 @@ file. **Verified on Windows** (2026-11-07): `tauri build` compiles, the app star
 the sidecar binds a loopback port, and the data directory is created under
 `%APPDATA%`. macOS and Linux are untested — see [Known limits](#known-limits).
 
+## Make it yours (and keep your data out of the repo)
+
+Harbor is built to be re-run by anyone, not just its author. Each deployment is single-user and
+self-hosted: cookies, accounts and drafts never leave your machine.
+
+- `profiles/` is your private space. Copy `profiles/example.yaml` to
+  `profiles/<name>/profile.yaml` and put real accounts, report links and progress files there.
+  Everything under `profiles/` except the README and the example is `.gitignore`d.
+- `playbooks/` ships **templates** for daily operations (Cnblogs, Zhihu, CSDN, Juejin).
+  Copy one into `profiles/<name>/playbooks/`, fill `{{profile.*}}`, and point your scheduler
+  at the copy.
+- `python scripts/scan_privacy.py` (also run in CI) blocks commits containing account IDs,
+  Feishu document links or absolute local paths.
+
+One instance serves one person by design: publishing needs your login state, so multi-tenant
+hosting would be a liability, not a feature.
+
 ## Connect a platform
 
 Two connection styles, decided per platform:

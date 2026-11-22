@@ -64,3 +64,8 @@ backed/build/
 
 # 本地自动化运行日志（非源码，含运行态观察记录）
 .workbuddy/
+
+# 个人运营档案（只保留示例与说明；真实账号/进度/报告链接不入库）
+profiles/*
+!profiles/README.md
+!profiles/example.yaml

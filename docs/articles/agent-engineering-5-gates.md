@@ -166,4 +166,4 @@ except Exception as e:
 
 所以如果你正在做 Agent 项目，我的建议是：**先把这 5 关过一遍，再回头优化模型和 prompt。** 顺序反了，后面全是白工。
 
-我在做的是「本地优先」的 Agent 工具链——单机可跑、数据不出本机、审批门禁内置。如果你也在做类似方向，欢迎交流。我的开源项目都在 GitHub（github.com/Morningstar202604），日常思考写在 CSDN（blog.csdn.net/weixin_56622231）。
+我在做的是「本地优先」的 Agent 工具链——单机可跑、数据不出本机、审批门禁内置。如果你也在做类似方向，欢迎交流。我的开源项目都在 GitHub（github.com/Morningstar202604），日常思考写在 CSDN（blog.csdn.net/weixin_****）。

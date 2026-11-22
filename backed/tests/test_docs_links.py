@@ -43,6 +43,8 @@ def _links(path):
     "docs/architecture/ARCHITECTURE.md",
     "docs/audit/AUDIT.md",
     "docs/design/tech-debt.md",
+    "playbooks/README.md",
+    "profiles/README.md",
 ])
 def test_markdown_files_exist(rel):
     assert (REPO / rel).is_file()
@@ -51,6 +53,8 @@ def test_markdown_files_exist(rel):
 @pytest.mark.parametrize("src", [
     "README.md", "AGENTS.md", "AGENT.md", "CLAUDE.md", "CHANGELOG.md",
     "docs/architecture/ARCHITECTURE.md", "docs/audit/AUDIT.md",
+    "playbooks/README.md",
+    "profiles/README.md",
 ])
 def test_relative_links_resolve(src):
     path = REPO / src

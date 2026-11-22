@@ -1,0 +1,50 @@
+# 复制为 profiles/<your-name>/profile.yaml 后填写。
+# 这个文件本身入库，只放占位符；你的真实档案不要提交。
+name: your-name
+timezone: Asia/Shanghai
+
+accounts:
+  cnblogs: your-cnblogs-id
+  zhihu: your-zhihu-id
+  csdn: your-csdn-id
+  juejin: your-juejin-id
+
+# 账号主线：选题相关性、互动方向都按这个判断
+mainline: "AI 工程、Agent 落地、开发者工具、独立开发"
+
+style:
+  voice: "短句、第一人称、具体事实；不写客服腔"
+  avoid:
+    - "首先/其次/最后"
+    - "综上所述"
+    - "不是A而是B"
+  min_images: 2
+  min_code_blocks: 1
+
+# 每日互动额度
+engagement:
+  proactive_comments: 4      # 主动评论条数下限
+  reply_only_after: 4        # 达到这个数后只回消息，不再主动评论
+  max_per_author: 1
+  max_follow_back: 3
+
+# 栏目与字数计划（知乎/掘金用；不需要可留空）
+content_plan:
+  zhihu:
+    monday: "课程教程，10000 字以上"
+    tuesday: "AI/Agent 工具实测，3000-5000 字"
+    default: "非教程不少于 1500 字"
+  juejin:
+    circle: "你的圈子名"
+    topic: "#你的话题#"
+
+links:
+  report: ""            # 运营报告文档地址，没有就留空
+  topic_bank: ""        # 选题库文件路径
+
+paths:
+  workspace: "profiles/your-name"
+  progress: "profiles/your-name/progress"
+
+windows:
+  active: "12:30-13:00"
