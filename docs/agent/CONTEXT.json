@@ -4706,7 +4706,7 @@
       },
       {
         "file": "backed/tests/test_docs_links.py",
-        "loc": 106,
+        "loc": 107,
         "tests": 6
       },
       {
@@ -4877,6 +4877,6 @@
     ],
     "note": "parametrize 展开后的实际用例数以此为准：uv run pytest --collect-only -q",
     "test_functions": 554,
-    "total_loc": 8388
+    "total_loc": 8389
   }
 }

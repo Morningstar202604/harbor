@@ -20,6 +20,8 @@
   缺字段会明确报错而不是静默产出半成品。
 - **登录边界写死。** 新增 [`docs/guides/login.md`](docs/guides/login.md)：登录只发生在 Harbor
   所在的主机（前端或 CLI），模型/Agent 不接管账号密码与 cookie；未登录置 `waiting_human`。
+- **MCP 接入指南。** 新增 [`docs/guides/mcp-clients.md`](docs/guides/mcp-clients.md)：本机 stdio
+  与远程 streamable-http 的配置、数据目录对齐、token 与登录边界；实测 32 个工具可列出并调用。
 
 ### Changed
 

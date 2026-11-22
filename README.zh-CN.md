@@ -109,6 +109,7 @@ Harbor 是给任何人自托管用的，不绑定作者本人。一次部署服�
 
 > **登录发生在 Harbor 所在的那台机器上，不在 AI 客户端 / 模型的浏览器里。**
 > 本机、局域网、无显示器服务器的做法见 [docs/guides/login.md](docs/guides/login.md)。
+> AI 客户端怎么接进来见 [docs/guides/mcp-clients.md](docs/guides/mcp-clients.md)。
 
 ## 接入平台
 

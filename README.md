@@ -115,7 +115,8 @@ One instance serves one person by design: publishing needs your login state, so 
 hosting would be a liability, not a feature.
 
 > **Login happens on the machine running Harbor, never in your AI client's browser.**
-> See [docs/guides/login.md](docs/guides/login.md) for local, LAN and headless deployments.
+> See [docs/guides/login.md](docs/guides/login.md) for local, LAN and headless deployments,
+> and [docs/guides/mcp-clients.md](docs/guides/mcp-clients.md) for connecting an MCP client.
 
 ## Connect a platform
 

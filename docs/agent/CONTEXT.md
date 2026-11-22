@@ -252,7 +252,7 @@
 
 ## 8. 测试分布
 
-`test_*` 函数 554 个，测试代码 8388 行。parametrize 展开后的真实用例数：`uv run pytest --collect-only -q`。
+`test_*` 函数 554 个，测试代码 8389 行。parametrize 展开后的真实用例数：`uv run pytest --collect-only -q`。
 
 | 文件 | 用例函数 | 行数 |
 |---|---|---|
@@ -272,7 +272,7 @@
 | `backed/tests/test_db.py` | 15 | 215 |
 | `backed/tests/test_debt_round2.py` | 13 | 254 |
 | `backed/tests/test_debt_round2_paging.py` | 7 | 126 |
-| `backed/tests/test_docs_links.py` | 6 | 106 |
+| `backed/tests/test_docs_links.py` | 6 | 107 |
 | `backed/tests/test_events.py` | 14 | 161 |
 | `backed/tests/test_export.py` | 5 | 58 |
 | `backed/tests/test_gate.py` | 37 | 359 |
