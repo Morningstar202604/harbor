@@ -32,7 +32,7 @@ comparison, and the editor-only "append detection" rule rejecting valid publishe
 
 Every item below was driven by running the product, not by reading the code.
 
-- [x] Rest and CLI coverage: 91 REST endpoints, 32 MCP tools, 34 CLI commands exercised
+- [x] Rest and CLI coverage: 91 REST endpoints, 33 MCP tools, 35 CLI commands exercised
 - [x] SSE reliability: monotonic event ids, 256-event replay ring, `Last-Event-ID` gap
       fill, `resync` when the gap exceeds the window
 - [x] Article CRUD now emits SSE events (previously only tasks/publish did)

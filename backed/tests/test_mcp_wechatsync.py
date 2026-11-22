@@ -66,10 +66,11 @@ def test_existing_tools_not_broken(tools):
         "update_remote_article", "list_platforms", "list_providers",
         "get_task", "resume_task", "quality_check", "analyze_text",
         "list_tags", "suggest_tags", "import_markdown",
+        "get_platform_skill",
     }
     missing = legacy - names
     assert not missing, f"原有 tool 丢失：{missing}"
-    assert len(names) >= 23
+    assert len(names) >= 24
 
 
 def test_every_tool_has_description(tools):

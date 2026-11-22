@@ -65,6 +65,12 @@ _mcp_auth = AuthSettings(
 ) if _MCP_TOKEN else None
 mcp = FastMCP(
     "harbor",
+    instructions=(
+        "Harbor 是自托管内容港。登录只发生在 Harbor 主机，AI 不接触密码和 cookie。"
+        "用户说某个平台已经登录、要发布或运营时，先调用 get_platform_skill(platform) "
+        "读取该平台的 SOP、内容规则、限制和验收标准，再调用 publish_article；"
+        "不要凭平台常识猜按钮或设置。"
+    ),
     token_verifier=_StaticTokenVerifier() if _MCP_TOKEN else None,
     auth=_mcp_auth,
 )
@@ -157,6 +163,8 @@ def publish_article(article_id: int, platforms: list,
                     human_confirmed: bool = False) -> dict:
     """异步发布文章到指定平台，返回 task_id。用 get_task 查询进度。
 
+    发之前先对每个平台调用 get_platform_skill(platform)：那里有该平台的
+    标题/正文限制、草稿是否可用、图片与更新限制、发布后怎么复检。
     draft_only=False 为真实上线；AI 源文章需 human_confirmed=True
     （表示人工已核验）或服务端开启 AI_DIRECT_PUBLISH，否则被合规门禁拒绝。
     """
@@ -179,13 +187,33 @@ def update_remote_article(article_id: int, platforms: list = None,
 
 @mcp.tool()
 def list_platforms() -> list:
-    """列出所有可用平台及其在线状态。"""
+    """列出所有可用平台、能力、是否有技能卡和是否推荐。
+
+    登录后想动手，先看 has_skill，再调 get_platform_skill(platform)。
+    """
     # 适配器"导入即注册"，注册动作在 service.py 导入时发生；MCP 进程里若还没
     # 创建过 Hub，这里必须显式触发一次注册。
+    from service.onboarding import TEMPLATE_DIR, STARTER_PLATFORMS
     from service.publishing import adapters as _adapters  # noqa: F401
     from service.publishing.adapters.base import ADAPTERS, capability_of
     return [{"id": a.id, "name": a.name, "needs_browser": a.needs_browser,
-             "capabilities": capability_of(a.id)} for a in ADAPTERS.values()]
+             "capabilities": capability_of(a.id),
+             "has_skill": (TEMPLATE_DIR / f"{a.id}.md").is_file(),
+             "recommended": a.id in STARTER_PLATFORMS} for a in ADAPTERS.values()]
+
+
+@mcp.tool()
+def get_platform_skill(platform: str, profile: str = "") -> dict:
+    """登录后先读这张平台技能卡：内容规则、发布步骤、限制与验收标准。
+
+    用于回答“已经登录了，接下来在这个平台该怎么做”。返回该平台完整 SOP、
+    适配器能力、账号状态、建议草稿模式和发布示例。platform 用平台 id
+    （cnblogs/zhihu/csdn/juejin/bilibili/toutiao/xiaohongshu/wechat 等）。
+    profile 留空时用本机第一个档案。
+    """
+    from service.platform_skills import get_platform_skill as _skill
+    return _skill(platform, profile=profile,
+                  accounts=_get_hub().accounts())
 
 
 @mcp.tool()

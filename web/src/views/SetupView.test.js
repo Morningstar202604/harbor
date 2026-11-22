@@ -85,19 +85,20 @@ describe('SetupView 首次使用向导', () => {
       platforms: [
         { id: 'cnblogs', name: '博客园', has_template: true, template: { schedule: '每天 1 次' } },
         { id: 'juejin', name: '稀土掘金', has_template: true, template: { schedule: '每天 1 次' } },
-        { id: 'bilibili', name: 'B站专栏', has_template: false, template: null },
+        { id: 'bilibili', name: 'B站专栏', has_template: true, recommended: false, template: { schedule: '按需发布' } },
+        { id: 'devto', name: 'Dev.to', has_template: true, recommended: false, template: { schedule: '按需发布' } },
       ],
       mcp: { json: '{}' },
     })
     const w = mountView()
     await flushPromises()
-    expect(w.vm.platformOptions.length).toBe(3)
+    expect(w.vm.platformOptions.length).toBe(4)
     expect(w.vm.selected).toEqual(['cnblogs', 'juejin'])
 
     const all = w.findAll('button').find(b => b.text().includes('全选'))
     expect(all).toBeTruthy()
     await all.trigger('click')
-    expect(w.vm.selected).toEqual(['cnblogs', 'juejin', 'bilibili'])
+    expect(w.vm.selected).toEqual(['cnblogs', 'juejin', 'bilibili', 'devto'])
   })
 
   it('创建档案后进入登录步，平台与档案信息可见', async () => {

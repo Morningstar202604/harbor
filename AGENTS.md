@@ -29,7 +29,7 @@ DEMO=1 HARBOR_API_TOKEN=dev uv run uvicorn app.factory:create_app --factory --po
 ## 3. 开工前按顺序读
 
 1. 本文件
-2. [`docs/agent/CONTEXT.md`](docs/agent/CONTEXT.md) — 模块、99 个 REST 操作、32 个 MCP tool、15 个适配器能力矩阵、6 张表、测试分布（**代码生成**）
+2. [`docs/agent/CONTEXT.md`](docs/agent/CONTEXT.md) — 模块、100 个 REST 操作、33 个 MCP tool、15 个适配器能力矩阵、6 张表、测试分布（**代码生成**）
 3. [`AGENT.md`](AGENT.md) — 目录级细节与历史约定（改哪块查哪块）
 4. [`docs/PROJECT_MANAGEMENT.md`](docs/PROJECT_MANAGEMENT.md) — 分支模型、完成定义、五仓同步
 5. [`docs/VERSIONING.md`](docs/VERSIONING.md) — 版本与发布清单
@@ -45,11 +45,11 @@ DEMO=1 HARBOR_API_TOKEN=dev uv run uvicorn app.factory:create_app --factory --po
 | `backed/service/publishing/adapters` | 15 个平台适配器 | 每个必须显式声明 `capabilities`，默认全 False |
 | `backed/service/publishing/db.py` | **唯一** SQL 与 schema | 别在别处写原生 SQL |
 | `backed/app` | 工厂 / 中间件 / 异常 / 路由 | 中间件开关默认：安全头开，限流与审计关 |
-| `mcp_server.py` | 32 个 MCP tool，stdio / streamable-http / SSE | 对外传输非 loopback 必须带 bearer token |
+| `mcp_server.py` | 33 个 MCP tool，stdio / streamable-http / SSE；登录后先 `get_platform_skill` | 对外传输非 loopback 必须带 bearer token |
 | `web/` | Vue3 表现层 + Tauri 壳 | 不放业务规则 |
 | `deploy/` | Dockerfile / compose / nginx | 从仓库根上下文构建 |
 | `scripts/` | 门禁、生成、备份、真机验证 | 每个脚本带 `--help` 或被文档引用 |
-| `playbooks/` | 4 份运营 SOP 模板（博客园/知乎/CSDN/掘金）；向导可接 15 个适配器，没模板的平台也能登录/发布 | 模板不含账号；个人副本放 `profiles/<name>/`，不回写 cron |
+| `playbooks/` | 15 份运营 SOP 模板，与 15 个适配器一一对应；向导默认推荐 4 个 | 模板不含账号；个人副本放 `profiles/<name>/`，不回写 cron |
 | `profiles/` | 个人档案约定（账号/主线/报告/进度） | 只提交 `README.md` 与 `example.yaml`，真实档案不入库 |
 
 ## 5. 三条主链（改之前先认路）

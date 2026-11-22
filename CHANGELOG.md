@@ -29,6 +29,10 @@
 - **已有档案可以追加平台，不用推倒重建。** 登录步新增「接入更多平台」，只改
   `profile.yaml` 的 `platforms` 行并补渲染缺失的 SOP，账号、主线、进度目录保持原样；
   新增 `POST /onboarding/platforms` 与 `harbor add-platforms --name ... --platforms ...`。
+- **15 个平台都有“登录后怎么做”的技能卡。** 补齐 B站、头条、小红书、公众号、
+  OSChina、思否、51CTO、Dev.to、GitHub Pages、Telegraph、自建博客共 11 份 SOP；
+  新增 MCP 工具 `get_platform_skill(platform)`，返回完整 SOP、能力、限制、账号状态和
+  发布示例。`publish_article` 与 MCP 全局说明都要求发布前先读它，避免 AI 登录后瞎点。
 - **桌面版 MCP 走同一个 sidecar。** `harbor-backend --mcp` 直接以 stdio 模式运行 MCP
   server；PyInstaller 打包 playbooks、example.yaml 与 `rfc3987_syntax` 语法文件，档案默认
   落 `<data>/profiles`，装到只读目录也能完成首启。

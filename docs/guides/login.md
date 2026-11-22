@@ -10,9 +10,9 @@
 
 打开 Web 或桌面端，首启会自动进「开始使用」：
 
-1. 填档案名、勾选要接入的平台（15 个适配器都可选；有 SOP 模板的会生成个人 SOP），生成 `profiles/<name>/`；
+1. 填档案名、勾选要接入的平台（15 个适配器都可选，都会生成个人 SOP；向导默认只勾推荐 4 个），生成 `profiles/<name>/`；
 2. 在「登录平台」步骤逐个点「去登录」，浏览器在这台机器上弹出；
-3. 复制 MCP 配置到 AI 客户端。
+3. 复制 MCP 配置到 AI 客户端。AI 登录后先调 `get_platform_skill(platform)`，拿该平台的 SOP 再发布。
 
 已有档案不用重建：在「登录平台」步骤点「添加平台」，或跑
 `uv run python -m cli add-platforms --name <name> --platforms bilibili,toutiao`。

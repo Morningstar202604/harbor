@@ -16,9 +16,13 @@ def test_state_lists_templates_and_mcp_config(client, monkeypatch, tmp_path):
     assert r.status_code == 200
     body = r.json()
     ids = [t["id"] for t in body["templates"]]
+    assert len(ids) == 15
     assert {"cnblogs", "zhihu", "csdn", "juejin"} <= set(ids)
-    platform_ids = {p["id"] for p in body["platforms"]}
-    assert {"bilibili", "toutiao", "xiaohongshu", "wechat"} <= platform_ids
+    platforms = {p["id"]: p for p in body["platforms"]}
+    assert {"bilibili", "toutiao", "xiaohongshu", "wechat"} <= set(platforms)
+    assert platforms["bilibili"]["has_template"] is True
+    assert platforms["bilibili"]["recommended"] is False
+    assert platforms["cnblogs"]["recommended"] is True
     assert body["needs_setup"] is True
     assert body["profiles"] == []
     cfg = body["mcp"]["config"]["mcpServers"]["harbor"]
@@ -49,7 +53,7 @@ def test_init_renders_personal_profile_and_check_passes(client, monkeypatch, tmp
     assert check.json()["ok"] is True
 
 
-def test_init_allows_platform_without_sop_template(client, monkeypatch, tmp_path):
+def test_init_renders_sop_for_bilibili(client, monkeypatch, tmp_path):
     root = _use_tmp_profiles(monkeypatch, tmp_path)
     r = client.post("/api/v1/hub/onboarding/init", json={
         "name": "demo", "platforms": ["cnblogs", "bilibili"],
@@ -57,7 +61,8 @@ def test_init_allows_platform_without_sop_template(client, monkeypatch, tmp_path
     assert r.status_code == 200, r.text
     body = r.json()
     assert body["platforms"] == ["cnblogs", "bilibili"]
-    assert [Path(p).stem for p in body["playbooks"]] == ["cnblogs"]
+    assert [Path(p).stem for p in body["playbooks"]] == ["cnblogs", "bilibili"]
+    assert (root / "demo" / "playbooks" / "bilibili.md").is_file()
     assert (root / "demo" / "profile.yaml").is_file()
 
 
@@ -83,7 +88,7 @@ def test_add_platforms_endpoint_keeps_accounts_and_adds_login_card(client, monke
     assert body["platforms"] == ["cnblogs", "bilibili", "csdn"]
     assert body["added"] == ["bilibili", "csdn"]
     assert body["check"]["ok"] is True
-    assert {Path(p).stem for p in body["playbooks"]} == {"cnblogs", "csdn"}
+    assert {Path(p).stem for p in body["playbooks"]} == {"cnblogs", "bilibili", "csdn"}
     assert "real-account" in profile_path.read_text(encoding="utf-8")
     assert (root / "demo" / "playbooks" / "csdn.md").is_file()
 

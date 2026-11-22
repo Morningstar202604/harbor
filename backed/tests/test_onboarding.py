@@ -69,11 +69,11 @@ def test_add_platforms_keeps_accounts_and_renders_new_sop(tmp_path):
     after = profile_path.read_text(encoding="utf-8")
     assert result["platforms"] == ["cnblogs", "bilibili", "csdn"]
     assert result["added"] == ["bilibili", "csdn"]
-    assert result["sop_platforms"] == ["cnblogs", "csdn"]
+    assert result["sop_platforms"] == ["cnblogs", "bilibili", "csdn"]
     assert "platforms: [cnblogs, bilibili, csdn]" in after
     assert "your-cnblogs-id" in after
     assert (tmp_path / "demo" / "playbooks" / "csdn.md").is_file()
-    assert not (tmp_path / "demo" / "playbooks" / "bilibili.md").exists()
+    assert (tmp_path / "demo" / "playbooks" / "bilibili.md").is_file()
     assert check_profile("demo", profiles_root=tmp_path)["ok"] is True
 
     # 重复添加不产生重复项，也不重写已有 SOP。
@@ -138,29 +138,41 @@ def test_init_profile_rejects_bad_name(tmp_path):
 
 
 def test_platform_catalog_covers_all_adapters():
-    """向导平台清单必须来自运行时适配器注册表，而不是只有 4 份 SOP 模板。"""
+    """向导平台清单来自适配器注册表，15 个平台都带一份可读 SOP。"""
     rows = platform_catalog()
     ids = {r["id"] for r in rows}
     assert len(ids) >= 15
     assert {"bilibili", "toutiao", "xiaohongshu", "wechat", "oschina"} <= ids
     by_id = {r["id"]: r for r in rows}
-    assert by_id["cnblogs"]["has_template"] is True
-    assert by_id["bilibili"]["has_template"] is False
+    assert all(r["has_template"] is True for r in rows)
+    assert by_id["cnblogs"]["recommended"] is True
+    assert by_id["bilibili"]["recommended"] is False
     assert by_id["bilibili"]["needs_browser"] is True
     assert by_id["cnblogs"]["capabilities"]["publish"] is True
 
 
-def test_init_accepts_non_template_platform_and_only_renders_known_sops(tmp_path):
-    """B站没有 SOP 模板，但必须能进档案、进登录步；SOP 只渲染 cnblogs。"""
+def test_init_renders_sop_for_every_selected_platform(tmp_path):
+    """B站这类后接入平台也要有自己的 SOP，不能只有登录卡没有动作说明。"""
     result = init_profile("demo", ["cnblogs", "bilibili"], profiles_root=tmp_path)
     assert result["platforms"] == ["cnblogs", "bilibili"]
-    assert result["sop_platforms"] == ["cnblogs"]
-    assert [Path(p).stem for p in result["playbooks"]] == ["cnblogs"]
+    assert result["sop_platforms"] == ["cnblogs", "bilibili"]
+    assert [Path(p).stem for p in result["playbooks"]] == ["cnblogs", "bilibili"]
     profile = load_profile(tmp_path / "demo" / "profile.yaml")
     assert profile["platforms"] == ["cnblogs", "bilibili"]
     assert profile_summaries(profiles_root=tmp_path)[0]["platforms"] == ["cnblogs", "bilibili"]
-    # 没有模板的平台不该被自检误报成"缺少 SOP"
     assert check_profile("demo", profiles_root=tmp_path)["ok"] is True
+
+
+def test_all_15_templates_render_and_self_check(tmp_path):
+    """不能只给 4 个平台写 SOP；15 个都要能渲染、能自检。"""
+    from service.onboarding import template_platforms
+    wanted = template_platforms()
+    assert len(wanted) == 15
+    result = init_profile("all15", wanted, profiles_root=tmp_path)
+    assert result["platforms"] == wanted
+    assert result["sop_platforms"] == wanted
+    assert len(result["playbooks"]) == 15
+    assert check_profile("all15", profiles_root=tmp_path)["ok"] is True
 
 
 def test_init_rejects_unknown_non_template_platform(tmp_path):

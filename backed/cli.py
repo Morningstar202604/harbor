@@ -80,13 +80,13 @@ def solve_captcha(ctx, platform, account, wait):
 
 @cli.command("init", help="初始化个人档案：profiles/<name>/ + 渲染 playbooks")
 @click.option("--name", required=True, help="档案名（小写字母、数字、- 或 _）")
-@click.option("--platforms", default="", help="逗号分隔；默认渲染全部模板")
+@click.option("--platforms", default="", help="逗号分隔；默认推荐的 4 个平台")
 @click.option("--force", is_flag=True, help="覆盖已存在的档案")
 def init_cmd(name, platforms, force):
     from service.onboarding import (
-        OnboardingError, init_profile, template_platforms,
+        OnboardingError, init_profile, starter_platforms,
     )
-    wanted = [p.strip() for p in platforms.split(",") if p.strip()] or template_platforms()
+    wanted = [p.strip() for p in platforms.split(",") if p.strip()] or starter_platforms()
     try:
         result = init_profile(name, wanted, force=force)
     except OnboardingError as exc:

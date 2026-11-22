@@ -21,7 +21,7 @@
 | **AI 写稿 + 合规门禁** | 七条 Provider 路由带故障转移；上线前四道闸门：安全扫描 → AIGC 标识 → 双模型审查 → 人工确认。 |
 | **卡住就暂停，不瞎猜** | 验证码、风控、登录失效：任务停下并告知你，处理完从原处继续。 |
 | **登录态持久** | 每个平台扫码一次。Cookie 存本地 profile 并额外做原子快照，profile 被清也不用重扫。 |
-| **MCP Server，32 个工具** | 可从 Claude Code、Cursor 或任意 MCP 客户端驱动整条流水线。支持 stdio / streamable-http / 旧版 SSE；非回环地址一律强制 Bearer Token。 |
+| **MCP Server，33 个工具** | 可从 Claude Code、Cursor 或任意 MCP 客户端驱动整条流水线。支持 stdio / streamable-http / 旧版 SSE；非回环地址一律强制 Bearer Token。 |
 | **全部本地，也能带得走** | SQLite + FTS5 全文检索，媒体内容寻址去重，无厂商账号，无遥测。任意文章或整个库都能导出为带 YAML front-matter 的 Markdown，Hexo / Hugo / Obsidian 直接可用。 |
 | **断线也不装死** | 任务与文章变更经 SSE 推送，事件带单调 id；断线重连时客户端按 `Last-Event-ID` 补发缺口，而不是显示一个"卡住"的旧状态。 |
 | **可测量，不靠宣称** | `/metrics` 输出真实 Prometheus 直方图，每次提交跑八道门禁，桌面版是实测过的单文件可执行程序。 |

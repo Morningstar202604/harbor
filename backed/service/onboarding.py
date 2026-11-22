@@ -31,6 +31,9 @@ TEMPLATE_DIR = RESOURCE_ROOT / "playbooks"
 EXAMPLE_PROFILE = RESOURCE_ROOT / "profiles" / "example.yaml"
 PROFILES_ROOT = REPO_ROOT / "profiles"
 
+# 首启默认只勾这 4 个；其余 11 个也有 SOP，但不在第一天全压给用户。
+STARTER_PLATFORMS = ("cnblogs", "zhihu", "csdn", "juejin")
+
 
 def default_profiles_root() -> Path:
     """个人档案目录：显式 env > 数据目录 > 仓库 ``profiles/``。
@@ -96,6 +99,11 @@ def template_platforms() -> list[str]:
     return sorted(p.stem for p in TEMPLATE_DIR.glob("*.md") if p.name != "README.md")
 
 
+def starter_platforms() -> list[str]:
+    """首启默认勾选的 4 个平台，保持开箱轻量。"""
+    return list(STARTER_PLATFORMS)
+
+
 def render_template(text: str, profile: dict, *, platform: str = "") -> str:
     """把模板中的 ``{{profile.x.y}}`` 换成档案值。
 
@@ -138,7 +146,7 @@ def init_profile(
         raise OnboardingError(f"档案已存在：{target}（要覆盖加 --force）")
 
     wanted = list(dict.fromkeys(
-        [str(p).strip() for p in (platforms or template_platforms()) if str(p).strip()]
+        [str(p).strip() for p in (platforms or starter_platforms()) if str(p).strip()]
     ))
     unknown = sorted(set(wanted) - _known_platforms())
     if unknown:
@@ -318,9 +326,9 @@ def template_catalog() -> list[dict]:
 def platform_catalog() -> list[dict]:
     """所有已注册适配器 + 是否有 SOP 模板。
 
-    向导不能只拿 4 份模板当平台清单——那会把 B 站、头条、小红书、公众号、
-    OSChina、思否、51CTO 这些已实现的适配器挡在登录/发布之外。这里以运行时
-    注册表为准，模板只是"有没有现成运营 SOP"的附加信息。
+    向导不能只拿模板当平台清单——模板和适配器可能不同步，漏一个就会把平台
+    挡在登录/发布之外。这里以运行时注册表为准，模板只是"有没有现成 SOP"的
+    附加信息；现在 15 个适配器都有模板，但仍以注册表为准。
     """
     from service.publishing import adapters as _adapters  # noqa: F401  确保注册
     from service.publishing.adapters.base import ADAPTERS, capability_of
@@ -337,6 +345,7 @@ def platform_catalog() -> list[dict]:
             "home_url": adapter.home_url,
             "capabilities": capability_of(adapter.id),
             "has_template": bool(tpl),
+            "recommended": adapter.id in STARTER_PLATFORMS,
             "template": tpl,
         })
     return rows

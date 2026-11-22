@@ -17,7 +17,7 @@ every published copy in sync.
 | Chinese tech writer publishing on 5+ platforms | Write once, avoid re-pasting | Multi-platform publish with per-platform capability matrix |
 | Indie developer running a blog farm | Content pipeline without SaaS lock-in | Self-hosted SQLite + local browser profiles, no vendor account |
 | Team maintaining a content operation | Auditability and human control | AIGC gate, human-review pause/resume, version snapshots, webhooks |
-| AI agent integrator | Programmatic publishing | 32 MCP tools over stdio, REST API, SSE task stream |
+| AI agent integrator | Programmatic publishing | 33 MCP tools over stdio, REST API, SSE task stream |
 
 **Non-goals.** Not a CMS, not a social scheduler, not a hosting platform. It does not
 scrape at scale, does not defeat CAPTCHAs, and does not store platform passwords.

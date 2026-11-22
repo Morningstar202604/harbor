@@ -15,8 +15,8 @@
 | 前端 | Vue3 + Element Plus + Pinia + Tauri 2 |
 | 平台适配器 | 15 |
 | REST | 100 个操作 |
-| MCP | 32 个 tool |
-| Python 模块 | 107（24126 行） |
+| MCP | 33 个 tool |
+| Python 模块 | 108（24260 行） |
 
 ## 1. 入口点
 
@@ -32,13 +32,24 @@
 
 ## 2. 运营 playbook（SOP）
 
-共 4 份模板，位于 `playbooks/`。模板不含账号；真实档案、进度与报告链接放 `profiles/<name>/`（已 gitignore）。定时任务只负责触发，流程正文以文件为准。
+共 15 份模板，位于 `playbooks/`。模板不含账号；真实档案、进度与报告链接放 `profiles/<name>/`（已 gitignore）。定时任务只负责触发，流程正文以文件为准。
 
 | 平台 | 文件 | 触发 | 范围 | 行数 | 更新 |
 |---|---|---|---|---|---|
+| `51cto` 51CTO 博客发布（模板） | `playbooks/51cto.md` | 按需发布 | template | 48 | 2026-11-23 |
+| `bilibili` B站专栏发布（模板） | `playbooks/bilibili.md` | 按需发布 | template | 46 | 2026-11-23 |
 | `cnblogs` 博客园每日运营（模板） | `playbooks/cnblogs.md` | 建议每天 1 次（以 profile 为准） | template | 60 | 2026-11-22 |
 | `csdn` CSDN 私密转公开（模板） | `playbooks/csdn.md` | 建议每天 1 次，直到清零 | template | 33 | 2026-11-22 |
+| `devto` Dev.to 发布（模板） | `playbooks/devto.md` | 按需发布 | template | 48 | 2026-11-23 |
+| `github` GitHub Pages 发布（模板） | `playbooks/github.md` | 按需发布 | template | 49 | 2026-11-23 |
 | `juejin` 掘金每日运营（模板） | `playbooks/juejin.md` | 建议每天 1 次（以 profile 为准） | template | 34 | 2026-11-22 |
+| `metaweblog` 自建博客发布（模板） | `playbooks/metaweblog.md` | 按需发布 | template | 47 | 2026-11-23 |
+| `oschina` 开源中国发布（模板） | `playbooks/oschina.md` | 按需发布 | template | 47 | 2026-11-23 |
+| `segmentfault` 思否发布（模板） | `playbooks/segmentfault.md` | 按需发布 | template | 45 | 2026-11-23 |
+| `telegraph` Telegraph 发布（模板） | `playbooks/telegraph.md` | 按需发布 | template | 45 | 2026-11-23 |
+| `toutiao` 头条号发布（模板） | `playbooks/toutiao.md` | 按需发布 | template | 46 | 2026-11-23 |
+| `wechat` 微信公众号发布（模板） | `playbooks/wechat.md` | 按需发布 | template | 47 | 2026-11-23 |
+| `xiaohongshu` 小红书笔记发布（模板） | `playbooks/xiaohongshu.md` | 按需发布 | template | 47 | 2026-11-23 |
 | `zhihu` 知乎每日运营（模板） | `playbooks/zhihu.md` | 建议每天 1-2 次（以 profile 为准） | template | 50 | 2026-11-22 |
 
 ## 3. 模块依赖（包级计数 + 扇入 Top）
@@ -53,7 +64,7 @@
 | `core` | 4 |
 | `desktop_sidecar` | 1 |
 | `middleware` | 5 |
-| `service` | 61 |
+| `service` | 62 |
 | `start` | 1 |
 | `utils` | 7 |
 
@@ -181,7 +192,7 @@
 
 ## 5. MCP 工具
 
-共 32 个，定义在 `mcp_server.py`。
+共 33 个，定义在 `mcp_server.py`。
 
 | Tool | 参数 | 说明 |
 |---|---|---|
@@ -198,13 +209,14 @@
 | `external_mcp_status` | — | 已配置的外部 MCP Server（Playwright / fetch / filesystem 等）状态与能力覆盖。 |
 | `external_mcp_tools` | server | 列出一个外部 MCP Server 实际提供的工具（配白名单前先看）。 |
 | `get_article` | article_id | 按 ID 获取文章完整字段（标题/正文/摘要/标签/状态）。 |
+| `get_platform_skill` | platform, profile | 登录后先读这张平台技能卡：内容规则、发布步骤、限制与验收标准。 |
 | `get_task` | task_id | 查询任务状态（pending/running/ok/failed/waiting_human）。 |
 | `import_from_url` | url, tags | 从网页抓取正文导入为文章（trafilatura 提取，需公网可访问）。 |
 | `import_markdown` | path, tags | 导入本地 Markdown 文件，自动提取 front-matter 元数据。 |
 | `ingest_image` | url | 把远程图片抓进本地媒体库，返回可长期引用的稳定 URL。 |
 | `list_articles` | status, limit | 列出文章列表。status 可选：draft/published/review/archived。 |
 | `list_media` | limit | 列出已入库的图片资产（内容寻址去重）与统计。 |
-| `list_platforms` | — | 列出所有可用平台及其在线状态。 |
+| `list_platforms` | — | 列出所有可用平台、能力、是否有技能卡和是否推荐。 |
 | `list_providers` | — | 列出所有已配置的 AI Provider + 可用模型 + 价格级别。 |
 | `list_tags` | limit | 列出热门标签及其出现次数。 |
 | `publish_article` | article_id, platforms, draft_only, account, human_confirmed | 异步发布文章到指定平台，返回 task_id。用 get_task 查询进度。 |
@@ -257,7 +269,7 @@
 
 ## 8. 测试分布
 
-`test_*` 函数 569 个，测试代码 8635 行。parametrize 展开后的真实用例数：`uv run pytest --collect-only -q`。
+`test_*` 函数 574 个，测试代码 8695 行。parametrize 展开后的真实用例数：`uv run pytest --collect-only -q`。
 
 | 文件 | 用例函数 | 行数 |
 |---|---|---|
@@ -284,11 +296,12 @@
 | `backed/tests/test_health_auth_boundary.py` | 3 | 48 |
 | `backed/tests/test_human_click.py` | 15 | 201 |
 | `backed/tests/test_input_validation.py` | 5 | 49 |
-| `backed/tests/test_mcp_wechatsync.py` | 21 | 292 |
+| `backed/tests/test_mcp_wechatsync.py` | 21 | 293 |
 | `backed/tests/test_media_orphans.py` | 5 | 78 |
 | `backed/tests/test_module_imports.py` | 6 | 131 |
-| `backed/tests/test_onboarding.py` | 15 | 183 |
-| `backed/tests/test_onboarding_api.py` | 6 | 126 |
+| `backed/tests/test_onboarding.py` | 16 | 195 |
+| `backed/tests/test_onboarding_api.py` | 6 | 131 |
+| `backed/tests/test_platform_skills.py` | 4 | 42 |
 | `backed/tests/test_publish_modes.py` | 10 | 299 |
 | `backed/tests/test_publish_readback.py` | 14 | 211 |
 | `backed/tests/test_rate_limiter.py` | 17 | 163 |

@@ -24,12 +24,29 @@ cron 里的 query 改一次要重开任务、没法 diff、没法 review。写�
 
 ## 模板索引
 
+15 个适配器每个都有一份 SOP。首启默认只勾推荐的 4 个，其余在向导里点「添加平台」即可接入。
+
 | 平台 | 文件 | 建议节奏 | 主要动作 |
 |---|---|---|---|
 | 博客园 | [cnblogs.md](cnblogs.md) | 每天 1 次 | 热点文、发布设置、复检、评论互动 |
 | 知乎 | [zhihu.md](zhihu.md) | 每天 1-2 次 | 巡检通知/活动、回答、文章、AI 声明 |
 | CSDN | [csdn.md](csdn.md) | 每天 1 次直到清零 | 私密转公开、图床检查、回读复核 |
 | 掘金 | [juejin.md](juejin.md) | 每天 1 次 | 签到、评论、沸点、私信、回关 |
+| B站专栏 | [bilibili.md](bilibili.md) | 按需 | 草稿、分区/封面人工发表、回读 |
+| 头条号 | [toutiao.md](toutiao.md) | 按需 | 图文草稿/发布、二次确认、复检 |
+| 小红书 | [xiaohongshu.md](xiaohongshu.md) | 按需 | 20 字标题、纯文本、图片人工上传 |
+| 微信公众号 | [wechat.md](wechat.md) | 按需 | 官方草稿箱、IP 白名单、素材图 |
+| 开源中国 | [oschina.md](oschina.md) | 按需 | UEditor 发布、代码块、复检 |
+| 思否 | [segmentfault.md](segmentfault.md) | 按需 | API 草稿、标签、页面发布 |
+| 51CTO | [51cto.md](51cto.md) | 按需 | XML-RPC、HTML、标签、复检 |
+| Dev.to | [devto.md](devto.md) | 按需 | 英文标题/摘要、4 个标签、Markdown |
+| GitHub Pages | [github.md](github.md) | 按需 | commit 即发布、front-matter、Pages 构建 |
+| Telegraph | [telegraph.md](telegraph.md) | 按需 | 免登录快速页、更新、公开链接 |
+| 自建博客 | [metaweblog.md](metaweblog.md) | 按需 | WordPress/Typecho、XML-RPC、原地更新 |
+
+## AI 登录后怎么拿到 SOP
+
+MCP 工具 `get_platform_skill(platform)` 返回该平台的完整 SOP、内容规则、能力矩阵、限制和发布示例。用户说“已经登录了，接下来怎么做”时，AI 先调它，不要凭平台常识猜按钮。`list_platforms` 的 `has_skill` 字段可以确认有没有技能卡。
 
 ## 写新 playbook
 

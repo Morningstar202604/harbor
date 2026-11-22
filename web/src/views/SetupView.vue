@@ -49,7 +49,7 @@
                 <el-button text size="small" @click="selectAll">
                   全选 {{ platformOptions.length }} 个平台
                 </el-button>
-                <el-button text size="small" @click="selectTemplates">只选有 SOP 的</el-button>
+                <el-button text size="small" @click="selectTemplates">只选推荐 4 个</el-button>
                 <span class="dim small">已选 {{ selected.length }} 个</span>
               </div>
               <div class="field-tip dim small">
@@ -182,7 +182,7 @@
           <div class="lead small-lead">
             <h3>接上之后可以做什么</h3>
             <p class="dim">
-              建文章、AI 写/改/译、发布到已登录平台、原地更新、查任务状态；32 个工具以客户端列出的为准。
+              建文章、AI 写/改/译、发布到已登录平台、原地更新、查任务状态；33 个工具以客户端列出的为准；登录后先调 get_platform_skill，它会返回该平台的内容规则、发布步骤和限制。
               先调 <code>list_articles</code> 验证连通，再发第一篇。
             </p>
           </div>
@@ -263,7 +263,7 @@ async function load() {
       check.value = await api.onboardingCheck(existing.name).catch(() => null)
     } else {
       selected.value = platformOptions.value
-        .filter(p => p.has_template || p.template)
+        .filter(p => p.recommended ?? (p.has_template || p.template))
         .map(p => p.id)
     }
     if (!hub.platforms.length) await hub.loadPlatforms()
@@ -311,7 +311,7 @@ function selectAll() {
 
 function selectTemplates() {
   selected.value = platformOptions.value
-    .filter(p => p.has_template || p.template)
+    .filter(p => p.recommended ?? (p.has_template || p.template))
     .map(p => p.id)
 }
 
