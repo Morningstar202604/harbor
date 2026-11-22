@@ -17,6 +17,8 @@ def test_state_lists_templates_and_mcp_config(client, monkeypatch, tmp_path):
     body = r.json()
     ids = [t["id"] for t in body["templates"]]
     assert {"cnblogs", "zhihu", "csdn", "juejin"} <= set(ids)
+    platform_ids = {p["id"] for p in body["platforms"]}
+    assert {"bilibili", "toutiao", "xiaohongshu", "wechat"} <= platform_ids
     assert body["needs_setup"] is True
     assert body["profiles"] == []
     cfg = body["mcp"]["config"]["mcpServers"]["harbor"]
@@ -45,6 +47,18 @@ def test_init_renders_personal_profile_and_check_passes(client, monkeypatch, tmp
     check = client.post("/api/v1/hub/onboarding/check", json={"name": "demo"})
     assert check.status_code == 200
     assert check.json()["ok"] is True
+
+
+def test_init_allows_platform_without_sop_template(client, monkeypatch, tmp_path):
+    root = _use_tmp_profiles(monkeypatch, tmp_path)
+    r = client.post("/api/v1/hub/onboarding/init", json={
+        "name": "demo", "platforms": ["cnblogs", "bilibili"],
+    })
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body["platforms"] == ["cnblogs", "bilibili"]
+    assert [Path(p).stem for p in body["playbooks"]] == ["cnblogs"]
+    assert (root / "demo" / "profile.yaml").is_file()
 
 
 def test_rerender_endpoint_keeps_profile_accounts(client, monkeypatch, tmp_path):

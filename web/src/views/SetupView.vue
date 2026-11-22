@@ -35,16 +35,25 @@
               <div class="field-tip dim small">只能用小写字母、数字、短横或下划线；一台机器一个人。</div>
             </el-form-item>
 
-            <el-form-item label="运营平台">
+            <el-form-item label="接入平台">
               <el-checkbox-group v-model="selected" class="tpl-grid">
-                <el-checkbox v-for="t in state.templates" :key="t.id" :value="t.id" border
+                <el-checkbox v-for="p in platformOptions" :key="p.id" :value="p.id" border
                              class="tpl-item">
-                  <span class="tpl-name">{{ t.title }}</span>
-                  <span class="tpl-meta dim">{{ t.schedule || t.platform }}</span>
+                  <span class="tpl-name">{{ p.name }}</span>
+                  <span class="tpl-meta dim">
+                    {{ p.has_template ? (p.template?.schedule || '有 SOP 模板') : '仅登录 / 发布' }}
+                  </span>
                 </el-checkbox>
               </el-checkbox-group>
+              <div class="tpl-tools">
+                <el-button text size="small" @click="selectAll">
+                  全选 {{ platformOptions.length }} 个平台
+                </el-button>
+                <el-button text size="small" @click="selectTemplates">只选有 SOP 的</el-button>
+                <span class="dim small">已选 {{ selected.length }} 个</span>
+              </div>
               <div class="field-tip dim small">
-                勾选几个就生成几份个人 SOP；登录步骤里可以逐个平台扫码。
+                勾选要登录、发布的平台；有 SOP 模板的生成个人 SOP，其余平台登录后直接发布。
               </div>
             </el-form-item>
 
@@ -165,7 +174,7 @@ import { useHubStore } from '@/stores/hub'
 
 const hub = useHubStore()
 
-const state = ref({ profiles: [], templates: [], mcp: { json: '' } })
+const state = ref({ profiles: [], templates: [], platforms: [], mcp: { json: '' } })
 const step = ref(0)
 const name = ref('default')
 const selected = ref([])
@@ -177,6 +186,13 @@ const check = ref(null)
 const rerendering = ref(false)
 const loadError = ref('')
 
+const platformOptions = computed(() => {
+  if (state.value.platforms?.length) return state.value.platforms
+  // 兼容旧后端/旧测试：只有 templates 时，把模板当成平台清单。
+  return (state.value.templates || []).map(t => ({
+    ...t, name: t.title, has_template: true, template: t,
+  }))
+})
 const nameOk = computed(() => /^[a-z0-9][a-z0-9_-]{0,31}$/.test(name.value))
 const exists = computed(() => state.value.profiles.some(p => p.name === name.value))
 const playbookCount = computed(() =>
@@ -209,7 +225,9 @@ async function load() {
       // 重开向导也自检一次：模板更新或副本被手改后要能看见漂移。
       check.value = await api.onboardingCheck(existing.name).catch(() => null)
     } else {
-      selected.value = (state.value.templates || []).map(t => t.id)
+      selected.value = platformOptions.value
+        .filter(p => p.has_template || p.template)
+        .map(p => p.id)
     }
     if (!hub.platforms.length) await hub.loadPlatforms()
     await hub.loadStatus()
@@ -248,6 +266,16 @@ async function create() {
   } catch { /* 拦截器已提示；停留本步可改 */ } finally {
     creating.value = false
   }
+}
+
+function selectAll() {
+  selected.value = platformOptions.value.map(p => p.id)
+}
+
+function selectTemplates() {
+  selected.value = platformOptions.value
+    .filter(p => p.has_template || p.template)
+    .map(p => p.id)
 }
 
 function openAccounts() {
@@ -322,7 +350,8 @@ function finish() {
 }
 
 defineExpose({ step, name, selected, force, create, login, copyConfig, rerender,
-               state, result, check, rerendering })
+               state, result, check, rerendering, platformOptions, selectAll,
+               selectTemplates })
 </script>
 
 <style scoped lang="scss">
@@ -339,6 +368,7 @@ defineExpose({ step, name, selected, force, create, login, copyConfig, rerender,
 .small-lead h3 { font-size: 14px; }
 .setup-form { max-width: 760px; }
 .field-tip { margin-top: 4px; line-height: 1.6; }
+.tpl-tools { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 2px; }
 .tpl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; width: 100%; }
 .tpl-item { margin: 0 !important; height: auto; padding: 10px 12px; border-radius: 10px; }
 .tpl-item :deep(.el-checkbox__label) { display: flex; flex-direction: column; gap: 3px; white-space: normal; }

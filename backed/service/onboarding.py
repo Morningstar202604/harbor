@@ -137,10 +137,15 @@ def init_profile(
     if target.exists() and not force:
         raise OnboardingError(f"档案已存在：{target}（要覆盖加 --force）")
 
-    wanted = platforms or template_platforms()
-    unknown = sorted(set(wanted) - set(template_platforms()))
+    wanted = list(dict.fromkeys(
+        [str(p).strip() for p in (platforms or template_platforms()) if str(p).strip()]
+    ))
+    unknown = sorted(set(wanted) - _known_platforms())
     if unknown:
-        raise OnboardingError(f"没有这些平台的模板：{', '.join(unknown)}")
+        raise OnboardingError(f"不支持的平台：{', '.join(unknown)}")
+    wanted = [p for p in wanted if p]
+    if not wanted:
+        raise OnboardingError("至少选一个平台")
 
     example = EXAMPLE_PROFILE
     if not example.is_file():
@@ -168,18 +173,19 @@ def init_profile(
     profile_path.write_text(text, encoding="utf-8")
 
     profile = load_profile(profile_path)
-    rendered: list[str] = []
-    for platform in wanted:
+    sop_platforms = _sop_platforms(wanted)
+    for platform in sop_platforms:
         src = TEMPLATE_DIR / f"{platform}.md"
         dst = target / "playbooks" / f"{platform}.md"
         dst.write_text(render_template(src.read_text(encoding="utf-8"), profile,
                                        platform=platform), encoding="utf-8")
-        rendered.append(platform)
 
     return {
         "name": name,
         "profile": str(profile_path),
-        "playbooks": [str(target / "playbooks" / f"{p}.md") for p in rendered],
+        "platforms": wanted,
+        "sop_platforms": sop_platforms,
+        "playbooks": [str(target / "playbooks" / f"{p}.md") for p in sop_platforms],
         "progress": str(target / "progress"),
     }
 
@@ -231,6 +237,42 @@ def template_catalog() -> list[dict]:
     return items
 
 
+def platform_catalog() -> list[dict]:
+    """所有已注册适配器 + 是否有 SOP 模板。
+
+    向导不能只拿 4 份模板当平台清单——那会把 B 站、头条、小红书、公众号、
+    OSChina、思否、51CTO 这些已实现的适配器挡在登录/发布之外。这里以运行时
+    注册表为准，模板只是"有没有现成运营 SOP"的附加信息。
+    """
+    from service.publishing import adapters as _adapters  # noqa: F401  确保注册
+    from service.publishing.adapters.base import ADAPTERS, capability_of
+
+    templates = {t["id"]: t for t in template_catalog()}
+    rows: list[dict] = []
+    for adapter in sorted(ADAPTERS.values(), key=lambda a: a.id):
+        tpl = templates.get(adapter.id)
+        rows.append({
+            "id": adapter.id,
+            "name": adapter.name,
+            "needs_browser": bool(adapter.needs_browser),
+            "login_url": adapter.login_url,
+            "home_url": adapter.home_url,
+            "capabilities": capability_of(adapter.id),
+            "has_template": bool(tpl),
+            "template": tpl,
+        })
+    return rows
+
+
+def _known_platforms() -> set[str]:
+    return {p["id"] for p in platform_catalog()}
+
+
+def _sop_platforms(platforms: list[str]) -> list[str]:
+    """只保留有个人 SOP 模板的平台；其余平台仍可登录/发布。"""
+    return [p for p in platforms if (TEMPLATE_DIR / f"{p}.md").is_file()]
+
+
 def _declared_platforms(profile: dict, files: list[Path]) -> list[str]:
     """档案声明的 SOP 平台；旧档案没这个字段时退回目录里的副本。"""
     raw = profile.get("platforms")
@@ -275,11 +317,10 @@ def check_profile(name: str, profiles_root: str | Path | None = None) -> dict:
     playbook_dir = target / "playbooks"
     files = sorted(playbook_dir.glob("*.md")) if playbook_dir.is_dir() else []
     platforms = _declared_platforms(profile, files)
+    sop_platforms = _sop_platforms(platforms)
     problems: list[str] = []
-    if not platforms:
-        problems.append("没有 playbook 副本")
     by_platform = {p.stem: p for p in files}
-    for platform in platforms:
+    for platform in sop_platforms:
         dst = by_platform.get(platform)
         if dst is None:
             problems.append(f"{platform}.md：缺少个人 SOP 副本，需要重新渲染")
@@ -318,14 +359,13 @@ def rerender_profile(name: str, profiles_root: str | Path | None = None) -> dict
     playbook_dir = target / "playbooks"
     files = sorted(playbook_dir.glob("*.md")) if playbook_dir.is_dir() else []
     platforms = _declared_platforms(profile, files)
-    if not platforms:
-        raise OnboardingError("没有可重新渲染的 SOP：档案未声明平台，也没有副本")
+    sop_platforms = _sop_platforms(platforms)
+    if not sop_platforms:
+        raise OnboardingError("档案里没有需要渲染的 SOP 模板平台")
     playbook_dir.mkdir(parents=True, exist_ok=True)
     rendered: list[str] = []
-    for platform in platforms:
+    for platform in sop_platforms:
         template = TEMPLATE_DIR / f"{platform}.md"
-        if not template.is_file():
-            raise OnboardingError(f"没有对应模板：playbooks/{platform}.md")
         dst = playbook_dir / f"{platform}.md"
         dst.write_text(render_template(template.read_text(encoding="utf-8"), profile,
                                        platform=platform), encoding="utf-8")
@@ -334,5 +374,6 @@ def rerender_profile(name: str, profiles_root: str | Path | None = None) -> dict
         "name": name,
         "profile": str(profile_path),
         "platforms": platforms,
+        "sop_platforms": sop_platforms,
         "playbooks": rendered,
     }

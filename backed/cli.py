@@ -92,7 +92,9 @@ def init_cmd(name, platforms, force):
     except OnboardingError as exc:
         raise click.ClickException(str(exc)) from exc
     click.echo(f"✓ 档案：{result['profile']}")
-    click.echo("  平台：" + ", ".join(Path(p).stem for p in result["playbooks"]))
+    click.echo("  接入平台：" + ", ".join(result.get("platforms", [])))
+    sop = result.get("sop_platforms", [Path(p).stem for p in result["playbooks"]])
+    click.echo("  个人 SOP：" + (", ".join(sop) if sop else "无（这些平台没有 SOP 模板，仍可登录发布）"))
     click.echo("下一步：")
     click.echo(f"  1) 编辑 {result['profile']}，填账号、主线、报告位置")
     click.echo("  2) 登录：cd backed && uv run python -m cli --headed login --platform <平台>")

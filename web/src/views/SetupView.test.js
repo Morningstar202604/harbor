@@ -69,6 +69,31 @@ describe('SetupView 首次使用向导', () => {
     expect(w.vm.result).toBe(null)
   })
 
+  it('平台清单来自适配器目录，默认选有 SOP 的，可一键全选', async () => {
+    api.onboardingState.mockResolvedValue({
+      profiles: [],
+      templates: [
+        { id: 'cnblogs', title: '博客园每日运营', platform: 'cnblogs', schedule: '每天 1 次' },
+        { id: 'juejin', title: '掘金每日运营', platform: 'juejin', schedule: '每天 1 次' },
+      ],
+      platforms: [
+        { id: 'cnblogs', name: '博客园', has_template: true, template: { schedule: '每天 1 次' } },
+        { id: 'juejin', name: '稀土掘金', has_template: true, template: { schedule: '每天 1 次' } },
+        { id: 'bilibili', name: 'B站专栏', has_template: false, template: null },
+      ],
+      mcp: { json: '{}' },
+    })
+    const w = mountView()
+    await flushPromises()
+    expect(w.vm.platformOptions.length).toBe(3)
+    expect(w.vm.selected).toEqual(['cnblogs', 'juejin'])
+
+    const all = w.findAll('button').find(b => b.text().includes('全选'))
+    expect(all).toBeTruthy()
+    await all.trigger('click')
+    expect(w.vm.selected).toEqual(['cnblogs', 'juejin', 'bilibili'])
+  })
+
   it('创建档案后进入登录步，平台与档案信息可见', async () => {
     api.onboardingInit.mockResolvedValue({
       name: 'demo',

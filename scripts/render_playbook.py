@@ -40,16 +40,19 @@ def main(argv: list[str]) -> int:
     profile = load_profile(profile_path)
 
     declared = profile.get("platforms")
-    platforms = args.platform or (
+    requested = args.platform or (
         [str(p) for p in declared] if isinstance(declared, list) and declared
         else template_platforms()
     )
     out_dir = Path(args.out_dir) if args.out_dir else PROFILES_ROOT / name / "playbooks"
 
-    missing_tpl = [p for p in platforms if not (TEMPLATE_DIR / f"{p}.md").is_file()]
-    if missing_tpl:
-        print(f"没有这些平台的模板：{', '.join(missing_tpl)}")
-        return 2
+    platforms = [p for p in requested if (TEMPLATE_DIR / f"{p}.md").is_file()]
+    skipped = [p for p in requested if p not in platforms]
+    if skipped:
+        print(f"跳过没有 SOP 模板的平台：{', '.join(skipped)}")
+    if not platforms:
+        print("这个档案没有需要渲染的 SOP 模板平台")
+        return 0 if args.check else 2
 
     problems: list[str] = []
     for platform in platforms:

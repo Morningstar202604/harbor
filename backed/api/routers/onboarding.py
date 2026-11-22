@@ -13,6 +13,7 @@ from service.onboarding import (
     REPO_ROOT,
     check_profile,
     init_profile,
+    platform_catalog,
     profile_summaries,
     rerender_profile,
     template_catalog,
@@ -70,6 +71,7 @@ def onboarding_state():
     return {
         "profiles": profiles,
         "templates": template_catalog(),
+        "platforms": platform_catalog(),
         "needs_setup": not profiles,
         "mcp": _mcp_payload(),
     }
@@ -83,12 +85,13 @@ def onboarding_init(body: InitIn):
     except OnboardingError as exc:
         raise HTTPException(422, str(exc)) from exc
 
-    platforms = [Path(p).stem for p in result["playbooks"]]
+    platforms = result["platforms"]
+    sop_platforms = result.get("sop_platforms", [Path(p).stem for p in result["playbooks"]])
     return {
         "name": result["name"],
         "profile": f"profiles/{body.name}/profile.yaml",
         "platforms": platforms,
-        "playbooks": [f"profiles/{body.name}/playbooks/{p}.md" for p in platforms],
+        "playbooks": [f"profiles/{body.name}/playbooks/{p}.md" for p in sop_platforms],
         "progress": f"profiles/{body.name}/progress",
     }
 
@@ -110,11 +113,12 @@ def onboarding_rerender(body: RerenderIn):
     except OnboardingError as exc:
         raise HTTPException(422, str(exc)) from exc
     platforms = result["platforms"]
+    sop_platforms = result.get("sop_platforms", platforms)
     return {
         "name": result["name"],
         "profile": f"profiles/{body.name}/profile.yaml",
         "platforms": platforms,
-        "playbooks": [f"profiles/{body.name}/playbooks/{p}.md" for p in platforms],
+        "playbooks": [f"profiles/{body.name}/playbooks/{p}.md" for p in sop_platforms],
         "progress": f"profiles/{body.name}/progress",
         "check": check,
     }

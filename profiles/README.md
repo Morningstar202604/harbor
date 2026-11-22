@@ -41,7 +41,7 @@ python scripts/render_playbook.py --profile <your-name> --check   # 只比对
 | 字段 | 用途 |
 |---|---|
 | `name` / `timezone` | 档案名与时区 |
-| `platforms` | 本档案的 SOP 平台列表；`init` 自动写入，旧档案缺省时按 `playbooks/` 里已有副本推断 |
+| `platforms` | 本档案接入的发布平台列表（可含没有 SOP 模板的平台）；`init` 自动写入，旧档案缺省时按 `playbooks/` 里已有副本推断 |
 | `accounts.<platform>` | 各平台账号标识（不是密码） |
 | `mainline` | 账号主线，选题时用来判断相关性 |
 | `style` | 写作口吻与禁区 |

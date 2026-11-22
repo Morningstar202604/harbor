@@ -49,7 +49,7 @@ DEMO=1 HARBOR_API_TOKEN=dev uv run uvicorn app.factory:create_app --factory --po
 | `web/` | Vue3 表现层 + Tauri 壳 | 不放业务规则 |
 | `deploy/` | Dockerfile / compose / nginx | 从仓库根上下文构建 |
 | `scripts/` | 门禁、生成、备份、真机验证 | 每个脚本带 `--help` 或被文档引用 |
-| `playbooks/` | 运营 SOP 模板（博客园/知乎/CSDN/掘金） | 模板不含账号；个人副本放 `profiles/<name>/`，不回写 cron |
+| `playbooks/` | 4 份运营 SOP 模板（博客园/知乎/CSDN/掘金）；向导可接 15 个适配器，没模板的平台也能登录/发布 | 模板不含账号；个人副本放 `profiles/<name>/`，不回写 cron |
 | `profiles/` | 个人档案约定（账号/主线/报告/进度） | 只提交 `README.md` 与 `example.yaml`，真实档案不入库 |
 
 ## 5. 三条主链（改之前先认路）

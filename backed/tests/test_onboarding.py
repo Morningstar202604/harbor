@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 """档案初始化与模板渲染的单元测试。"""
 
+from pathlib import Path
+
 import pytest
 
 from service.onboarding import (
     OnboardingError, check_profile, init_profile, load_profile,
-    profile_summaries, render_template, rerender_profile,
+    platform_catalog, profile_summaries, render_template, rerender_profile,
 )
 
 
@@ -92,6 +94,37 @@ def test_profile_summaries_keeps_declared_platform_when_copy_missing(tmp_path):
 def test_init_profile_rejects_bad_name(tmp_path):
     with pytest.raises(OnboardingError, match="档案名"):
         init_profile("Demo Name", [], profiles_root=tmp_path)
+
+
+def test_platform_catalog_covers_all_adapters():
+    """向导平台清单必须来自运行时适配器注册表，而不是只有 4 份 SOP 模板。"""
+    rows = platform_catalog()
+    ids = {r["id"] for r in rows}
+    assert len(ids) >= 15
+    assert {"bilibili", "toutiao", "xiaohongshu", "wechat", "oschina"} <= ids
+    by_id = {r["id"]: r for r in rows}
+    assert by_id["cnblogs"]["has_template"] is True
+    assert by_id["bilibili"]["has_template"] is False
+    assert by_id["bilibili"]["needs_browser"] is True
+    assert by_id["cnblogs"]["capabilities"]["publish"] is True
+
+
+def test_init_accepts_non_template_platform_and_only_renders_known_sops(tmp_path):
+    """B站没有 SOP 模板，但必须能进档案、进登录步；SOP 只渲染 cnblogs。"""
+    result = init_profile("demo", ["cnblogs", "bilibili"], profiles_root=tmp_path)
+    assert result["platforms"] == ["cnblogs", "bilibili"]
+    assert result["sop_platforms"] == ["cnblogs"]
+    assert [Path(p).stem for p in result["playbooks"]] == ["cnblogs"]
+    profile = load_profile(tmp_path / "demo" / "profile.yaml")
+    assert profile["platforms"] == ["cnblogs", "bilibili"]
+    assert profile_summaries(profiles_root=tmp_path)[0]["platforms"] == ["cnblogs", "bilibili"]
+    # 没有模板的平台不该被自检误报成"缺少 SOP"
+    assert check_profile("demo", profiles_root=tmp_path)["ok"] is True
+
+
+def test_init_rejects_unknown_non_template_platform(tmp_path):
+    with pytest.raises(OnboardingError, match="不支持的平台"):
+        init_profile("demo", ["not-a-real-platform"], profiles_root=tmp_path)
 
 
 def test_load_profile_reads_yaml(tmp_path):

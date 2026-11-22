@@ -22,6 +22,10 @@
   显示问题并给出「只重新生成 SOP」。新增 `POST /onboarding/rerender` 只重渲染 playbook，
   `profile.yaml` 的账号与主线保持不变；`init` 在档案里记录 `platforms`，覆盖重建会清掉
   上次残留的平台副本。
+- **向导平台清单改为运行时适配器注册表。** 首启向导不再只列 4 个有 SOP 模板的平台，
+  而是把 15 个已注册适配器全部列出：有模板的生成 SOP，没有模板的（B 站、头条、小红书、
+  公众号、OSChina、思否、51CTO 等）同样能进档案、登录、发布。`/onboarding/state` 新增
+  `platforms` 清单；`init` 只给有模板的平台渲染 SOP，不再把无模板平台拒之门外。
 - **桌面版 MCP 走同一个 sidecar。** `harbor-backend --mcp` 直接以 stdio 模式运行 MCP
   server；PyInstaller 打包 playbooks、example.yaml 与 `rfc3987_syntax` 语法文件，档案默认
   落 `<data>/profiles`，装到只读目录也能完成首启。

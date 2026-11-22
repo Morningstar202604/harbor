@@ -16,7 +16,7 @@
 | 平台适配器 | 15 |
 | REST | 99 个操作 |
 | MCP | 32 个 tool |
-| Python 模块 | 107（23959 行） |
+| Python 模块 | 107（24006 行） |
 
 ## 1. 入口点
 
@@ -60,7 +60,7 @@
 被依赖最多（改它影响面最大）：
 
 - `service.publishing.db` ← 32 个模块
-- `service.publishing.adapters.base` ← 20 个模块
+- `service.publishing.adapters.base` ← 21 个模块
 - `api.deps` ← 12 个模块
 - `config` ← 12 个模块
 - `utils.logger` ← 9 个模块
@@ -256,7 +256,7 @@
 
 ## 8. 测试分布
 
-`test_*` 函数 562 个，测试代码 8515 行。parametrize 展开后的真实用例数：`uv run pytest --collect-only -q`。
+`test_*` 函数 566 个，测试代码 8562 行。parametrize 展开后的真实用例数：`uv run pytest --collect-only -q`。
 
 | 文件 | 用例函数 | 行数 |
 |---|---|---|
@@ -286,8 +286,8 @@
 | `backed/tests/test_mcp_wechatsync.py` | 21 | 292 |
 | `backed/tests/test_media_orphans.py` | 5 | 78 |
 | `backed/tests/test_module_imports.py` | 6 | 131 |
-| `backed/tests/test_onboarding.py` | 10 | 109 |
-| `backed/tests/test_onboarding_api.py` | 4 | 80 |
+| `backed/tests/test_onboarding.py` | 13 | 142 |
+| `backed/tests/test_onboarding_api.py` | 5 | 94 |
 | `backed/tests/test_publish_modes.py` | 10 | 299 |
 | `backed/tests/test_publish_readback.py` | 14 | 211 |
 | `backed/tests/test_rate_limiter.py` | 17 | 163 |
