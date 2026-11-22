@@ -28,11 +28,20 @@ cp playbooks/cnblogs.md profiles/<your-name>/playbooks/
 
 然后把 `profile.yaml` 填成自己的。`init` 会把 `{{profile.*}}` 换成档案值；手工复制的副本由执行任务的 AI 读取 profile 后解析。
 
+模板更新或副本被手改后，别用「覆盖重写」修 SOP：那会把 `profile.yaml` 的账号一起重置。用只重渲染：
+
+```bash
+python scripts/render_playbook.py --profile <your-name>           # 重渲染本档案声明的平台
+python scripts/render_playbook.py --profile <your-name> --check   # 只比对
+# 或走 API：POST /api/v1/hub/onboarding/rerender {"name":"<your-name>"}
+```
+
 ## 字段
 
 | 字段 | 用途 |
 |---|---|
 | `name` / `timezone` | 档案名与时区 |
+| `platforms` | 本档案的 SOP 平台列表；`init` 自动写入，旧档案缺省时按 `playbooks/` 里已有副本推断 |
 | `accounts.<platform>` | 各平台账号标识（不是密码） |
 | `mainline` | 账号主线，选题时用来判断相关性 |
 | `style` | 写作口吻与禁区 |

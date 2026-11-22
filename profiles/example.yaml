@@ -3,6 +3,9 @@
 name: your-name
 timezone: Asia/Shanghai
 
+# 本档案要维护的 SOP 平台；`harbor init` 会按勾选自动写入。
+# platforms: [cnblogs, zhihu]
+
 accounts:
   cnblogs: your-cnblogs-id
   zhihu: your-zhihu-id

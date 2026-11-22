@@ -14,6 +14,7 @@ from service.onboarding import (
     check_profile,
     init_profile,
     profile_summaries,
+    rerender_profile,
     template_catalog,
 )
 from service.publishing import db
@@ -28,6 +29,10 @@ class InitIn(BaseModel):
 
 
 class CheckIn(BaseModel):
+    name: str
+
+
+class RerenderIn(BaseModel):
     name: str
 
 
@@ -94,3 +99,22 @@ def onboarding_check(body: CheckIn):
         return check_profile(body.name)
     except OnboardingError as exc:
         raise HTTPException(422, str(exc)) from exc
+
+
+@router.post("/onboarding/rerender")
+def onboarding_rerender(body: RerenderIn):
+    """只重渲染个人 SOP，不重写 profile.yaml（账号配置不会被冲掉）。"""
+    try:
+        result = rerender_profile(body.name)
+        check = check_profile(body.name)
+    except OnboardingError as exc:
+        raise HTTPException(422, str(exc)) from exc
+    platforms = result["platforms"]
+    return {
+        "name": result["name"],
+        "profile": f"profiles/{body.name}/profile.yaml",
+        "platforms": platforms,
+        "playbooks": [f"profiles/{body.name}/playbooks/{p}.md" for p in platforms],
+        "progress": f"profiles/{body.name}/progress",
+        "check": check,
+    }

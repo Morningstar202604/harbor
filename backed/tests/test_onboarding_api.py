@@ -47,6 +47,26 @@ def test_init_renders_personal_profile_and_check_passes(client, monkeypatch, tmp
     assert check.json()["ok"] is True
 
 
+def test_rerender_endpoint_keeps_profile_accounts(client, monkeypatch, tmp_path):
+    root = _use_tmp_profiles(monkeypatch, tmp_path)
+    client.post("/api/v1/hub/onboarding/init", json={
+        "name": "demo", "platforms": ["cnblogs"],
+    })
+    profile_path = root / "demo" / "profile.yaml"
+    profile_path.write_text(
+        profile_path.read_text(encoding="utf-8").replace("your-cnblogs-id", "real-account"),
+        encoding="utf-8",
+    )
+    (root / "demo" / "playbooks" / "cnblogs.md").write_text("坏了\n", encoding="utf-8")
+
+    r = client.post("/api/v1/hub/onboarding/rerender", json={"name": "demo"})
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body["check"]["ok"] is True
+    assert body["platforms"] == ["cnblogs"]
+    assert "real-account" in profile_path.read_text(encoding="utf-8")
+
+
 def test_init_rejects_bad_name_and_duplicate(client, monkeypatch, tmp_path):
     _use_tmp_profiles(monkeypatch, tmp_path)
     bad = client.post("/api/v1/hub/onboarding/init", json={"name": "../etc"})

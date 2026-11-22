@@ -20,6 +20,11 @@ vi.mock('@/api', () => ({
       progress: 'profiles/demo/progress',
     }),
     onboardingCheck: vi.fn().mockResolvedValue({ ok: true, problems: [] }),
+    onboardingRerender: vi.fn().mockResolvedValue({
+      name: 'me', profile: 'profiles/me/profile.yaml', platforms: ['cnblogs'],
+      playbooks: ['profiles/me/playbooks/cnblogs.md'], progress: 'profiles/me/progress',
+      check: { ok: true, problems: [] },
+    }),
     platforms: vi.fn().mockResolvedValue([
       { id: 'cnblogs', name: '博客园', needs_browser: false },
       { id: 'juejin', name: '掘金', needs_browser: true },
@@ -113,7 +118,34 @@ describe('SetupView 首次使用向导', () => {
     })
     const w = mountView()
     await flushPromises()
+    await flushPromises()
     expect(w.vm.step).toBe(1)
+    expect(w.vm.result.profile).toBe('profiles/me/profile.yaml')
+    expect(api.onboardingCheck).toHaveBeenCalledWith('me')
+  })
+
+  it('已有档案重开时能看见 SOP 漂移，并可只重渲染修复', async () => {
+    api.onboardingState.mockResolvedValue({
+      profiles: [{ name: 'me', profile: 'profiles/me/profile.yaml',
+                   platforms: ['cnblogs'], playbooks: 1 }],
+      templates: [],
+      mcp: { json: '{}' },
+    })
+    api.onboardingCheck.mockResolvedValueOnce({
+      ok: false, platforms: ['cnblogs'],
+      problems: ['cnblogs.md：与档案或模板不一致，需要重新渲染'],
+    })
+    const w = mountView()
+    await flushPromises()
+    await flushPromises()
+    expect(w.vm.check.ok).toBe(false)
+
+    const btn = w.findAll('button').find(b => b.text() === '只重新生成 SOP')
+    expect(btn).toBeTruthy()
+    await btn.trigger('click')
+    await flushPromises()
+    expect(api.onboardingRerender).toHaveBeenCalledWith('me')
+    expect(w.vm.check.ok).toBe(true)
     expect(w.vm.result.profile).toBe('profiles/me/profile.yaml')
   })
 })

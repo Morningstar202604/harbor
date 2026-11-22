@@ -147,6 +147,9 @@ def init_profile(
         raise OnboardingError(f"找不到档案示例：{example}")
     text = example.read_text(encoding="utf-8")
     text = re.sub(r"^name: .*$", f"name: {name}", text, count=1, flags=re.M)
+    # 记录本档案的 SOP 平台，后续自检/重渲染不再只靠目录里残留的文件猜。
+    platform_line = "platforms: [" + ", ".join(wanted) + "]"
+    text = re.sub(r"^(name: .*)$", rf"\1\n{platform_line}", text, count=1, flags=re.M)
     text = text.replace('"profiles/your-name/progress"', f'"profiles/{name}/progress"')
     text = text.replace('"profiles/your-name"', f'"profiles/{name}"')
     text = text.replace("# 复制为 profiles/<your-name>/profile.yaml 后填写。",
@@ -157,6 +160,10 @@ def init_profile(
     target.mkdir(parents=True, exist_ok=True)
     (target / "playbooks").mkdir(exist_ok=True)
     (target / "progress").mkdir(exist_ok=True)
+    if force:
+        # 覆盖重建时清掉旧平台副本，避免上次勾选的平台残留成"幽灵 SOP"。
+        for old in (target / "playbooks").glob("*.md"):
+            old.unlink()
     profile_path = target / "profile.yaml"
     profile_path.write_text(text, encoding="utf-8")
 
@@ -224,6 +231,16 @@ def template_catalog() -> list[dict]:
     return items
 
 
+def _declared_platforms(profile: dict, files: list[Path]) -> list[str]:
+    """档案声明的 SOP 平台；旧档案没这个字段时退回目录里的副本。"""
+    raw = profile.get("platforms")
+    if isinstance(raw, list):
+        declared = [str(x).strip() for x in raw if str(x).strip()]
+        if declared:
+            return declared
+    return [p.stem for p in files]
+
+
 def profile_summaries(profiles_root: str | Path | None = None) -> list[dict]:
     """已存在的个人档案（不返回绝对路径，UI 只展示相对位置）。"""
     root = Path(profiles_root) if profiles_root else default_profiles_root()
@@ -234,10 +251,14 @@ def profile_summaries(profiles_root: str | Path | None = None) -> list[dict]:
         if not d.is_dir() or not (d / "profile.yaml").is_file():
             continue
         playbooks = sorted((d / "playbooks").glob("*.md")) if (d / "playbooks").is_dir() else []
+        try:
+            profile = load_profile(d / "profile.yaml")
+        except OnboardingError:
+            profile = {}
         items.append({
             "name": d.name,
             "profile": f"profiles/{d.name}/profile.yaml",
-            "platforms": [p.stem for p in playbooks],
+            "platforms": _declared_platforms(profile, playbooks),
             "playbooks": len(playbooks),
         })
     return items
@@ -253,11 +274,16 @@ def check_profile(name: str, profiles_root: str | Path | None = None) -> dict:
     profile = load_profile(profile_path)
     playbook_dir = target / "playbooks"
     files = sorted(playbook_dir.glob("*.md")) if playbook_dir.is_dir() else []
+    platforms = _declared_platforms(profile, files)
     problems: list[str] = []
-    if not files:
+    if not platforms:
         problems.append("没有 playbook 副本")
-    for dst in files:
-        platform = dst.stem
+    by_platform = {p.stem: p for p in files}
+    for platform in platforms:
+        dst = by_platform.get(platform)
+        if dst is None:
+            problems.append(f"{platform}.md：缺少个人 SOP 副本，需要重新渲染")
+            continue
         template = TEMPLATE_DIR / f"{platform}.md"
         if not template.is_file():
             problems.append(f"{dst.name}：没有对应模板 playbooks/{platform}.md")
@@ -265,9 +291,48 @@ def check_profile(name: str, profiles_root: str | Path | None = None) -> dict:
         fresh = render_template(template.read_text(encoding="utf-8"), profile, platform=platform)
         if dst.read_text(encoding="utf-8") != fresh:
             problems.append(f"{dst.name}：与档案或模板不一致，需要重新渲染")
+    for dst in files:
+        if dst.stem not in platforms:
+            problems.append(f"{dst.name}：档案未声明该平台，可能是重建后的残留副本")
     return {
         "name": name,
         "ok": not problems,
-        "platforms": [p.stem for p in files],
+        "platforms": platforms,
         "problems": problems,
+    }
+
+
+def rerender_profile(name: str, profiles_root: str | Path | None = None) -> dict:
+    """只按现有 profile.yaml 重渲染 SOP，不重写档案本身。
+
+    用于模板更新或副本被手改后的修复；账号、主线、路径等个人配置保持不变。
+    """
+    if not _NAME.match(name):
+        raise OnboardingError("档案名只能用小写字母、数字、- 或 _，最长 32 个字符")
+    root = Path(profiles_root) if profiles_root else default_profiles_root()
+    target = root / name
+    profile_path = target / "profile.yaml"
+    if not profile_path.is_file():
+        raise OnboardingError(f"档案不存在：profiles/{name}/profile.yaml")
+    profile = load_profile(profile_path)
+    playbook_dir = target / "playbooks"
+    files = sorted(playbook_dir.glob("*.md")) if playbook_dir.is_dir() else []
+    platforms = _declared_platforms(profile, files)
+    if not platforms:
+        raise OnboardingError("没有可重新渲染的 SOP：档案未声明平台，也没有副本")
+    playbook_dir.mkdir(parents=True, exist_ok=True)
+    rendered: list[str] = []
+    for platform in platforms:
+        template = TEMPLATE_DIR / f"{platform}.md"
+        if not template.is_file():
+            raise OnboardingError(f"没有对应模板：playbooks/{platform}.md")
+        dst = playbook_dir / f"{platform}.md"
+        dst.write_text(render_template(template.read_text(encoding="utf-8"), profile,
+                                       platform=platform), encoding="utf-8")
+        rendered.append(str(dst))
+    return {
+        "name": name,
+        "profile": str(profile_path),
+        "platforms": platforms,
+        "playbooks": rendered,
     }

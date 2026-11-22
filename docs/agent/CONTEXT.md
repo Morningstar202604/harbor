@@ -14,9 +14,9 @@
 | 后端 | Python >=3.10 / FastAPI / 裸 sqlite3（WAL + FTS5） |
 | 前端 | Vue3 + Element Plus + Pinia + Tauri 2 |
 | 平台适配器 | 15 |
-| REST | 98 个操作 |
+| REST | 99 个操作 |
 | MCP | 32 个 tool |
-| Python 模块 | 107（23870 行） |
+| Python 模块 | 107（23959 行） |
 
 ## 1. 入口点
 
@@ -74,7 +74,7 @@
 
 ## 4. REST API
 
-共 98 个操作，前缀 `/api/v1/hub`。
+共 99 个操作，前缀 `/api/v1/hub`。
 
 | 方法 | 路径 | 处理函数 | 说明 |
 |---|---|---|---|
@@ -141,6 +141,7 @@
 | GET | `/api/v1/hub/notifications` | `notifications_list` |  |
 | POST | `/api/v1/hub/onboarding/check` | `onboarding_check` |  |
 | POST | `/api/v1/hub/onboarding/init` | `onboarding_init` | 创建 ``profiles/<name>/``，并把选中模板渲染成个人 SOP。 |
+| POST | `/api/v1/hub/onboarding/rerender` | `onboarding_rerender` | 只重渲染个人 SOP，不重写 profile.yaml（账号配置不会被冲掉）。 |
 | GET | `/api/v1/hub/onboarding/state` | `onboarding_state` |  |
 | GET | `/api/v1/hub/pending-human` | `pending_human` | 需要人工处理的发布实例（如掘金草稿等人点"确定并发布"）。 |
 | POST | `/api/v1/hub/platform-cooldowns/clear` | `clear_cooldowns` | 手动解除平台限流冷却（平台侧确认恢复后用）。 |
@@ -255,7 +256,7 @@
 
 ## 8. 测试分布
 
-`test_*` 函数 558 个，测试代码 8456 行。parametrize 展开后的真实用例数：`uv run pytest --collect-only -q`。
+`test_*` 函数 562 个，测试代码 8515 行。parametrize 展开后的真实用例数：`uv run pytest --collect-only -q`。
 
 | 文件 | 用例函数 | 行数 |
 |---|---|---|
@@ -285,8 +286,8 @@
 | `backed/tests/test_mcp_wechatsync.py` | 21 | 292 |
 | `backed/tests/test_media_orphans.py` | 5 | 78 |
 | `backed/tests/test_module_imports.py` | 6 | 131 |
-| `backed/tests/test_onboarding.py` | 7 | 70 |
-| `backed/tests/test_onboarding_api.py` | 3 | 60 |
+| `backed/tests/test_onboarding.py` | 10 | 109 |
+| `backed/tests/test_onboarding_api.py` | 4 | 80 |
 | `backed/tests/test_publish_modes.py` | 10 | 299 |
 | `backed/tests/test_publish_readback.py` | 14 | 211 |
 | `backed/tests/test_rate_limiter.py` | 17 | 163 |

@@ -10,7 +10,7 @@
       <div class="pane-body setup-body">
         <el-steps :active="step" finish-status="success" align-center class="setup-steps">
           <el-step title="建档案" description="账号与 SOP 只留本机" />
-          <el-step title="登录平台" description="在这台机器上扫码" />
+          <el-step title="登录平台" description="在这台机器上完成登录" />
           <el-step title="接入 AI" description="MCP 配置复制即用" />
         </el-steps>
 
@@ -73,7 +73,9 @@
                 {{ playbookCount }} 份个人 SOP · 进度目录 <span class="mono">{{ result?.progress }}</span>
               </div>
               <div v-if="check && !check.ok" class="check-bad small">
-                自检未通过：{{ check.problems.join('；') }}
+                <span>自检未通过：{{ check.problems.join('；') }}</span>
+                <el-button link type="primary" size="small" :loading="rerendering"
+                           @click="rerender">只重新生成 SOP</el-button>
               </div>
             </div>
           </div>
@@ -172,6 +174,7 @@ const creating = ref(false)
 const result = ref(null)
 const activeProfile = ref(null)
 const check = ref(null)
+const rerendering = ref(false)
 const loadError = ref('')
 
 const nameOk = computed(() => /^[a-z0-9][a-z0-9_-]{0,31}$/.test(name.value))
@@ -200,8 +203,11 @@ async function load() {
   try {
     state.value = await api.onboardingState()
     if (state.value.profiles?.length) {
-      adopt(state.value.profiles[0])
+      const existing = state.value.profiles[0]
+      adopt(existing)
       step.value = 1
+      // 重开向导也自检一次：模板更新或副本被手改后要能看见漂移。
+      check.value = await api.onboardingCheck(existing.name).catch(() => null)
     } else {
       selected.value = (state.value.templates || []).map(t => t.id)
     }
@@ -256,6 +262,27 @@ async function login(platform) {
   } catch { /* 拦截器已提示 */ }
 }
 
+async function rerender() {
+  const target = activeProfile.value?.name || result.value?.name
+  if (!target) return
+  rerendering.value = true
+  try {
+    const next = await api.onboardingRerender(target)
+    result.value = { ...result.value, ...next, playbooks: next.playbooks || [] }
+    check.value = next.check || await api.onboardingCheck(target)
+    if (activeProfile.value) {
+      activeProfile.value = {
+        ...activeProfile.value,
+        platforms: next.platforms || activeProfile.value.platforms,
+        playbooks: (next.playbooks || []).length,
+      }
+    }
+    ElMessage.success('个人 SOP 已按当前档案重新生成')
+  } catch { /* 拦截器已提示 */ } finally {
+    rerendering.value = false
+  }
+}
+
 function resetForm() {
   result.value = null
   activeProfile.value = null
@@ -294,7 +321,8 @@ function finish() {
   hub.switchView('write')
 }
 
-defineExpose({ step, name, selected, force, create, login, copyConfig, state, result, check })
+defineExpose({ step, name, selected, force, create, login, copyConfig, rerender,
+               state, result, check, rerendering })
 </script>
 
 <style scoped lang="scss">
@@ -327,7 +355,10 @@ defineExpose({ step, name, selected, force, create, login, copyConfig, state, re
   .result-main { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
   .result-main b { color: var(--tx-1); }
   .mono { word-break: break-all; color: var(--tx-2); }
-  .check-bad { color: var(--el-color-danger); margin-top: 4px; }
+  .check-bad {
+    color: var(--el-color-danger); margin-top: 4px;
+    display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
+  }
 }
 .login-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; }
 .login-card {

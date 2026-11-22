@@ -9,15 +9,19 @@
 - **智能体可读化：读一遍仓库就能开工。** 新增根目录 [`AGENTS.md`](AGENTS.md)（定位 / 跑起来 /
   代码地图 / 三条主链 / 硬规则 / 已知陷阱 / 短任务模板），`CLAUDE.md` 与
   `.github/copilot-instructions.md` 作为指针。新增 `scripts/gen_agent_context.py`，从代码抽取
-  95 个 REST 操作、32 个 MCP tool、15 个适配器能力矩阵、6 张表、测试分布与 CLI 命令，产出
+  99 个 REST 操作、32 个 MCP tool、15 个适配器能力矩阵、6 张表、测试分布与 CLI 命令，产出
   `docs/agent/CONTEXT.md` + `CONTEXT.json`，**禁止手改**。
 - **上下文新鲜度门禁。** CI 的 backend job 与 `scripts/check_all.sh` 增加
   `gen_agent_context.py --check`：代码变了没重生成就红。
 - **`Makefile`**：`install / dev / web / demo / test / check / context / bump` 八个入口。
 - **首次使用向导（Web / 桌面端）。** 新增 `web/src/views/SetupView.vue` 与
-  `/api/v1/hub/onboarding/*` 三个端点：建档案 → 渲染个人 SOP → 逐个平台登录 → 复制 MCP
+  `/api/v1/hub/onboarding/*` 四个端点：建档案 → 渲染个人 SOP → 逐个平台登录 → 复制 MCP
   配置。空库首启自动进入；已有档案直接跳到登录步，不强迫重建。向导不接管登录，仍由
   Harbor 主机弹浏览器。
+- **SOP 漂移可见、修复不伤档案。** 重开向导会自动跑 `check`；发现模板更新或副本被手改时，
+  显示问题并给出「只重新生成 SOP」。新增 `POST /onboarding/rerender` 只重渲染 playbook，
+  `profile.yaml` 的账号与主线保持不变；`init` 在档案里记录 `platforms`，覆盖重建会清掉
+  上次残留的平台副本。
 - **桌面版 MCP 走同一个 sidecar。** `harbor-backend --mcp` 直接以 stdio 模式运行 MCP
   server；PyInstaller 打包 playbooks、example.yaml 与 `rfc3987_syntax` 语法文件，档案默认
   落 `<data>/profiles`，装到只读目录也能完成首启。

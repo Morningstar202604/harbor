@@ -4,7 +4,7 @@
 
 用法::
 
-    python scripts/render_playbook.py --profile demo              # 全部模板
+    python scripts/render_playbook.py --profile demo              # 档案声明的平台（旧档案退回全部模板）
     python scripts/render_playbook.py --profile demo --platform juejin
     python scripts/render_playbook.py --profile demo --check     # 只比对，过期退出 1
 """
@@ -27,7 +27,7 @@ def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description="渲染个人 playbook")
     ap.add_argument("--profile", required=True, help="档案名或 profile.yaml 路径")
     ap.add_argument("--platform", action="append", default=[],
-                    help="可重复；默认渲染全部模板")
+                    help="可重复；默认渲染档案 platforms 里声明的平台")
     ap.add_argument("--out-dir", default="", help="输出目录（默认 profiles/<name>/playbooks）")
     ap.add_argument("--check", action="store_true", help="只比对，不写文件")
     args = ap.parse_args(argv)
@@ -39,7 +39,11 @@ def main(argv: list[str]) -> int:
         name, profile_path = args.profile, PROFILES_ROOT / args.profile / "profile.yaml"
     profile = load_profile(profile_path)
 
-    platforms = args.platform or template_platforms()
+    declared = profile.get("platforms")
+    platforms = args.platform or (
+        [str(p) for p in declared] if isinstance(declared, list) and declared
+        else template_platforms()
+    )
     out_dir = Path(args.out_dir) if args.out_dir else PROFILES_ROOT / name / "playbooks"
 
     missing_tpl = [p for p in platforms if not (TEMPLATE_DIR / f"{p}.md").is_file()]
