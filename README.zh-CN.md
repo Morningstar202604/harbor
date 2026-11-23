@@ -78,6 +78,10 @@ uv run --project backed python -m backed.cli init --name demo --platforms juejin
 - [审计记录](docs/audit/AUDIT.md)
 - [参与贡献](CONTRIBUTING.md) · [安全](SECURITY.md)
 
+## 致谢
+
+Harbor 建立在开源工作之上。用到的 MCP Server、库与工具见 [ACKNOWLEDGEMENTS.zh-CN.md](ACKNOWLEDGEMENTS.zh-CN.md)。
+
 ## 许可证
 
 MIT，见 [LICENSE](LICENSE)。

@@ -41,6 +41,8 @@
 - **仓库展示重做。** README 改为英文主稿 + 可点击中文切换，压到核心能力、快速开始、
   平台接入和文档入口；补当前界面截图与 11 秒演示 GIF/MP4；新增 `docs/README.md`
   文档索引。五个远端的简介、主页与标签统一，GitCode 按平台上限保留五个标签。
+- **补充致谢页。** 新增 `ACKNOWLEDGEMENTS.md` / `ACKNOWLEDGEMENTS.zh-CN.md`，列出直接依赖、
+  可选 MCP Server 与各自许可证；README 和文档索引加入口。
 
 ### Fixed
 

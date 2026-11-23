@@ -33,3 +33,6 @@ This index is the map. The root [README](../README.md) is the short version.
 
 [Contributing](../CONTRIBUTING.md), [security policy](../SECURITY.md) and
 [code of conduct](../CODE_OF_CONDUCT.md) live at the repository root.
+
+[Acknowledgements](../ACKNOWLEDGEMENTS.md) lists the MCP servers and open-source
+projects Harbor relies on, with their licenses.

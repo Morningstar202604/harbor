@@ -79,6 +79,10 @@ Start at [docs/README.md](docs/README.md). The short list:
 - [Audit reports](docs/audit/AUDIT.md)
 - [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md)
 
+## Acknowledgements
+
+Harbor stands on open-source work. The MCP servers, libraries and tools it uses are listed in [ACKNOWLEDGEMENTS.md](ACKNOWLEDGEMENTS.md).
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
