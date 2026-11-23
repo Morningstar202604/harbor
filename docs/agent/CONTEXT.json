@@ -3843,7 +3843,7 @@
     }
   ],
   "project": {
-    "backend_python": ">=3.10",
+    "backend_python": ">=3.11",
     "name": "Harbor (内容港)",
     "stack": [
       "FastAPI",

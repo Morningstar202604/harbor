@@ -34,7 +34,7 @@ Accounts, drafts and history stay on your machine.
 
 ## Quick start
 
-Requires Python 3.10+, [uv](https://docs.astral.sh/uv/), Node 20+ and pnpm.
+Requires Python 3.11+, [uv](https://docs.astral.sh/uv/), Node 20+ and pnpm.
 
 ```bash
 git clone https://github.com/badhope/harbor.git

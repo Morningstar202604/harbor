@@ -11,7 +11,7 @@
 | 项 | 值 |
 |---|---|
 | 版本 | 0.15.1 |
-| 后端 | Python >=3.10 / FastAPI / 裸 sqlite3（WAL + FTS5） |
+| 后端 | Python >=3.11 / FastAPI / 裸 sqlite3（WAL + FTS5） |
 | 前端 | Vue3 + Element Plus + Pinia + Tauri 2 |
 | 平台适配器 | 15 |
 | REST | 110 个操作 |

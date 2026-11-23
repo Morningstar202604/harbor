@@ -33,7 +33,7 @@
 
 ## 快速开始
 
-需要 Python 3.10+、[uv](https://docs.astral.sh/uv/)、Node 20+ 和 pnpm。
+需要 Python 3.11+、[uv](https://docs.astral.sh/uv/)、Node 20+ 和 pnpm。
 
 ```bash
 git clone https://github.com/badhope/harbor.git

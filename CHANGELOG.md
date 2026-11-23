@@ -51,6 +51,16 @@
   "1 个平台未就绪"，不再出现"2 个平台就绪 / 全自动发布到 2 个平台"。
 - **"未登录"提示误伤 API 平台。** 改为"未登录或 API 凭据未通过检测"，与实际状态一致。
 
+### Security
+
+- **依赖安全升级。** Pillow `12.3.0` → `13.0.0`，certifi `2026.7.22` → `2026.11.20`，
+  Vitest `2.1.9` → `4.1.12`，ECharts `5.6.0` → `6.1.0`，minimatch 统一到 `11.0.1`；
+  Vitest 2 带进来的 Vite 5 / esbuild 0.21 / tinypool 1 全部移出锁文件。Dependabot 的
+  64 个可修复告警随之关闭。
+- **Python 最低版本收紧到 3.11。** Pillow 13 不再提供 Python 3.10 轮子；README、pyproject
+  和生成的 Agent 上下文同步更新。当前桌面发行物只有 Windows，Tauri 在 Linux 才用到的
+  glib 0.18 告警按 not_used 关闭。
+
 ---
 
 ## [Unreleased]

@@ -93,7 +93,7 @@ Every item below was driven by running the product, not by reading the code.
 - [ ] 文档与代码对齐：AGENT.md / ARCHITECTURE.md 的版本与 15 个适配器；ROADMAP 单一版本号
 - [ ] 配置收敛：`config_unified.py` 删掉 Redis / 连接池 / JWT / 密码策略等死字段；CORS 默认收紧
 - [ ] 包结构：`backed` → `backend`，顶层散包收成单根包（行为不变，测试兜底）
-- [ ] 依赖自动化：修好 Dependabot 或改月度手更（Pillow 分叉目前每天红）
+- [x] 依赖自动化：Pillow 13 / certifi / Vitest 4 / ECharts 6 / minimatch 11 已升级；glib 为 Tauri Linux-only 传递依赖，按 not_used 关闭
 - [ ] 适配器契约测试：segmentfault / telegraph / 51cto / 小红书（当前测试零引用）
 
 ### 0.17.0 — 并发与失败取证

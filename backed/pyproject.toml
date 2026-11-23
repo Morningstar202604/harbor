@@ -6,7 +6,7 @@ name = "harbor-backend"
 version = "0.15.1"
 description = "Harbor 后端：基于 FastAPI 的文章库 / 多平台发布 / AIGC 合规门禁"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     "fastapi>=0.115.0",
     "uvicorn[standard]>=0.23.0",
@@ -32,7 +32,7 @@ dependencies = [
     "jieba>=0.42",
     "python-frontmatter>=1.1",
     "trafilatura>=1.12",
-    "pillow>=10.3",
+    "pillow>=13.0.0",
     "markdown-it-py>=3.0",
     "telegraph>=2.0",
     "pyyaml>=6.0.3",

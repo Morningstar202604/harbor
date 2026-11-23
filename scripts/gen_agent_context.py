@@ -425,7 +425,7 @@ def build() -> dict:
         "project": {
             "name": "Harbor (内容港)",
             "version": version.group(1) if version else "",
-            "backend_python": ">=3.10",
+            "backend_python": ">=3.11",
             "web_node": package.get("packageManager", ""),
             "stack": [
                 "FastAPI", "SQLite(WAL/FTS5)", "Patchright(Chromium)",
