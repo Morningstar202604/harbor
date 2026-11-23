@@ -11,14 +11,18 @@ profiles/
 ├── example.yaml       # 字段示例，入库
 └── <your-name>/       # 你的档案，.gitignore 忽略
     ├── profile.yaml
-    ├── playbooks/     # 从 ../*.md 复制后改
+    ├── playbooks/     # 15 份平台 SOP 的个人副本
     └── progress/      # 每日进度、剩余清单
 ```
 
 ## 用法
 
+最省事的是 Web / 桌面端「开始使用」向导：勾平台 → 生成档案与 SOP → 登录 → 复制 MCP。
+之后在「设置 → 内容档案」里改主线、风格、互动额度与时间窗，逐份查看/编辑 SOP，
+也可以建多份档案（例如技术号、生活号）并切换当前档案。
+
 ```bash
-# 推荐：建档案 + 渲染全部 playbook
+# 不想开界面：CLI 建档案 + 渲染全部 playbook
 cd backed && uv run python -m cli init --name <your-name> --platforms cnblogs,juejin
 
 # 也可以手工复制
@@ -28,7 +32,8 @@ cp playbooks/cnblogs.md profiles/<your-name>/playbooks/
 
 然后把 `profile.yaml` 填成自己的。`init` 会把 `{{profile.*}}` 换成档案值；手工复制的副本由执行任务的 AI 读取 profile 后解析。
 
-模板更新或副本被手改后，别用「覆盖重写」修 SOP：那会把 `profile.yaml` 的账号一起重置。用只重渲染：
+在界面里手改过的 SOP 会打 `customized: true`，自检不再按模板漂移报错；想回模板点「恢复模板」。
+模板更新后要批量同步，别用「覆盖重写」修 SOP：那会把 `profile.yaml` 的账号一起重置。用只重渲染：
 
 ```bash
 python scripts/render_playbook.py --profile <your-name>           # 重渲染本档案声明的平台
@@ -50,6 +55,11 @@ python scripts/render_playbook.py --profile <your-name> --check   # 只比对
 | `links.report` / `links.topic_bank` | 运营报告、选题库位置 |
 | `paths.workspace` / `paths.progress` | 进度文件目录（绝对路径或相对仓库根） |
 | `windows.active` | 活跃发布时段 |
+
+## 多档案
+
+`profiles/.active_profile` 记录当前激活的档案名（只有档案名，不含个人信息）。`get_platform_skill`
+不传 `profile` 时读这个标记；界面切换当前档案时自动改写。没有标记时退回按目录名排序的第一份。
 
 ## 登录
 

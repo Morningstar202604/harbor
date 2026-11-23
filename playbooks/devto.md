@@ -16,7 +16,7 @@ updated: 2026-11-23
 
 ## 登录后先确认
 
-1. 在 Harbor 设置里填 `platforms.devto.api_key`，或设环境变量 `DEVTO_API_KEY`。
+1. 在 Harbor「设置 → 平台账号 → 配置凭据」填 API Key；也可用环境变量 `DEVTO_API_KEY` 覆盖。
 2. 先调一次账号信息/文章列表确认 key 有效；401 就停，不反复试。
 3. API key 不写进文章、不提交仓库。
 

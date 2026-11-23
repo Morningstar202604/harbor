@@ -29,7 +29,7 @@ DEMO=1 HARBOR_API_TOKEN=dev uv run uvicorn app.factory:create_app --factory --po
 ## 3. 开工前按顺序读
 
 1. 本文件
-2. [`docs/agent/CONTEXT.md`](docs/agent/CONTEXT.md) — 模块、100 个 REST 操作、33 个 MCP tool、15 个适配器能力矩阵、6 张表、测试分布（**代码生成**）
+2. [`docs/agent/CONTEXT.md`](docs/agent/CONTEXT.md) — 模块、110 个 REST 操作、33 个 MCP tool、15 个适配器能力矩阵、6 张表、测试分布（**代码生成**）
 3. [`AGENT.md`](AGENT.md) — 目录级细节与历史约定（改哪块查哪块）
 4. [`docs/PROJECT_MANAGEMENT.md`](docs/PROJECT_MANAGEMENT.md) — 分支模型、完成定义、五仓同步
 5. [`docs/VERSIONING.md`](docs/VERSIONING.md) — 版本与发布清单

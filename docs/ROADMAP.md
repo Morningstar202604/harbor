@@ -9,7 +9,18 @@ Legend: `[x]` shipped · `[ ]` planned · `[~]` in progress · `[!]` blocked
 
 ## Shipped
 
-### 0.15.0 — read-back verification (current)
+### 0.15.1 — post-login management space (current)
+
+Logged in, then what? The settings UI now covers the files users previously had to hand-edit.
+
+- [x] Content profile tab: switch active profile, edit mainline / voice / quotas / windows,
+      advanced YAML with validation and backup
+- [x] Personal SOP: view, edit (marked `customized`), reset to template, platform add/remove
+- [x] API platform credentials form with masked secrets and atomic writes; no hand-editing `config.json`
+- [x] Publish rail ready-count fixed to real login state; empty-body guard
+- [x] Multi-profile active marker used by MCP `get_platform_skill`
+
+### 0.15.0 — read-back verification
 
 "Success" now means the copy exists on the platform, not that an API returned 201.
 

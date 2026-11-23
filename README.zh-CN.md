@@ -103,13 +103,18 @@ sidecar 绑定回环端口、数据目录建在 `%APPDATA%`。macOS 与 Linux �
 
 Harbor 是给任何人自托管用的，不绑定作者本人。一次部署服务一个人：cookie、账号、草稿都不出本机。
 
-- `profiles/` 是私人区：把 `profiles/example.yaml` 复制成 `profiles/<name>/profile.yaml`，
-  真实账号、报告链接、进度文件都放这里。除 README 与示例外，整个目录被 `.gitignore` 忽略。
-- `playbooks/` 只放**模板**（博客园/知乎/CSDN/掘金）。复制到 `profiles/<name>/playbooks/`，
-  填 `{{profile.*}}`，定时任务指向副本。
+- `profiles/` 是私人区：首启向导生成 `profiles/<name>/profile.yaml`；之后主线、口吻、
+  互动额度、时间窗都在「设置 → 内容档案」里改，也可以展开高级 YAML 直接编辑。
+  除 README 与示例外，整个目录被 `.gitignore` 忽略。
+- `playbooks/` 放 15 个平台的**模板**，向导按勾选生成个人 SOP。每份都能在
+  「设置 → 内容档案 → 平台与个人 SOP」里查看、按自己习惯改、或恢复模板；改过的会标
+  「自定义」，不会被自检误报成漂移。
+- 一台机器可以有多份内容档案（例如技术号、生活号）。切换当前档案后 AI 读到的 SOP 跟着切；
+  平台登录态与发布记录是所有档案共用的。
 - `python scripts/scan_privacy.py`（CI 也会跑）拦截账号 ID、飞书文档链接、本机绝对路径这类提交。
 
 一次部署一个人是设计取舍：发布依赖你的登录态，做成多租户 SaaS 是负债不是功能。
+多档案只是不同内容策略，不是多用户。
 
 > **登录发生在 Harbor 所在的那台机器上，不在 AI 客户端 / 模型的浏览器里。**
 > 本机、局域网、无显示器服务器的做法见 [docs/guides/login.md](docs/guides/login.md)。
@@ -126,8 +131,9 @@ Harbor 是给任何人自托管用的，不绑定作者本人。一次部署服�
 uv run --project backed python -m backed.cli --headed login --platform zhihu
 ```
 
-**协议凭据** —— 有稳定 API 的平台。在 `config.json` 里填 `platforms.<名>`，免浏览器。
-字段清单见 [PLATFORM_CONNECTION.md](PLATFORM_CONNECTION.md)。
+**协议凭据** —— 有稳定 API 的平台。打开「设置 → 平台账号」，点卡片上的「配置凭据」，
+在表单里填完保存即可，Harbor 会替你写本机 `config.json`；密钥只显示掩码，不整串回显。
+各字段含义见 [PLATFORM_CONNECTION.md](PLATFORM_CONNECTION.md)。
 
 ```bash
 uv run --project backed python -m backed.cli publish --id <文章ID> --platforms zhihu,juejin

@@ -209,7 +209,7 @@ def get_platform_skill(platform: str, profile: str = "") -> dict:
     用于回答“已经登录了，接下来在这个平台该怎么做”。返回该平台完整 SOP、
     适配器能力、账号状态、建议草稿模式和发布示例。platform 用平台 id
     （cnblogs/zhihu/csdn/juejin/bilibili/toutiao/xiaohongshu/wechat 等）。
-    profile 留空时用本机第一个档案。
+    profile 留空时用设置页当前激活的档案。
     """
     from service.platform_skills import get_platform_skill as _skill
     return _skill(platform, profile=profile,

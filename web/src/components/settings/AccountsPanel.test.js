@@ -16,6 +16,22 @@ vi.mock('@/api', () => ({
       job_id: 'j1', status: 'succeeded', result: { outcome: 'success' }, error: '',
     }),
     diagnose: vi.fn().mockResolvedValue({}),
+    platformCredentials: vi.fn().mockResolvedValue({
+      platforms: [{
+        id: 'cnblogs', name: '博客园', configured: false,
+        fields: [
+          { key: 'endpoint', label: 'MetaWeblog 地址', secret: false, set: false,
+            value: '', placeholder: 'https://rpc.cnblogs.com/metaweblog/x' },
+          { key: 'token', label: '访问令牌', secret: true, set: true,
+            value: '', masked: 'abcd…wxyz', placeholder: '' },
+        ],
+      }],
+    }),
+    platformCredentialsSave: vi.fn().mockResolvedValue({
+      id: 'cnblogs', name: '博客园', configured: true,
+      fields: [{ key: 'endpoint', label: 'MetaWeblog 地址', secret: false, set: true, value: 'https://x' }],
+    }),
+    checkAccount: vi.fn().mockResolvedValue({ platform: 'cnblogs', logined: true }),
   },
 }))
 
@@ -89,5 +105,44 @@ describe('AccountsPanel cnblogs 自动抠令牌', () => {
     await vi.advanceTimersByTimeAsync(100)
     await p
     expect(w.vm.bsError).toContain('已有 bootstrap 任务在跑')
+  })
+})
+
+
+describe('AccountsPanel API 平台凭据表单', () => {
+  let w
+  beforeEach(() => { setActivePinia(createPinia()); w = null })
+  afterEach(() => { w?.unmount(); vi.clearAllMocks() })
+
+  it('打开凭据弹窗时密钥只给掩码，不把完整值塞进表单', async () => {
+    w = mount(AccountsPanel)
+    await flushPromises()
+    await w.vm.openCreds({ id: 'cnblogs', name: '博客园' })
+    expect(w.vm.credOpen).toBe(true)
+    expect(w.vm.credForm.token).toBe('')                 // 密钥不回填
+    expect(w.vm.credForm.endpoint).toBe('')
+    expect(w.vm.credItem.fields[1].masked).toBe('abcd…wxyz')
+  })
+
+  it('留空密钥不改原值；保存后自动检测', async () => {
+    const { api } = await import('@/api')
+    w = mount(AccountsPanel)
+    await flushPromises()
+    await w.vm.openCreds({ id: 'cnblogs', name: '博客园' })
+    w.vm.credForm.endpoint = 'https://rpc.cnblogs.com/metaweblog/me'
+    await w.vm.saveCreds()
+    expect(api.platformCredentialsSave).toHaveBeenCalledWith('cnblogs', {
+      endpoint: 'https://rpc.cnblogs.com/metaweblog/me',
+    })
+    expect(api.checkAccount).toHaveBeenCalledWith('cnblogs')
+  })
+
+  it('清除密钥只提交 secret 字段为空', async () => {
+    const { api } = await import('@/api')
+    w = mount(AccountsPanel)
+    await flushPromises()
+    await w.vm.openCreds({ id: 'cnblogs', name: '博客园' })
+    await w.vm.clearSecrets()
+    expect(api.platformCredentialsSave).toHaveBeenCalledWith('cnblogs', { token: '' })
   })
 })

@@ -16,7 +16,7 @@ updated: 2026-11-23
 
 ## 登录后先确认
 
-1. 在 Harbor 设置里填 `platforms.github.token/owner/repo/branch/path_prefix`，或设 `GITHUB_TOKEN`。
+1. 在 Harbor「设置 → 平台账号 → 配置凭据」填 token、owner、repo、分支与文章目录；也可用 `GITHUB_TOKEN` 覆盖。
 2. token 需要有对应仓库 Contents 读写权限；403/404 就停，核对 owner/repo/branch。
 3. token 不写进文章、不提交仓库。
 

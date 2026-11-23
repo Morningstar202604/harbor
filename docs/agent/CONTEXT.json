@@ -602,6 +602,10 @@
       "src": "api.routers.onboarding"
     },
     {
+      "dst": "service.profiles",
+      "src": "api.routers.onboarding"
+    },
+    {
       "dst": "service.publishing.db",
       "src": "api.routers.onboarding"
     },
@@ -664,6 +668,18 @@
     {
       "dst": "api.deps",
       "src": "api.routers.webhooks"
+    },
+    {
+      "dst": "service.onboarding",
+      "src": "api.routers.workspace"
+    },
+    {
+      "dst": "service.profiles",
+      "src": "api.routers.workspace"
+    },
+    {
+      "dst": "service.publishing.platform_config",
+      "src": "api.routers.workspace"
     },
     {
       "dst": "config",
@@ -852,6 +868,18 @@
     {
       "dst": "service.onboarding",
       "src": "service.platform_skills"
+    },
+    {
+      "dst": "service.profiles",
+      "src": "service.platform_skills"
+    },
+    {
+      "dst": "service.onboarding",
+      "src": "service.profiles"
+    },
+    {
+      "dst": "service.publishing.crypto",
+      "src": "service.profiles"
     },
     {
       "dst": "service.publishing.adapters.base",
@@ -1182,6 +1210,14 @@
       "src": "service.publishing.observability"
     },
     {
+      "dst": "service.publishing.db",
+      "src": "service.publishing.platform_config"
+    },
+    {
+      "dst": "service.publishing.crypto",
+      "src": "service.publishing.platform_config"
+    },
+    {
       "dst": "service.publishing.providers.base",
       "src": "service.publishing.providers.bilibili"
     },
@@ -1409,7 +1445,7 @@
   "entrypoints": [
     {
       "path": "mcp_server.py",
-      "role": "MCP Server（stdio / streamable-http / SSE），32 个 tool"
+      "role": "MCP Server（stdio / streamable-http / SSE），33 个 tool"
     },
     {
       "path": "backed/app/factory.py",
@@ -1437,23 +1473,23 @@
     }
   ],
   "graph": {
-    "module_count": 108,
+    "module_count": 111,
     "packages": {
       "__init__": 1,
-      "api": 16,
+      "api": 17,
       "app": 6,
       "cli": 1,
       "config": 4,
       "core": 4,
       "desktop_sidecar": 1,
       "middleware": 5,
-      "service": 62,
+      "service": 64,
       "start": 1,
       "utils": 7
     },
     "top_fan_in": [
       {
-        "importers": 32,
+        "importers": 33,
         "module": "service.publishing.db"
       },
       {
@@ -1485,20 +1521,20 @@
         "module": "service.publishing.url_safety"
       },
       {
+        "importers": 6,
+        "module": "service.publishing.crypto"
+      },
+      {
+        "importers": 5,
+        "module": "service.onboarding"
+      },
+      {
         "importers": 5,
         "module": "service.publishing.ai"
       },
       {
         "importers": 5,
         "module": "service.publishing.events"
-      },
-      {
-        "importers": 5,
-        "module": "service.publishing.versions"
-      },
-      {
-        "importers": 4,
-        "module": "service.publishing.ai_providers"
       }
     ],
     "top_fan_out": [
@@ -1551,7 +1587,7 @@
         "module": "app.exceptions"
       }
     ],
-    "total_loc": 24260
+    "total_loc": 25171
   },
   "mcp_tools": [
     {
@@ -1875,7 +1911,7 @@
       "functions": [
         "register_hub"
       ],
-      "loc": 73,
+      "loc": 75,
       "module": "api.hub",
       "path": "backed/api/hub.py"
     },
@@ -1883,7 +1919,7 @@
       "classes": [],
       "doc": "子路由器聚合：由 ``api.hub`` 统一 include 进 ``hub_router``。",
       "functions": [],
-      "loc": 22,
+      "loc": 23,
       "module": "api.routers",
       "path": "backed/api/routers/__init__.py"
     },
@@ -2033,7 +2069,7 @@
         "onboarding_check",
         "onboarding_rerender"
       ],
-      "loc": 151,
+      "loc": 156,
       "module": "api.routers.onboarding",
       "path": "backed/api/routers/onboarding.py"
     },
@@ -2139,6 +2175,32 @@
       "loc": 212,
       "module": "api.routers.webhooks",
       "path": "backed/api/routers/webhooks.py"
+    },
+    {
+      "classes": [
+        "ActiveIn",
+        "ProfileUpdateIn",
+        "PlatformRemoveIn",
+        "PlaybookIn",
+        "CredentialsIn"
+      ],
+      "doc": "工作区 REST：多档案切换、档案表单/YAML、SOP 查看编辑、平台移除、API 凭据。",
+      "functions": [
+        "_bad",
+        "workspace",
+        "workspace_active",
+        "workspace_profile",
+        "workspace_profile_update",
+        "workspace_profile_remove_platform",
+        "workspace_playbook",
+        "workspace_playbook_save",
+        "workspace_playbook_reset",
+        "platform_credentials",
+        "platform_credentials_save"
+      ],
+      "loc": 135,
+      "module": "api.routers.workspace",
+      "path": "backed/api/routers/workspace.py"
     },
     {
       "classes": [],
@@ -2455,10 +2517,11 @@
         "_sop_platforms",
         "_declared_platforms",
         "profile_summaries",
+        "_customized",
         "check_profile",
         "rerender_profile"
       ],
-      "loc": 467,
+      "loc": 481,
       "module": "service.onboarding",
       "path": "backed/service/onboarding.py"
     },
@@ -2470,9 +2533,44 @@
         "_find_playbook",
         "get_platform_skill"
       ],
-      "loc": 125,
+      "loc": 127,
       "module": "service.platform_skills",
       "path": "backed/service/platform_skills.py"
+    },
+    {
+      "classes": [],
+      "doc": "多档案工作区：激活档案、表单化编辑、SOP 查看/手改/恢复、平台移除。",
+      "functions": [
+        "_root",
+        "_profile_dir",
+        "_profile_path",
+        "list_profile_names",
+        "active_profile_name",
+        "set_active_profile",
+        "workspace_overview",
+        "_fmt",
+        "_public_fields",
+        "_playbook_title",
+        "_is_customized",
+        "_mark_customized",
+        "_playbook_items",
+        "profile_detail",
+        "_atomic_text",
+        "_backup_once",
+        "_dump_profile",
+        "_ensure_type",
+        "_validate_fields",
+        "_apply_fields",
+        "update_profile_fields",
+        "save_profile_yaml",
+        "remove_platform",
+        "get_playbook",
+        "save_playbook",
+        "reset_playbook"
+      ],
+      "loc": 487,
+      "module": "service.profiles",
+      "path": "backed/service/profiles.py"
     },
     {
       "classes": [],
@@ -3254,6 +3352,26 @@
     },
     {
       "classes": [],
+      "doc": "API 平台凭据读写信封：设置页表单直填，不用再手改 config.json。",
+      "functions": [
+        "_mask",
+        "_is_placeholder",
+        "_spec",
+        "_config_path",
+        "_read",
+        "_atomic_write",
+        "_validate_endpoint",
+        "_field_value",
+        "_item",
+        "get_platform_credentials",
+        "update_platform_credentials"
+      ],
+      "loc": 265,
+      "module": "service.publishing.platform_config",
+      "path": "backed/service/publishing/platform_config.py"
+    },
+    {
+      "classes": [],
       "doc": "外部成熟工具封装层：用开源社区验证过的方案做兜底，不重复造轮子。",
       "functions": [],
       "loc": 28,
@@ -3584,7 +3702,7 @@
       "account": "",
       "deadline": "",
       "file": "playbooks/cnblogs.md",
-      "lines": 60,
+      "lines": 61,
       "platform": "cnblogs",
       "schedule": "建议每天 1 次（以 profile 为准）",
       "scope": "template",
@@ -3735,7 +3853,7 @@
       "Tauri 2",
       "MCP"
     ],
-    "version": "0.15.0",
+    "version": "0.15.1",
     "web_node": "pnpm@9.15.9"
   },
   "routes": [
@@ -4284,6 +4402,22 @@
       "path": "/api/v1/hub/platform-cooldowns/clear"
     },
     {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "platform_credentials",
+      "path": "/api/v1/hub/platform-credentials"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "PUT"
+      ],
+      "name": "platform_credentials_save",
+      "path": "/api/v1/hub/platform-credentials/{platform}"
+    },
+    {
       "doc": "平台清单 + 代码级能力矩阵。",
       "methods": [
         "GET"
@@ -4538,6 +4672,70 @@
       ],
       "name": "webhooks_test",
       "path": "/api/v1/hub/webhooks/{wid}/test"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "workspace",
+      "path": "/api/v1/hub/workspace"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "PUT"
+      ],
+      "name": "workspace_active",
+      "path": "/api/v1/hub/workspace/active"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "workspace_profile",
+      "path": "/api/v1/hub/workspace/profiles/{name}"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "PUT"
+      ],
+      "name": "workspace_profile_update",
+      "path": "/api/v1/hub/workspace/profiles/{name}"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "POST"
+      ],
+      "name": "workspace_profile_remove_platform",
+      "path": "/api/v1/hub/workspace/profiles/{name}/platforms/remove"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "GET"
+      ],
+      "name": "workspace_playbook",
+      "path": "/api/v1/hub/workspace/profiles/{name}/playbooks/{platform}"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "PUT"
+      ],
+      "name": "workspace_playbook_save",
+      "path": "/api/v1/hub/workspace/profiles/{name}/playbooks/{platform}"
+    },
+    {
+      "doc": "",
+      "methods": [
+        "POST"
+      ],
+      "name": "workspace_playbook_reset",
+      "path": "/api/v1/hub/workspace/profiles/{name}/playbooks/{platform}/reset"
     }
   ],
   "schema": {
@@ -4846,9 +5044,9 @@
     "cli_commands": 39,
     "mcp_tools": 33,
     "playbooks": 15,
-    "python_loc": 24260,
-    "python_modules": 108,
-    "rest_routes": 100
+    "python_loc": 25171,
+    "python_modules": 111,
+    "rest_routes": 110
   },
   "tests": {
     "files": [
@@ -5118,13 +5316,18 @@
         "tests": 11
       },
       {
+        "file": "backed/tests/test_workspace_api.py",
+        "loc": 178,
+        "tests": 7
+      },
+      {
         "file": "backed/tests/test_zhihu_answer_flow.py",
         "loc": 161,
         "tests": 7
       }
     ],
     "note": "parametrize 展开后的实际用例数以此为准：uv run pytest --collect-only -q",
-    "test_functions": 574,
-    "total_loc": 8695
+    "test_functions": 581,
+    "total_loc": 8873
   }
 }

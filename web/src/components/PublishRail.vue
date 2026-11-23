@@ -40,7 +40,7 @@
                     该平台不支持发布
                   </div>
                   <div class="s caps" v-else-if="!p.needs_browser && !isOnline(p.id)">
-                    未配置——到 设置 → 平台账号 填凭据
+                    未配置——到设置 → 平台账号点「配置凭据」
                   </div>
                 </div>
                 <el-button v-if="p.needs_browser && !isOnline(p.id)" size="small" text type="primary"
@@ -124,7 +124,7 @@
         <div class="rail-sec" v-if="selected.length">
           <div class="pre-check" v-if="selectedReady.unready.length || selectedReady.cooling.length">
             <div v-if="selectedReady.unready.length" class="pre-warn">
-              ⚠ {{ selectedReady.unready.length }} 个平台未登录（任务会等到登录后执行）
+              ⚠ {{ selectedReady.unready.length }} 个平台未就绪（未登录或 API 凭据未通过检测）
             </div>
             <div v-if="selectedReady.cooling.length" class="pre-warn bad">
               ⏳ {{ selectedReady.cooling.join('、') }} 限流冷却中，发布任务会自动延后
@@ -141,6 +141,9 @@
         <!-- ③c 发布设置点满状态（封面/标签/摘要/AI辅助） -->
         <div class="rail-sec" v-if="hub.current">
           <div class="rail-lbl">4 · 发布设置</div>
+          <div v-if="!hasContent" class="pre-warn bad">
+            ⚠ 正文还是空的——至少写一段再发布，避免发出空白稿
+          </div>
           <div v-if="!publishSettingsMissing.length" class="pre-ok">
             ✓ 已点满：封面、标签、摘要、AI 辅助标识
           </div>
@@ -154,7 +157,7 @@
           <el-button class="go-btn" size="large"
                      :type="mode === 'live' ? 'primary' : 'warning'"
                      :loading="running"
-                     :disabled="!selected.length || (mode === 'live' && isAiArticle && !settings.directPublish && !humanConfirmed)"
+                     :disabled="!selected.length || !hasContent || (mode === 'live' && isAiArticle && !settings.directPublish && !humanConfirmed)"
                      @click="runPublish">
             <template v-if="running">发布中 {{ doneCount }}/{{ selected.length }}…</template>
             <template v-else-if="publishMode === 'assist'">打开并预填 {{ selected.length }} 个平台</template>
@@ -222,10 +225,12 @@ const platforms = computed(() => hub.platforms)
 // 能力矩阵来自后端（/platforms.capabilities），不是前端猜的
 const canPublish = (p) => p?.capabilities ? p.capabilities.publish !== false : true
 const canUpdate = (p) => !!p?.capabilities?.update
-const readyCount = computed(() => {
-  const onlineIds = new Set(hub.accounts.filter(a => a.status === 'logined').map(a => a.platform))
-  return platforms.value.filter(p => canPublish(p) && (onlineIds.has(p.id) || !p.needs_browser)).length
-})
+// "就绪"= 这个平台已真实登录/凭据已通过检测。不能把未配置的 API 平台
+// 当成 ready——否则顶部说 8/15，点进去只登录了 1 个（2026-11-23 实测）。
+const onlineIds = computed(() => new Set(
+  hub.accounts.filter(a => a.status === 'logined').map(a => a.platform)))
+const readyCount = computed(() => platforms.value.filter(
+  p => canPublish(p) && onlineIds.value.has(p.id)).length)
 
 // 平台限流冷却（后端 /status 返回 platform_cooldowns）
 const cooldowns = computed(() => hub.stats?.platform_cooldowns || [])
@@ -244,13 +249,12 @@ async function clearCooldowns() {
 
 // 发布前就绪摘要：检查选中平台是否在线/配置/冷却
 const selectedReady = computed(() => {
-  const onlineIds = new Set(hub.accounts.filter(a => a.status === 'logined').map(a => a.platform))
   const ready = [], unready = [], cooling = []
   for (const pf of selected.value) {
     const p = platforms.value.find(x => x.id === pf)
     if (!p || !canPublish(p)) continue
     if (cooldownMap.value[pf]) { cooling.push(pf); continue }
-    if (p.needs_browser && !onlineIds.has(pf)) unready.push(pf)
+    if (!onlineIds.value.has(pf)) unready.push(pf)
     else ready.push(pf)
   }
   return { ready, unready, cooling }
@@ -260,6 +264,8 @@ const updatable = computed(() => hub.updatable.filter(id => canUpdate(platforms.
 const isAiArticle = computed(() => hub.current?.source === 'ai')
 
 // 发布设置是否点满：封面 / 标签 / 摘要 / AI 辅助标识（四项）
+const hasContent = computed(() => ((hub.current?.content_md || '').trim().length > 0))
+
 const publishSettingsMissing = computed(() => {
   const a = hub.current || {}
   const miss = []
@@ -335,6 +341,10 @@ const doneCount = ref(0)
 watch(currentId, () => { results.value = []; humanConfirmed.value = false })
 
 async function runPublish() {
+  if (!hasContent.value) {
+    ElMessage.warning('正文还是空的，先写内容再发布')
+    return
+  }
   if (!selected.value.length) { ElMessage.warning('先选要发到哪些平台'); return }
   // 发布前把该设置的全部点满：封面 / 标签 / 摘要 / AI 辅助标识。
   // 缺项时先拦下并提示，避免发出去才发现封面空、标签没带、声明没勾。

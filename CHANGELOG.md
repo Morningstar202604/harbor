@@ -2,6 +2,52 @@
 
 ---
 
+## [0.15.1] - 2026-11-23
+
+以真实使用者身份把 Harbor 从首启走到发布管理后，补上"登录完之后没地方调"的缺口。
+所有个人数据仍只写 `profiles/` 与本机 `config.json`，不进仓库。
+
+### Added
+
+- **设置新增「内容档案」页。** `GET/PUT /workspace`、`GET/PUT /workspace/profiles/{name}`：
+  可切换当前档案、看档案详情、改内容主线/写作口吻/避免写法/最少配图与代码块/互动额度/
+  时间窗/时区；完整字段（`accounts` / `content_plan`）走高级 YAML，保存前校验 YAML 与
+  `name`，首次界面保存留 `profile.yaml.bak`。
+- **多档案。** 一台机器可建多份内容档案并切换；`profiles/.active_profile` 记录当前档案，
+  `get_platform_skill(profile="")` 与向导都读这个标记。账号登录态和发布记录仍共用，
+  不把"多档案"误当多用户。
+- **个人 SOP 可查看、手改、恢复模板、按平台移除。** `GET/PUT /workspace/profiles/{name}/playbooks/{platform}`
+  与 `POST .../reset`：手改的 SOP 在 front matter 打 `customized: true`，自检不再把
+  自定义内容误报成模板漂移；恢复模板显式覆盖。平台可从当前档案移除（至少保留一个），
+  也可继续接新平台。
+- **API 平台凭据在界面里填。** 新增 `GET /platform-credentials` 与
+  `PUT /platform-credentials/{platform}`，覆盖博客园、自建博客、51CTO、Dev.to、
+  GitHub Pages、公众号、Telegraph。密钥只回显掩码，写入只允许登记字段并原子写；
+  endpoint 只接受 http/https 且不允许 URL 内嵌账号密码。
+- **平台账号卡片新增「配置凭据」；API 平台不再要求用户手改 `config.json`。**
+- **发布轨空正文闸门。** 正文为空时按钮禁用并提示，避免全自动发出空白稿。
+- 新增 10 个 REST 操作（总 110）；`scripts/gen_agent_context.py` 的 MCP 工具数改为动态读取，
+  不再写死 32。
+
+### Changed
+
+- **MCP 平台技能卡默认读"当前激活档案"**，而不是本机第一个档案。
+- **`check_profile` 认 `customized: true`**：自定义 SOP 只校验存在性，不再反复报模板漂移。
+- **15 份 SOP 的凭据步骤改指向界面**：博客园、自建博客、51CTO、Dev.to、GitHub Pages、
+  公众号、Telegraph 都写「设置 → 平台账号 → 配置凭据」，不再教用户改 `config.json`。
+- **平台账号、向导、发布轨文案统一**：API 平台点「配置凭据」，发布轨"未配置"直接指到该入口。
+- README / README.zh-CN / 登录指南 / profiles/README 同步多档案与界面管理；架构版本
+  0.15.1，Agent 上下文重新生成（110 REST / 33 MCP / 15 适配器 / 111 模块）。
+
+### Fixed
+
+- **发布轨"就绪"数字误报。** 原来把所有 API 平台都算 ready，实测只登录 1 个掘金却显示
+  `8/15 就绪`；改为只认 `accounts.status=logined`。选未配置凭据的 51CTO 时，底部现在显示
+  "1 个平台未就绪"，不再出现"2 个平台就绪 / 全自动发布到 2 个平台"。
+- **"未登录"提示误伤 API 平台。** 改为"未登录或 API 凭据未通过检测"，与实际状态一致。
+
+---
+
 ## [Unreleased]
 
 ### Added

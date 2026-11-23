@@ -115,7 +115,7 @@
                 </el-button>
                 <el-button v-else size="small" @click="login(p.id)">重新登录</el-button>
               </template>
-              <el-button v-else size="small" @click="openAccounts">去设置填凭据</el-button>
+              <el-button v-else size="small" @click="openAccounts">去配置凭据</el-button>
             </div>
           </div>
 
@@ -243,7 +243,7 @@ const loginRows = computed(() => (result.value?.platforms || []).map(id => {
     id,
     name: info.name || id,
     browser: info.needs_browser !== false,
-    hint: info.needs_browser === false ? '到设置里填凭据或抠令牌' : '浏览器扫码一次，长期复用',
+    hint: info.needs_browser === false ? '到 设置 → 平台账号 点「配置凭据」' : '浏览器扫码一次，长期复用',
     state,
   }
 }))
@@ -256,7 +256,7 @@ async function load() {
   try {
     state.value = await api.onboardingState()
     if (state.value.profiles?.length) {
-      const existing = state.value.profiles[0]
+      const existing = state.value.profiles.find(p => p.active) || state.value.profiles[0]
       adopt(existing)
       step.value = 1
       // 重开向导也自检一次：模板更新或副本被手改后要能看见漂移。

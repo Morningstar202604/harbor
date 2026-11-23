@@ -16,7 +16,7 @@ updated: 2026-11-23
 
 ## 登录后先确认
 
-1. 在 Harbor 设置里填 `platforms.51cto.endpoint`、`username`、`password`；endpoint 里的博客地址名不是昵称。
+1. 在 Harbor「设置 → 平台账号 → 配置凭据」填 XML-RPC 地址、博客地址名与登录密码；endpoint 里的博客地址名不是昵称。
 2. 检查 XML-RPC 能连通；返回 401/500 时先核对 endpoint 和登录密码，不要反复重试。
 3. 凭据是登录密码，不写进文章、不提交仓库。
 

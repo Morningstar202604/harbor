@@ -16,7 +16,7 @@ updated: 2026-11-23
 
 ## 登录后先确认
 
-1. 在 Harbor 设置里填 `platforms.metaweblog.endpoint/username/password`；WordPress 建议用“应用程序密码”，不要用主密码。
+1. 在 Harbor「设置 → 平台账号 → 配置凭据」填 XML-RPC 地址、登录名与应用密码；WordPress 建议用“应用程序密码”，不要用主密码。
 2. 确认 endpoint 是 `https://域名/xmlrpc.php` 或站点实际 XML-RPC 地址；404/403 先查伪静态和 XML-RPC 开关。
 3. 凭据不写进文章、不提交仓库。
 

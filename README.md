@@ -107,17 +107,22 @@ the sidecar binds a loopback port, and the data directory is created under
 Harbor is built to be re-run by anyone, not just its author. Each deployment is single-user and
 self-hosted: cookies, accounts and drafts never leave your machine.
 
-- `profiles/` is your private space. Copy `profiles/example.yaml` to
-  `profiles/<name>/profile.yaml` and put real accounts, report links and progress files there.
-  Everything under `profiles/` except the README and the example is `.gitignore`d.
-- `playbooks/` ships **templates** for daily operations (Cnblogs, Zhihu, CSDN, Juejin).
-  Copy one into `profiles/<name>/playbooks/`, fill `{{profile.*}}`, and point your scheduler
-  at the copy.
+- `profiles/` is your private space. The setup wizard creates
+  `profiles/<name>/profile.yaml`; after that, edit mainline, voice, engagement quotas and
+  time windows in *Settings → Content profile*, or use the advanced YAML editor. Everything
+  under `profiles/` except the README and the example is `.gitignore`d.
+- `playbooks/` ships **templates** for all 15 platforms. The wizard renders one personal
+  SOP per selected platform. You can read, edit or reset each SOP in
+  *Settings → Content profile → Platforms & SOP*; edited copies are marked `customized`.
+- One machine can hold several content profiles (for example a tech account and a personal
+  account). Switching the active profile changes which SOP the AI reads; platform logins and
+  publishing history stay shared.
 - `python scripts/scan_privacy.py` (also run in CI) blocks commits containing account IDs,
   Feishu document links or absolute local paths.
 
 One instance serves one person by design: publishing needs your login state, so multi-tenant
-hosting would be a liability, not a feature.
+hosting would be a liability, not a feature. Multiple profiles are separate content strategies,
+not separate users.
 
 > **Login happens on the machine running Harbor, never in your AI client's browser.**
 > See [docs/guides/login.md](docs/guides/login.md) for local, LAN and headless deployments,
@@ -135,9 +140,11 @@ the window that opens. The session is stored in a local profile and reused.
 uv run --project backed python -m backed.cli --headed login --platform zhihu
 ```
 
-**Protocol credentials** — for platforms with a stable API. Fill in
-`platforms.<name>` in `config.json`; no browser needed. See
-[PLATFORM_CONNECTION.md](PLATFORM_CONNECTION.md) for the field list per platform.
+**Protocol credentials** — for platforms with a stable API. Open
+*Settings → Platform accounts*, click **Configure credentials** on the card, fill the form
+and save; Harbor writes the local `config.json` for you. The same dialog masks secrets and
+never renders the full key. See [PLATFORM_CONNECTION.md](PLATFORM_CONNECTION.md) for what
+each field means.
 
 ```bash
 uv run --project backed python -m backed.cli publish --id <article-id> --platforms zhihu,juejin

@@ -88,6 +88,22 @@ export const api = {
   onboardingAddPlatforms: (name, platforms) =>
     http.post('/onboarding/platforms', { name, platforms }),
   onboardingRerender: (name) => http.post('/onboarding/rerender', { name }),
+  // ---------------- 工作区（多档案 / SOP / API 凭据） ----------------
+  workspace: () => http.get('/workspace'),
+  workspaceActive: (name) => http.put('/workspace/active', { name }),
+  workspaceProfile: (name) => http.get(`/workspace/profiles/${name}`),
+  workspaceProfileSave: (name, data) => http.put(`/workspace/profiles/${name}`, data),
+  workspaceRemovePlatform: (name, platform) =>
+    http.post(`/workspace/profiles/${name}/platforms/remove`, { platform }),
+  workspacePlaybook: (name, platform) =>
+    http.get(`/workspace/profiles/${name}/playbooks/${platform}`),
+  workspacePlaybookSave: (name, platform, markdown) =>
+    http.put(`/workspace/profiles/${name}/playbooks/${platform}`, { markdown }),
+  workspacePlaybookReset: (name, platform) =>
+    http.post(`/workspace/profiles/${name}/playbooks/${platform}/reset`),
+  platformCredentials: () => http.get('/platform-credentials'),
+  platformCredentialsSave: (platform, fields) =>
+    http.put(`/platform-credentials/${platform}`, { fields }),
   accounts: () => http.get('/accounts'),
   checkAccount: (platform, account = 'default') =>
     http.get(`/accounts/${platform}/check`, { params: { account } }),

@@ -6,23 +6,23 @@
 
 ## 0. 一句话
 
-**Harbor (内容港)** v0.15.0：自托管多平台内容发布中台。一次写作 → 多平台分发 → 原地更新 → 发布后回读确认。单机、单用户、无遥测。
+**Harbor (内容港)** v0.15.1：自托管多平台内容发布中台。一次写作 → 多平台分发 → 原地更新 → 发布后回读确认。单机、单用户、无遥测。
 
 | 项 | 值 |
 |---|---|
-| 版本 | 0.15.0 |
+| 版本 | 0.15.1 |
 | 后端 | Python >=3.10 / FastAPI / 裸 sqlite3（WAL + FTS5） |
 | 前端 | Vue3 + Element Plus + Pinia + Tauri 2 |
 | 平台适配器 | 15 |
-| REST | 100 个操作 |
+| REST | 110 个操作 |
 | MCP | 33 个 tool |
-| Python 模块 | 108（24260 行） |
+| Python 模块 | 111（25171 行） |
 
 ## 1. 入口点
 
 | 文件 | 作用 |
 |---|---|
-| `mcp_server.py` | MCP Server（stdio / streamable-http / SSE），32 个 tool |
+| `mcp_server.py` | MCP Server（stdio / streamable-http / SSE），33 个 tool |
 | `backed/app/factory.py` | FastAPI 唯一装配入口 create_app() |
 | `backed/cli.py` | 命令行入口 |
 | `backed/desktop_sidecar.py` | Tauri 桌面端 sidecar 启动 |
@@ -38,7 +38,7 @@
 |---|---|---|---|---|---|
 | `51cto` 51CTO 博客发布（模板） | `playbooks/51cto.md` | 按需发布 | template | 48 | 2026-11-23 |
 | `bilibili` B站专栏发布（模板） | `playbooks/bilibili.md` | 按需发布 | template | 46 | 2026-11-23 |
-| `cnblogs` 博客园每日运营（模板） | `playbooks/cnblogs.md` | 建议每天 1 次（以 profile 为准） | template | 60 | 2026-11-22 |
+| `cnblogs` 博客园每日运营（模板） | `playbooks/cnblogs.md` | 建议每天 1 次（以 profile 为准） | template | 61 | 2026-11-22 |
 | `csdn` CSDN 私密转公开（模板） | `playbooks/csdn.md` | 建议每天 1 次，直到清零 | template | 33 | 2026-11-22 |
 | `devto` Dev.to 发布（模板） | `playbooks/devto.md` | 按需发布 | template | 48 | 2026-11-23 |
 | `github` GitHub Pages 发布（模板） | `playbooks/github.md` | 按需发布 | template | 49 | 2026-11-23 |
@@ -57,20 +57,20 @@
 | 包 | 模块数 |
 |---|---|
 | `__init__` | 1 |
-| `api` | 16 |
+| `api` | 17 |
 | `app` | 6 |
 | `cli` | 1 |
 | `config` | 4 |
 | `core` | 4 |
 | `desktop_sidecar` | 1 |
 | `middleware` | 5 |
-| `service` | 62 |
+| `service` | 64 |
 | `start` | 1 |
 | `utils` | 7 |
 
 被依赖最多（改它影响面最大）：
 
-- `service.publishing.db` ← 32 个模块
+- `service.publishing.db` ← 33 个模块
 - `service.publishing.adapters.base` ← 21 个模块
 - `api.deps` ← 12 个模块
 - `config` ← 12 个模块
@@ -78,14 +78,14 @@
 - `service.publishing.gate` ← 8 个模块
 - `service.publishing.browser` ← 7 个模块
 - `service.publishing.url_safety` ← 7 个模块
+- `service.publishing.crypto` ← 6 个模块
+- `service.onboarding` ← 5 个模块
 - `service.publishing.ai` ← 5 个模块
 - `service.publishing.events` ← 5 个模块
-- `service.publishing.versions` ← 5 个模块
-- `service.publishing.ai_providers` ← 4 个模块
 
 ## 4. REST API
 
-共 100 个操作，前缀 `/api/v1/hub`。
+共 110 个操作，前缀 `/api/v1/hub`。
 
 | 方法 | 路径 | 处理函数 | 说明 |
 |---|---|---|---|
@@ -157,6 +157,8 @@
 | GET | `/api/v1/hub/onboarding/state` | `onboarding_state` |  |
 | GET | `/api/v1/hub/pending-human` | `pending_human` | 需要人工处理的发布实例（如掘金草稿等人点"确定并发布"）。 |
 | POST | `/api/v1/hub/platform-cooldowns/clear` | `clear_cooldowns` | 手动解除平台限流冷却（平台侧确认恢复后用）。 |
+| GET | `/api/v1/hub/platform-credentials` | `platform_credentials` |  |
+| PUT | `/api/v1/hub/platform-credentials/{platform}` | `platform_credentials_save` |  |
 | GET | `/api/v1/hub/platforms` | `platforms` | 平台清单 + 代码级能力矩阵。 |
 | GET | `/api/v1/hub/publications` | `publications` |  |
 | POST | `/api/v1/hub/publications/{pub_id}/verify` | `verify_publication` | 对一条已发布记录重新做回读验证（0.15.0）。 |
@@ -189,6 +191,14 @@
 | DELETE | `/api/v1/hub/webhooks/{wid}` | `webhooks_delete` |  |
 | PUT | `/api/v1/hub/webhooks/{wid}` | `webhooks_update` |  |
 | POST | `/api/v1/hub/webhooks/{wid}/test` | `webhooks_test` | 发送测试事件到指定 webhook。 |
+| GET | `/api/v1/hub/workspace` | `workspace` |  |
+| PUT | `/api/v1/hub/workspace/active` | `workspace_active` |  |
+| GET | `/api/v1/hub/workspace/profiles/{name}` | `workspace_profile` |  |
+| PUT | `/api/v1/hub/workspace/profiles/{name}` | `workspace_profile_update` |  |
+| POST | `/api/v1/hub/workspace/profiles/{name}/platforms/remove` | `workspace_profile_remove_platform` |  |
+| GET | `/api/v1/hub/workspace/profiles/{name}/playbooks/{platform}` | `workspace_playbook` |  |
+| PUT | `/api/v1/hub/workspace/profiles/{name}/playbooks/{platform}` | `workspace_playbook_save` |  |
+| POST | `/api/v1/hub/workspace/profiles/{name}/playbooks/{platform}/reset` | `workspace_playbook_reset` |  |
 
 ## 5. MCP 工具
 
@@ -269,7 +279,7 @@
 
 ## 8. 测试分布
 
-`test_*` 函数 574 个，测试代码 8695 行。parametrize 展开后的真实用例数：`uv run pytest --collect-only -q`。
+`test_*` 函数 581 个，测试代码 8873 行。parametrize 展开后的真实用例数：`uv run pytest --collect-only -q`。
 
 | 文件 | 用例函数 | 行数 |
 |---|---|---|
@@ -324,6 +334,7 @@
 | `backed/tests/test_url_safety_deadline_rebinding.py` | 6 | 165 |
 | `backed/tests/test_url_safety_pinning.py` | 5 | 105 |
 | `backed/tests/test_versions.py` | 11 | 146 |
+| `backed/tests/test_workspace_api.py` | 7 | 178 |
 | `backed/tests/test_zhihu_answer_flow.py` | 7 | 161 |
 
 ## 9. CLI

@@ -14,6 +14,7 @@ updated: 2026-11-22
 
 - 读 `profiles/<name>/profile.yaml`：账号 `{{profile.accounts.cnblogs}}`、主线 `{{profile.mainline}}`、风格 `{{profile.style}}`、互动额度 `{{profile.engagement}}`。
 - 打开 <https://i.cnblogs.com/> 检查登录态；失效即停并提示接管，不反复重试。
+- MetaWeblog 凭据在 Harbor「设置 → 平台账号」里点「自动抠令牌」生成，或点「配置凭据」手填；不要再让用户手改 config.json。
 
 ## 1. 选题（每天最多 1 篇热点文）
 

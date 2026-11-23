@@ -393,6 +393,17 @@ def profile_summaries(profiles_root: str | Path | None = None) -> list[dict]:
     return items
 
 
+def _customized(text: str) -> bool:
+    """SOP 是否在界面里被用户手改过（front matter 打 customized: true）。"""
+    head = text[:800]
+    if not head.startswith("---"):
+        return False
+    parts = head.split("---", 2)
+    if len(parts) < 3:
+        return False
+    return bool(re.search(r"(?m)^customized:\s*true\s*$", parts[1]))
+
+
 def check_profile(name: str, profiles_root: str | Path | None = None) -> dict:
     """检查个人副本是否与模板 + 档案一致；不做写入。"""
     root = Path(profiles_root) if profiles_root else default_profiles_root()
@@ -417,7 +428,10 @@ def check_profile(name: str, profiles_root: str | Path | None = None) -> dict:
             problems.append(f"{dst.name}：没有对应模板 playbooks/{platform}.md")
             continue
         fresh = render_template(template.read_text(encoding="utf-8"), profile, platform=platform)
-        if dst.read_text(encoding="utf-8") != fresh:
+        current = dst.read_text(encoding="utf-8")
+        # 用户在设置页手改过的 SOP 已被显式标记，不再当作"模板漂移"反复报警；
+        # 想回到模板由界面显式「恢复模板」。
+        if current != fresh and not _customized(current):
             problems.append(f"{dst.name}：与档案或模板不一致，需要重新渲染")
     for dst in files:
         if dst.stem not in platforms:

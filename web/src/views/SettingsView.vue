@@ -4,7 +4,7 @@
       <div class="pane-head">
         <span class="title">设置</span>
         <span class="spacer" />
-        <span class="dim small set-hint">配置一次，长期有效：AI 模型 / 平台账号 / 定时 / 通知</span>
+        <span class="dim small set-hint">配置一次，长期有效：AI 模型 / 平台账号 / 内容档案 / 定时 / 通知</span>
       </div>
       <div class="pane-body">
         <el-tabs v-model="tab" class="set-tabs">
@@ -13,6 +13,9 @@
           </el-tab-pane>
           <el-tab-pane label="平台账号" name="accounts" lazy>
             <AccountsPanel />
+          </el-tab-pane>
+          <el-tab-pane label="内容档案" name="profile" lazy>
+            <ProfilePanel />
           </el-tab-pane>
           <el-tab-pane label="定时发布" name="schedules" lazy>
             <SchedulesPanel />
@@ -64,6 +67,7 @@ import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import AIPanel from '@/components/settings/AIPanel.vue'
 import AccountsPanel from '@/components/settings/AccountsPanel.vue'
+import ProfilePanel from '@/components/settings/ProfilePanel.vue'
 import SchedulesPanel from '@/components/settings/SchedulesPanel.vue'
 import WebhooksPanel from '@/components/settings/WebhooksPanel.vue'
 import TagsPanel from '@/components/settings/TagsPanel.vue'

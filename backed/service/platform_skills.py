@@ -49,10 +49,12 @@ def _front_matter_value(text: str, key: str) -> str:
 
 
 def _find_playbook(platform: str, profile: str | None, profiles_root=None) -> tuple[Path | None, str]:
+    from service.profiles import active_profile_name
     root = Path(profiles_root) if profiles_root else default_profiles_root()
     profiles = profile_summaries(root)
     names = [p["name"] for p in profiles]
-    name = profile if profile in names else (names[0] if names else "")
+    active = active_profile_name(root)
+    name = profile if profile in names else (active if active in names else (names[0] if names else ""))
     if name:
         p = root / name / "playbooks" / f"{platform}.md"
         if p.is_file():

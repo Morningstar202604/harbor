@@ -453,7 +453,7 @@ def build() -> dict:
         "config": scan_config(),
         "dependencies": edges,
         "entrypoints": [
-            {"path": "mcp_server.py", "role": "MCP Server（stdio / streamable-http / SSE），32 个 tool"},
+            {"path": "mcp_server.py", "role": f"MCP Server（stdio / streamable-http / SSE），{len(mcp)} 个 tool"},
             {"path": "backed/app/factory.py", "role": "FastAPI 唯一装配入口 create_app()"},
             {"path": "backed/cli.py", "role": "命令行入口"},
             {"path": "backed/desktop_sidecar.py", "role": "Tauri 桌面端 sidecar 启动"},

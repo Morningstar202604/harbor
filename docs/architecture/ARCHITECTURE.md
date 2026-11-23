@@ -2,8 +2,8 @@
 
 | 项 | 值 |
 |---|---|
-| 版本 | 0.15.0 |
-| 日期 | 2026-11-08 |
+| 版本 | 0.15.1 |
+| 日期 | 2026-11-23 |
 | 状态 | 维护中 |
 | 唯一真理源 | 本文件 + [`AGENTS.md`](../../AGENTS.md) + [`AGENT.md`](../../AGENT.md)；路由/工具/表结构等事实见 [`docs/agent/CONTEXT.md`](../agent/CONTEXT.md) |
 | 位置 | 2026-10-10 从仓库根目录迁入 `docs/architecture/`（tech-debt 台账 #11） |

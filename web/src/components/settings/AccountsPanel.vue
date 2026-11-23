@@ -2,9 +2,8 @@
   <div class="acct-panel">
     <div class="hint-bar">
       <span class="dim small">
-        浏览器平台扫码一次长期复用；API 平台在 config.json 填凭据
-        （devto / github / wechat / telegraph 的字段见仓库 PLATFORM_CONNECTION.md），配完点「检测」验证。
-        发布前每个平台的登录态会在写作台发布轨里实时显示。
+        浏览器平台扫码一次长期复用；API 平台点卡片上的「配置凭据」直接填，保存后自动检测。
+        不用再手改 config.json；发布前每个平台的登录态会在写作台发布轨里实时显示。
       </span>
       <span class="spacer" />
       <el-button size="small" :icon="Refresh" :loading="hub.loadingList" @click="reload">刷新全部</el-button>
@@ -26,6 +25,8 @@
                      @click="hub.startLogin(p.id)">
             {{ hub.loginTasks[p.id]?.status === 'running' ? '等待扫码…' : (online(p.id) ? '重新登录' : '去登录') }}
           </el-button>
+          <el-button v-if="p.needs_browser === false" size="small" text type="primary"
+                     @click="openCreds(p)">配置凭据</el-button>
           <el-button v-if="p.id === 'cnblogs'" size="small" text type="primary"
                      @click="bsOpen = true">自动抠令牌</el-button>
           <el-button size="small" text :loading="busy === 'check:' + p.id" @click="doCheck(p)">检测</el-button>
@@ -35,6 +36,32 @@
         </div>
       </div>
     </div>
+
+    <!-- API 平台凭据：表单直填，保存后仍可点「检测」复核 -->
+    <el-dialog v-model="credOpen" :title="`配置凭据 · ${credItem?.name || ''}`" width="min(560px, 94vw)">
+      <p class="dim small" style="margin: 0 0 12px">
+        只写入本机的 config.json；密钥保存后只显示掩码。环境变量同名配置优先，仍会盖过这里的值。
+      </p>
+      <el-form label-width="132px" class="cred-form">
+        <el-form-item v-for="f in credItem?.fields || []" :key="f.key" :label="f.label" required>
+          <el-input v-model="credForm[f.key]" :type="f.secret ? 'password' : 'text'"
+                    :show-password="f.secret" autocomplete="off"
+                    :placeholder="f.secret ? (f.masked ? `已保存 ${f.masked}（留空不改）` : f.placeholder) : f.placeholder" />
+          <div class="dim small cred-hint">
+            {{ f.hint || (f.secret ? '留空表示保持原值；要清空请点下方「清除已保存密钥」' : '') }}
+          </div>
+        </el-form-item>
+      </el-form>
+      <p v-if="credError" class="small cred-error">{{ credError }}</p>
+      <template #footer>
+        <el-button size="small" @click="credOpen = false">取消</el-button>
+        <el-button size="small" type="danger" plain :loading="credSaving"
+                   @click="clearSecrets">清除已保存密钥</el-button>
+        <el-button size="small" type="primary" :loading="credSaving" @click="saveCreds">
+          保存并检测
+        </el-button>
+      </template>
+    </el-dialog>
 
     <!-- cnblogs 自动抠令牌：浏览器登录一次，三件套自动写 config.json -->
     <el-dialog v-model="bsOpen" title="博客园 · 自动抠令牌" width="min(460px, 94vw)">
@@ -87,6 +114,13 @@ const bsRunning = ref(false)
 const bsError = ref('')
 const bsForm = ref({ username: '', password: '' })
 
+// API 平台凭据表单：密钥永不回显，留空=保持原值
+const credOpen = ref(false)
+const credItem = ref(null)
+const credForm = ref({})
+const credSaving = ref(false)
+const credError = ref('')
+
 async function startBootstrap() {
   bsRunning.value = true
   bsError.value = ''
@@ -119,23 +153,23 @@ async function startBootstrap() {
 // 每个平台的接入方式一句话说清（与 adapters 的真实凭据模型一致）
 const ACCT_HINTS = {
   zhihu: '浏览器登录（扫码一次长期有效）',
-  juejin: '浏览器登录；或 config.json 填 token 走 API',
+  juejin: '浏览器登录（扫码一次长期有效）',
   csdn: '浏览器登录（账密或微信扫码）',
   bilibili: '浏览器扫码登录（仅草稿，发布需到编辑页二次确认）',
   toutiao: '浏览器扫码登录（标题限 30 字）',
   oschina: '浏览器账密登录',
   segmentfault: '浏览器账密登录',
-  cnblogs: '浏览器登录后自动抠 MetaWeblog 三件套（点「自动抠令牌」），无需手贴 config.json',
-  metaweblog: 'config.json 填 endpoint + 用户名 + 应用密码（WordPress/Typecho）',
-  '51cto': 'config.json 填 endpoint + 用户名 + 登录密码',
-  devto: 'config.json 填 api_key（dev.to/settings/extensions 生成）',
-  github: 'config.json 填 token + owner + repo（PAT 勾 repo 权限）',
-  wechat: 'config.json 填 appid + secret（公众号后台基本配置；IP 需加白名单）',
-  telegraph: '免注册：首次发布自动创建账号，token 回写 config.json',
+  cnblogs: '浏览器登录后自动抠 MetaWeblog 三件套；也可点「配置凭据」手填',
+  metaweblog: '点「配置凭据」填 XML-RPC 地址、登录名与应用密码（WordPress/Typecho）',
+  '51cto': '点「配置凭据」填博客地址名与登录密码',
+  devto: '点「配置凭据」填 API Key（dev.to/settings/extensions 生成）',
+  github: '点「配置凭据」填 token、owner、repo（PAT 勾 repo 权限）',
+  wechat: '点「配置凭据」填 AppID + AppSecret（公众号后台基本配置；IP 需加白名单）',
+  telegraph: '免注册：点「配置凭据」可改作者名；token 留空首次发布自动创建',
   xiaohongshu: '浏览器登录（App 扫码一次长期有效）',
 }
 const acctHint = (p) => ACCT_HINTS[p.id]
-  || (p.needs_browser ? '需要浏览器登录（扫码一次长期有效）' : '免登 API，凭据在 config.json')
+  || (p.needs_browser ? '需要浏览器登录（扫码一次长期有效）' : '免登 API，点「配置凭据」填字段')
 
 onMounted(async () => {
   if (!hub.platforms.length) await hub.loadPlatforms()
@@ -147,6 +181,65 @@ async function reload() {
 }
 
 const online = (pf) => hub.accounts.some(a => a.platform === pf && a.status === 'logined')
+
+async function openCreds(p) {
+  credError.value = ''
+  try {
+    const data = await api.platformCredentials()
+    credItem.value = (data?.platforms || []).find(x => x.id === p.id) || null
+    if (!credItem.value) {
+      credError.value = '后端没有返回这个平台的凭据定义'
+      return
+    }
+    const form = {}
+    for (const f of credItem.value.fields) form[f.key] = f.secret ? '' : (f.value || '')
+    credForm.value = form
+    credOpen.value = true
+  } catch (e) {
+    ElMessage.error(e?.response?.data?.message || '读取凭据配置失败')
+  }
+}
+
+async function saveCreds() {
+  if (!credItem.value) return
+  credSaving.value = true
+  credError.value = ''
+  try {
+    const fields = {}
+    for (const f of credItem.value.fields) {
+      const v = (credForm.value[f.key] || '').trim()
+      if (f.secret && !v) continue       // 留空不改密钥
+      fields[f.key] = v
+    }
+    const saved = await api.platformCredentialsSave(credItem.value.id, fields)
+    credItem.value = saved
+    credOpen.value = false
+    ElMessage.success(`${saved.name} 凭据已保存`)
+    const ok = await hub.checkPlatform(saved.id)
+    if (ok === true) ElMessage.success(`${saved.name} 检测通过`)
+    else if (ok === false) ElMessage.warning(`${saved.name} 已保存，但检测未通过，请看下方诊断`)
+  } catch (e) {
+    credError.value = e?.response?.data?.message || String(e)
+  } finally {
+    credSaving.value = false
+  }
+}
+
+async function clearSecrets() {
+  if (!credItem.value) return
+  try {
+    const fields = {}
+    for (const f of credItem.value.fields) if (f.secret) fields[f.key] = ''
+    const saved = await api.platformCredentialsSave(credItem.value.id, fields)
+    credItem.value = saved
+    const form = {}
+    for (const f of saved.fields) form[f.key] = f.secret ? '' : (f.value || '')
+    credForm.value = form
+    ElMessage.success('已清除保存的密钥；非密钥字段保留')
+  } catch (e) {
+    credError.value = e?.response?.data?.message || String(e)
+  }
+}
 
 async function doCheck(p) {
   busy.value = 'check:' + p.id
@@ -181,7 +274,8 @@ async function doLogout(p) {
 }
 
 // 测试缝：el-dialog 在 jsdom 里不 teleport 落地，轮询逻辑只能从实例驱动
-defineExpose({ startBootstrap, bsForm, bsOpen, bsError })
+defineExpose({ startBootstrap, bsForm, bsOpen, bsError,
+               openCreds, saveCreds, clearSecrets, credItem, credForm, credOpen, credError })
 </script>
 
 <style scoped lang="scss">
@@ -198,4 +292,7 @@ defineExpose({ startBootstrap, bsForm, bsOpen, bsError })
 }
 .dim { color: var(--tx-4); }
 .small { font-size: var(--fs-xs); }
+.cred-form { margin-top: 4px; }
+.cred-hint { line-height: 1.5; margin-top: 3px; }
+.cred-error { color: var(--el-color-danger); margin: 4px 0 0; }
 </style>

@@ -19,6 +19,7 @@ from service.onboarding import (
     rerender_profile,
     template_catalog,
 )
+from service.profiles import active_profile_name
 from service.publishing import db
 
 router = APIRouter()
@@ -74,8 +75,12 @@ def _mcp_payload() -> dict:
 @router.get("/onboarding/state")
 def onboarding_state():
     profiles = profile_summaries()
+    active = active_profile_name()
+    for item in profiles:
+        item["active"] = item["name"] == active
     return {
         "profiles": profiles,
+        "active": active,
         "templates": template_catalog(),
         "platforms": platform_catalog(),
         "needs_setup": not profiles,
