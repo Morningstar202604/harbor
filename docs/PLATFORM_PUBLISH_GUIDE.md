@@ -1,6 +1,6 @@
 # 各平台发布机制全解（登录 → 编辑器 → 发布 → 更新）
 
-> 说明：本文档基于 `core/adapters/` 下 9 个适配器的**真实实现**整理（2026-09 实测过的选择器与接口），
+> 说明：本文档基于 `backed/service/publishing/adapters/` 下 15 个适配器的**真实实现**整理（选择器与接口来自实测），
 > 不是设计稿。每个平台的"接入方式 / 建稿 / 编辑器 / 特有字段 / 发布 / 更新 / 坑"都是代码里实际在跑的逻辑。
 
 ---
@@ -9,7 +9,7 @@
 
 | 方式 | 平台 | 特点 | 登录方式 |
 |---|---|---|---|
-| **纯 API**（不开浏览器） | 博客园、自建博客 | 用户名+令牌/密码，XML-RPC 直发 | 配置一次，免扫码 |
+| **纯 API**（不开浏览器） | 博客园、自建博客 | 用户名+令牌/密码，XML-RPC 直发 | 在「设置 → 平台账号 → 配置凭据」填一次，免扫码 |
 | **站内 API + 页面上下文 fetch** | 掘金、思否、B站 | 用浏览器 cookie 调平台内部接口建稿，比 UI 稳 | 扫码/账密一次 |
 | **浏览器 UI 注入** | CSDN、知乎、头条、开源中国 | 打开写作页，真实操作编辑器 | 扫码/账密一次 |
 
@@ -121,7 +121,7 @@ nav 接口验登录态 → /x/article/creative/draft/addupdate 建草稿（FormD
 ### 8. 博客园 cnblogs —— "纯 XML-RPC"（唯一第三方免扫码）
 
 ```
-config.json 填 endpoint/username/token → blogger.getUsersBlogs 验 → metaWeblog.newPost 发 → editPost 更新
+「配置凭据」填 endpoint/username/token → blogger.getUsersBlogs 验 → metaWeblog.newPost 发 → editPost 更新
 ```
 
 - **2026-06 起取消密码登录**，必须用「MetaWeblog 访问令牌」；`cli.py bootstrap-cnblogs` 浏览器自动抠
@@ -133,7 +133,7 @@ config.json 填 endpoint/username/token → blogger.getUsersBlogs 验 → metaWe
 ### 9. 自建博客 metaweblog —— "通用 XML-RPC"（新增）
 
 ```
-config.json 填 endpoint/username/password → getUsersBlogs 验 → newPost 发 → editPost 更新
+「配置凭据」填 endpoint/username/password → getUsersBlogs 验 → newPost 发 → editPost 更新
 ```
 
 - WordPress 用「应用程序密码」（用户→个人资料→应用程序密码生成），Typecho 用登录密码

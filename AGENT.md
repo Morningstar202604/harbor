@@ -1,6 +1,6 @@
 # AGENT.md — 目录级开发指南
 
-> 面向 AI 编码助手与人类开发者的目录说明。**版本 0.15.0（2026-11-08）**，与代码同步。
+> 面向 AI 编码助手与人类开发者的目录说明。**版本 0.15.1（2026-11-23）**，与代码同步。
 > 入口先读 [`AGENTS.md`](AGENTS.md)；路由 / MCP 工具 / 适配器能力 / 表结构等**事实清单**看
 > [`docs/agent/CONTEXT.md`](docs/agent/CONTEXT.md)（由 `scripts/gen_agent_context.py` 生成，勿手改）。
 
@@ -9,7 +9,7 @@
 ```
 harbor/
 ├── AGENTS.md / AGENT.md       # 智能体入口 / 本文件（目录级细节）
-├── mcp_server.py              # MCP Server：32 tool，stdio / streamable-http / SSE
+├── mcp_server.py              # MCP Server：33 tool，stdio / streamable-http / SSE
 ├── backed/                    # 后端（FastAPI，uv 管理）
 │   ├── app/                   # 工厂 / 中间件 / 异常 / 基础路由
 │   ├── api/                   # HTTP 边界：hub.py 聚合，routers/* 按领域拆
@@ -17,7 +17,7 @@ harbor/
 │   ├── config/                # 配置（config.json 为运行时唯一口径）
 │   ├── core/ middleware/      # 拟人点击、权限、限流、安全头、审计
 │   ├── utils/                 # 日志、脱敏、JWT、响应码
-│   ├── tests/                 # 49 个 test_*.py
+│   ├── tests/                 # 53 个 test_*.py
 │   ├── cli.py / start.py / desktop_sidecar.py
 │   └── pyproject.toml / uv.lock
 ├── web/                       # Vue3 + Element Plus + Pinia；src-tauri/ 为 Tauri 2 壳

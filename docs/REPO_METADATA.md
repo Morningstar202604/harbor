@@ -1,25 +1,21 @@
 # Repository Metadata
 
-Canonical copy for every host. Update this file first, then apply it through each
-platform's API. Descriptions must be identical across all five remotes.
+Canonical copy for every host. Apply this file first, then update each platform
+through its API. The short description and homepage are identical on all five
+remotes; topics are identical where the host supports the full set (GitCode caps
+tags at five).
 
-## Short description (≤ 120 chars, used by all hosts)
-
-```
-Self-hosted AI publishing hub — write once, ship to 15 platforms, keep every copy in sync.
-```
-
-Chinese variant (Gitee / GitCode description field):
+## Short description (≤ 120 chars)
 
 ```
-自托管 AI 内容发布中枢：一次写作，分发到 15 个平台，已发布内容保持同步。
+Self-hosted publishing hub for writers. Draft once, publish to the platforms you use, and keep every copy in sync.
 ```
 
 ## Topics / tags
 
 ```
-ai-writing  content-publishing  self-hosted  fastapi  vue3  mcp
-multi-platform  playwright  sqlite  tauri  automation  chinese-content
+self-hosted  content-publishing  publishing  markdown  multi-platform
+ai-writing  fastapi  vue3  mcp  playwright  sqlite  tauri  automation  chinese-content
 ```
 
 ## Homepage
@@ -34,23 +30,26 @@ https://badhope.github.io/harbor/
 
 ```bash
 gh api -X PATCH repos/badhope/harbor \
-  -f description="Self-hosted AI publishing hub — write once, ship to 15 platforms, keep every copy in sync." \
+  -f description="Self-hosted publishing hub for writers. Draft once, publish to the platforms you use, and keep every copy in sync." \
   -f homepage="https://badhope.github.io/harbor/" \
-  -f 'topics[]=ai-writing' -f 'topics[]=content-publishing' \
-  -f 'topics[]=self-hosted' -f 'topics[]=fastapi' -f 'topics[]=vue3' \
-  -f 'topics[]=mcp' -f 'topics[]=multi-platform' -f 'topics[]=playwright' \
-  -f 'topics[]=sqlite' -f 'topics[]=tauri' -f 'topics[]=automation'
+  -f 'topics[]=self-hosted' -f 'topics[]=content-publishing' \
+  -f 'topics[]=publishing' -f 'topics[]=markdown' \
+  -f 'topics[]=multi-platform' -f 'topics[]=ai-writing' \
+  -f 'topics[]=fastapi' -f 'topics[]=vue3' -f 'topics[]=mcp' \
+  -f 'topics[]=playwright' -f 'topics[]=sqlite' -f 'topics[]=tauri' \
+  -f 'topics[]=automation' -f 'topics[]=chinese-content'
 ```
 
-Repeat for each additional GitHub mirror (e.g. `your-org/harbor`).
+Repeat for each additional GitHub mirror.
 
 ### Gitee
 
-Gitee's API uses `PATCH /api/v5/repos/{owner}/{repo}` with `name`, `description`,
-`homepage`, `path`. Topics are not exposed through the v5 API; set them in the web UI.
+Repository fields use `PATCH /api/v5/repos/{owner}/{repo}`. Project labels use
+`PUT /api/v5/repos/{owner}/{repo}/project_labels` with a JSON array of label names.
 
 ### GitCode
 
-GitCode mirrors the GitLab v5 shape for repository updates:
-`PUT /api/v5/repos/{owner}/{repo}`. Verify field names against the live API before
-running — this host changes shape more often than the other two.
+Repository fields use `PATCH /api/v5/repos/{owner}/{repo}` with form fields. GitCode
+limits project tags to five (`tag_list` size 0–5), so the five broadest labels are
+kept there: `self-hosted`, `content-publishing`, `multi-platform`, `automation`,
+`mcp`. GitHub and Gitee carry the full topic list.

@@ -7,7 +7,7 @@
 | 类型 | 平台 | 连接方式 | 登录态有效期 |
 |------|------|----------|-------------|
 | 浏览器登录（扫码/账密/验证码，按平台页面为准） | csdn / juejin / zhihu / segmentfault / bilibili / toutiao / oschina / xiaohongshu | `uv run --project backed python -m backed.cli --headed login --platform <名>`，登录态存本地 profile | 长期（数周~数月，视平台） |
-| 纯协议（config.json 填凭据） | cnblogs / metaweblog / 51cto / devto / github / wechat / telegraph | 填 `config.json` 的 `platforms.<名>` 字段，免扫码 | 永不过期（token 类凭据失效才需换） |
+| 纯协议（界面填凭据） | cnblogs / metaweblog / 51cto / devto / github / wechat / telegraph | 设置 → 平台账号 →「配置凭据」填字段，保存后自动检测；免扫码 | 永不过期（token 类凭据失效才需换） |
 
 统一发布入口：`uv run --project backed python -m backed.cli publish --id <文章ID> --platforms <逗号分隔>`。
 
@@ -24,14 +24,15 @@ MetaWeblog 三件套自动写进 config.json，账号标在线——全程不用
 凭据只在内存 job 里流转，任务库与日志零痕迹；接口为
 `POST /accounts/cnblogs/bootstrap` + 轮询 `GET /accounts/cnblogs/bootstrap/{job_id}`。
 
-### 1. 手动获取三件套（备选）
+### 1. 从博客园网页取三件套（备选）
 
 去博客园网页：
 
 1. 登录 https://www.cnblogs.com
 2. 右上角头像 → **管理 → 设置 → 其他设置**
 3. 勾选 **「允许 MetaWeblog 博客客户端访问」**
-4. 保存后页面出现三项，逐项抄进 `config.json`：
+4. 保存后页面出现三项，填进「设置 → 平台账号 → 博客园 → 配置凭据」即可。
+   下面是对应的 `config.json` 结构，只在脚本或容器部署时直接使用：
 
 ```json
 {
@@ -123,7 +124,7 @@ uv run --project backed python -m backed.cli solve-captcha --platform <名> --wa
 
 ## 三、纯 API 平台（devto / github / wechat / telegraph）
 
-凭据填进 `config.json` 的 `platforms` 段（应用内「设置 → 平台账号」也有每平台提示）：
+凭据在「设置 → 平台账号 → 配置凭据」里填，保存后自动检测。下面是等价的 `config.json` 结构，只在脚本或容器部署时直接使用：
 
 ```json
 {
@@ -182,6 +183,6 @@ Web/工厂入口默认监听 `127.0.0.1:8000`；仅 `backed.cli serve` 默认使
 ## 六、首次接入检查单
 
 1. `GET /api/v1/hub/health` 全绿；
-2. 纯协议平台先填 `config.json`（见第三节），`check --platform <名>` 返回 ✓；
+2. 纯协议平台先在「设置 → 平台账号 → 配置凭据」填好（见第三节），点「检测」返回 ✓；
 3. 浏览器平台逐个 `--headed login` 扫码（见第二节），扫码完点「检测」确认登录态；
 4. 发一篇草稿到目标平台，回读确认无误后再正式发布。
